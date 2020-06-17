@@ -10,7 +10,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: Home
   },
   {
     path: "/about",
@@ -22,24 +22,27 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/About.vue")
   },
   {
-    path:"/signin",
+    path: "/login",
     name: "SignIn",
     component: SignIn,
-    beforeEnter: (to,from,next) => {
-      auth.onAuthStateChanged((user) => {
+    beforeEnter: (to, from, next) => {
+      auth.onAuthStateChanged(user => {
         // Await vuex store retrieval of admin...
-        if(user){
-          next({ name: "AdminHome" })
+        if (user) {
+          next({ name: "AdminHome" });
         } else {
-          next()
-        } 
-      })
+          next();
+        }
+      });
+    },
+    meta: {
+      layout: 'AuthLayout'
     }
   },
   {
-    path: '*', //catch all other invalid URLS
+    path: "*", //catch all other invalid URLS
     beforeEnter: (to, from, next) => {
-      next({ name: "Home" })
+      next({ name: "Home" });
     }
   }
 ];
@@ -64,21 +67,21 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   //check to see if route requires auth
-  console.log("route check!")
-  if(to.matched.some(rec => rec.meta.requiresAuth)){
+  console.log("route check!");
+  if (to.matched.some(rec => rec.meta.requiresAuth)) {
     //check auth state
-    auth.onAuthStateChanged((user) => {
-      if(user) {
+    auth.onAuthStateChanged(user => {
+      if (user) {
         //user signed in, proceed to route
-          next()
+        next();
       } else {
         //NO user signed in, redirect to login
-        next({ name: "Home" })
+        next({ name: "Home" });
       }
-    })
-  }else {
-    next()
+    });
+  } else {
+    next();
   }
-})
+});
 
 export default router;

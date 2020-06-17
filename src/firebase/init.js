@@ -9,23 +9,23 @@ var {
   messagingSenderId,
   appId,
   measurementId
-} = firebaseConfig
+} = firebaseConfig;
 
 var config = {
-    apiKey,
-    authDomain,
-    databaseURL,
-    projectId,
-    storageBucket,
-    messagingSenderId,
-    appId,
-    measurementId
+  apiKey,
+  authDomain,
+  databaseURL,
+  projectId,
+  storageBucket,
+  messagingSenderId,
+  appId,
+  measurementId
 };
 
 // Initialise firebase
-const firebaseApp = firebase.initializeApp(config)
+const firebaseApp = firebase.initializeApp(config);
 
-export var db = firebaseApp.firestore()
-export var storage = firebaseApp.storage()
-export var auth = firebaseApp.auth()
-export var functions = firebaseApp.functions()
+export var db = firebaseApp.firestore();
+export var storage = firebaseApp.storage();
+export var auth = firebaseApp.auth();
+export var functions = firebaseApp.functions();

@@ -15,18 +15,14 @@
         <v-btn icon>
           <v-icon>mdi-cart</v-icon>
         </v-btn>
-        <v-btn text  to="/about">
+        <v-btn text to="/about">
           Contact us
         </v-btn>
       </v-toolbar-items>
-
     </v-app-bar>
     <!-- Start of mobile side menu -->
     <v-navigation-drawer absolute v-model="drawer" left temporary>
-      <v-list
-        nav
-        dense
-      >
+      <v-list nav dense>
         <v-list-item-group
           v-model="group"
           active-class="deep-purple--text text--accent-4"
@@ -44,7 +40,6 @@
             </v-list-item-icon>
             <v-list-item-title>Cart</v-list-item-title>
           </v-list-item>
-
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -54,15 +49,14 @@
 
 <script>
 export default {
-    name: 'Navbar',
-    data () {
-      return {
-        drawer: false,
-        group: null,
-      }
-    }
-}
+  name: "Navbar",
+  data() {
+    return {
+      drawer: false,
+      group: null
+    };
+  }
+};
 </script>
 
-<style>
-</style>
+<style></style>
