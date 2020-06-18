@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import SignIn from "@/views/SignIn";
 import Contact from '@/views/Contact';
+import AdminHome from '@/views/admin/AdminHome';
 import { auth } from "@/firebase/init";
 
 Vue.use(VueRouter);
@@ -31,18 +32,17 @@ const routes = [
     path: "/login",
     name: "SignIn",
     component: SignIn,
-    beforeEnter: (to, from, next) => {
-      auth.onAuthStateChanged(user => {
-        // Await vuex store retrieval of admin...
-        if (user) {
-          next({ name: "AdminHome" });
-        } else {
-          next();
-        }
-      });
-    },
     meta: {
       layout: 'AuthLayout'
+    }
+  },
+  {
+    path: "/admin",
+    name: "AdminHome",
+    component: AdminHome,
+    meta: {
+      layout: 'AuthLayout',
+      requiresAuth: true
     }
   },
   {
@@ -82,7 +82,7 @@ router.beforeEach((to, from, next) => {
         next();
       } else {
         //NO user signed in, redirect to login
-        next({ name: "Home" });
+        next({ name: "SignIn" });
       }
     });
   } else {
