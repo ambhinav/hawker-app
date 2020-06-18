@@ -3,7 +3,9 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import SignIn from "@/views/SignIn";
 import Contact from '@/views/Contact';
-import AdminHome from '@/views/admin/AdminHome';
+import Orders from '@/views/admin/Orders';
+import Stores from '@/views/admin/Stores';
+import Onboarding from '@/views/admin/Onboarding';
 import { auth } from "@/firebase/init";
 
 Vue.use(VueRouter);
@@ -38,10 +40,25 @@ const routes = [
   },
   {
     path: "/admin",
-    name: "AdminHome",
-    component: AdminHome,
+    component: Orders,
     meta: {
-      layout: 'AuthLayout',
+      layout: 'AdminLayout',
+      requiresAuth: true
+    },
+  },
+  {
+    path: "/admin/stores",
+    component: Stores,
+    meta: {
+      layout: 'AdminLayout',
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/admin/onboarding",
+    component: Onboarding,
+    meta: {
+      layout: 'AdminLayout',
       requiresAuth: true
     }
   },

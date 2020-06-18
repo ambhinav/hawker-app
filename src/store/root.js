@@ -9,8 +9,10 @@ export default {
   },
   actions: {
     logIn(context, { email, password }) {
-      console.log(email)
       return auth.signInWithEmailAndPassword(email, password)
+    },
+    logOut() {
+      return auth.signOut()
     },
     init() {
       // initialise the firestore listeners in required vuex modules
