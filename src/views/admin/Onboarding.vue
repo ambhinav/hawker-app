@@ -4,31 +4,44 @@
       class="headline grey lighten-3 justify-center"
       primary-title
     >
-      <h2>Onboard a store</h2>
+      <h2>Onboard new stores</h2>
     </v-card-title>
 
     <v-card-text class="px3">
       <v-form ref="form">
         <v-container>
           <v-row>
-            <v-col cols="12">
+            <v-col cols="6">
               <v-text-field 
-                label="Store name" 
+                label="Store Name" 
                 :rules="getTextRules"
+                v-model="name"
                 ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-autocomplete
+                label="Market Name" 
+                :rules="getTextRules"
+                v-model="marketName"
+                :items="getProcessedMarkets"
+                outlined
+                required
+                ></v-autocomplete>
             </v-col>
           </v-row>
           <v-row>
             <v-col cols="6">
               <v-text-field 
-                label="POC contact" 
+                label="POC Contact" 
                 type="number"
+                v-model="pocContact"
                 :rules="getTextRules"
                 ></v-text-field>
             </v-col>
             <v-col cols="6">
               <v-text-field 
-                label="POC name" 
+                label="POC Name" 
+                v-model="pocName"
                 :rules="getTextRules"
                 ></v-text-field>
             </v-col>
@@ -88,6 +101,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import rules from '@/utils/validation';
 const { required } = rules
 export default {
@@ -95,6 +109,7 @@ export default {
   data () {
     return {
       name: null,
+      marketName: null,
       pocContact: null,
       pocName: null,
       fileImgPath: null,
@@ -114,29 +129,75 @@ export default {
         "14:30",
         "17:00"
       ],
+      loading: false
     }
   },
   computed: {
     getTextRules() {
       return [required];
     },
+    ...mapGetters({
+      getMarkets: 'getMarkets'
+    }),
+    getProcessedMarkets() {
+      return this.getMarkets.map(market => market.name)
+    }
   },
   methods: {
+    ...mapActions({
+      createStore: 'createStore',
+      successToast: 'successToast',
+      errorToast: 'errorToast'
+    }),
     onPickFile() {
 			this.$refs.fileInput.click()
 		},
 		onFilePicked(event) {
-			this.file = event.target.files[0]
-			var reader = new FileReader()
+			this.file = event.target.files[0];
+			var reader = new FileReader();
 			reader.onload = (e) => {
-				this.fileImgPath = e.target.result
+				this.fileImgPath = e.target.result;
 			}
 			reader.readAsDataURL(this.file);
     },
     handleSubmit() {
-      if (this.$refs.form.validate()) {
-        console.log("Submit called")
+      if (this.$refs.form.validate()) { // does not check if image uploaded
+        this.loading = true;
+        const callCreateStore = async () => {
+          try {
+            await this.createStore({
+              name: this.name,
+              deliveryTimings: this.deliveryTimings,
+              operatingTimes: this.operatingTimes,
+              pocName: this.pocName,
+              pocContact: this.pocContact,
+              image: this.file,
+              marketId: this.getTargetMarketId(this.marketName),
+            });
+            this.successToast("Store created!")
+          } catch (e) {
+            console.log(e)
+            this.errorToast("Error creating store")
+          } finally {
+            this.cleanUpSubmit()
+          }
+        }
+        callCreateStore()
       }
+    },
+    cleanUpSubmit() {
+      this.loading = false;
+      this.pocContact = null;
+      this.pocName = null;
+      this.name = null;
+      this.deliveryTimings = null;
+      this.file = undefined;
+      this.operatingTimes = null;
+      this.$refs.form.resetValidation()
+    },
+    getTargetMarketId(marketName) {
+      var target = this.getMarkets.find(market => market.name === marketName);
+      return target.id;
     }
   }
 }

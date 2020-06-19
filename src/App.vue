@@ -8,6 +8,9 @@
 import VueExtendLayouts from "vue-extend-layout";
 export default {
   name: "App",
-  components: { VueExtendLayouts }
+  components: { VueExtendLayouts },
+  created () {
+    this.$store.dispatch('init')
+  }
 };
 </script>

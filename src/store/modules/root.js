@@ -14,9 +14,11 @@ export default {
     logOut() {
       return auth.signOut()
     },
-    init() {
-      // initialise the firestore listeners in required vuex modules
-      console.log("Init")
+    init({ dispatch }) {
+      // initialise firestore listeners in markets, stores and orders modules
+      console.log("Init");
+      dispatch("initMarkets");
+      dispatch("initStores");
     }
   },
 };
