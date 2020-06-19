@@ -11,8 +11,7 @@ export default {
         state.stores.push(payload.store);
       }
     },
-    /*
-    replaceItem(state, payload) {
+    replaceStore(state, payload) {
       state.stores = state.stores.filter(store => {
         return store.id != payload.store.id;
       });
@@ -20,7 +19,6 @@ export default {
         state.stores.push(payload.store);
       }
     },
-    */
     resetStores(state) {
       state.stores = [];
     }
@@ -42,11 +40,11 @@ export default {
                 store: storeData
               });
             }
-            // if (change.type == "modified") {
-            //   context.commit("replaceItem", {
-            //     store: storeData
-            //   });
-            // }
+            if (change.type == "modified") {
+              context.commit("replaceStore", {
+                store: storeData
+              });
+            }
             // if (change.type == "removed") {
             //   context.commit("removeItem", {
             //     store: storeData
@@ -96,6 +94,13 @@ export default {
         })
       })
     },
+    toggleStoreStatus(context, { id, newStatus }) {
+      return db.collection("Stores")
+        .doc(id)
+        .update({
+          enabled: newStatus
+        })
+    }
   },
   getters: {
     getStores: state => {
