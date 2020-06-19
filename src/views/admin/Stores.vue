@@ -67,43 +67,44 @@
 				</v-layout>
 			</v-container>
 		</v-card>
-		<v-dialog v-model="modifyInventoryDialog" persistent max-width="600px">
+		<v-dialog v-model="menuItemDialog" persistent max-width="600px">
 			<v-card>
-				<v-form ref="modifyInventoryForm">
+				<v-form ref="addMenuItemForm">
 					<v-card-title>
-						<span class="headline">Modify Inventory</span>
+						<span class="headline">Add Menu Item</span>
 					</v-card-title>
 					<v-card-text>
 						<v-container>
 							<v-row>
-								<v-col cols="12" sm="6">
-									<v-text-field v-model="storeQty" label="Store Qty" required :rules="getIntRules"></v-text-field>
-								</v-col>
-								<v-col cols="12" sm="6">
-									<v-text-field v-model="warehouseQty" label="Warehouse Qty" required :rules="getIntRules"></v-text-field>
+								<v-col cols="12">
+									<v-text-field v-model="itemName" label="Name" required :rules="getTextRules"></v-text-field>
 								</v-col>
 							</v-row>
 							<v-row>
-								<v-col cols="12" sm="6">
-									<v-text-field v-model="soldQty" label="Sold Qty" required :rules="getIntRules"></v-text-field>
+								<v-col cols="12">
+									<v-text-field v-model="itemPrice" label="Price" required :rules="getNumberRules"></v-text-field>
 								</v-col>
 							</v-row>
 							<v-row>
-								<v-col cols="12" sm="9">
-									<v-text-field v-model="totalQty" label="Total Qty" required :rules="qtyRule"></v-text-field>
+                <v-col cols="6">
+                  <v-img contain height="120" width="120" v-if="fileImgPath" :src="fileImgPath" class="grey lighten-2"></v-img>
+                </v-col>
+								<v-col cols="6">
+                  <v-btn  @click="onPickFile()">Pick Item Image</v-btn>
+                  <input type="file" 
+                  style="display: none" 
+                  name="" id="" 
+                  ref="fileInput" 
+                  accept="image/*"
+                  @change="onFilePicked">
 								</v-col>
 							</v-row>
 						</v-container>
-						<v-row>
-							<v-col cols="12">
-								<span v-if="feedback" class="headline red--text"> {{ feedback }} </span>
-							</v-col>
-						</v-row>
 					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
-						<v-btn color="blue darken-1" text @click="handleInventoryUpdateClose">Close</v-btn>
-						<v-btn :loading="loading" color="blue darken-1" text @click="modifyInventoryConfirm">Update</v-btn>
+						<v-btn color="blue darken-1" text @click="handleMenuFormClose">Close</v-btn>
+						<v-btn :loading="loading" color="blue darken-1" text @click="addMenuItemConfirm">Add</v-btn>
 					</v-card-actions>
 				</v-form>
 			</v-card>
@@ -114,6 +115,8 @@
 <script>
 // import rules from '@/utils/validation';
 import { mapGetters, mapActions } from 'vuex';
+import rules from '@/utils/validation';
+const { isNumber, required } = rules;
 
 export default {
 	name: 'Stores',
@@ -143,7 +146,13 @@ export default {
           sortable: false
 				},
 			],
-		}
+      menuItemDialog: false,
+      targetStoreId: null,
+      itemName: null,
+      itemPrice: null,
+      fileImgPath: null,
+      loading: false
+    }
 	},
 	computed: {
 		...mapGetters({
@@ -172,6 +181,12 @@ export default {
         return "ALL"
       }
       return this.targetMarket.name;
+    },
+    getNumberRules() {
+      return [isNumber, required];
+    },
+    getTextRules() {
+      return [required];
     }
 	},
 	methods: {
@@ -189,9 +204,37 @@ export default {
       this.toggleStoreStatus({ id: store.id, newStatus })
       .then(() => this.successToast("Store status updated!"))
       .catch(() => this.errorToast("Error updating store status"));
+    },
+    addMenuItem(storeId) {
+      this.targetStoreId = storeId;
+      this.menuItemDialog = true;
+    },
+    onPickFile() {
+			this.$refs.fileInput.click()
+		},
+    onFilePicked(event) {
+			this.file = event.target.files[0];
+			var reader = new FileReader();
+			reader.onload = (e) => {
+				this.fileImgPath = e.target.result;
+			}
+			reader.readAsDataURL(this.file);
+    },
+    handleMenuFormClose() {
+      this.itemName = null;
+      this.itemPrice = null;
+      this.fileImgPath = null;
+      this.loading = false;
+      this.targetStoreId = null;
+      this.menuItemDialog = false;
+      this.$refs.addMenuItemForm.resetValidation();
+    },
+    addMenuItemConfirm() {
+      if (this.$refs.addMenuItemForm.validate()) {
+        console.log("adding menu item");
+      }
     }
 	}
-
 }
 </script>
 
