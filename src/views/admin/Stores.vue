@@ -18,6 +18,7 @@
 							<v-flex xs12>
 								<v-card>
 									<v-card-title  class="d-flex justify-space-between">
+                    <v-btn v-if="targetMarket" @click="showAllMarkets">ALL</v-btn>
 										<span style="font-weight: 300">Market:</span>
 											<v-menu offset-y>
 											<template v-slot:activator="{ on }">
@@ -30,7 +31,7 @@
 											</template>
 											<v-list>
 												<v-list-item
-													v-for="(market, index) in getProcessedMarkets"
+													v-for="(market, index) in getMarkets"
 													:key="index"
 													@click="onMarketSelect(market)"
 												>
@@ -81,7 +82,16 @@
 								</v-col>
 							</v-row>
 							<v-row>
-								<v-col cols="12">
+                <v-col cols="6">
+									<v-autocomplete
+                    label="Category"
+                    :items="categories"
+                    v-model="itemCategory"
+                    :rules="getTextRules"
+                  >
+                  </v-autocomplete>
+								</v-col>
+								<v-col cols="6">
 									<v-text-field v-model="itemPrice" label="Price" required :rules="getNumberRules"></v-text-field>
 								</v-col>
 							</v-row>
@@ -148,10 +158,15 @@ export default {
 			],
       menuItemDialog: false,
       targetStoreId: null,
+      itemCategory: null,
       itemName: null,
       itemPrice: null,
       fileImgPath: null,
-      loading: false
+      loading: false,
+      categories: [
+        "Food",
+        "Drinks"
+      ]
     }
 	},
 	computed: {
@@ -169,13 +184,6 @@ export default {
         return this.targetMarket.stores.find(attachedStoreId =>  attachedStoreId === store.id);
       })
     },
-    getProcessedMarkets() {
-      let filteredMarkets = Array.from(this.getMarkets)
-      if (this.targetMarket) {
-        filteredMarkets = this.getMarkets.filter(market => market.id !== this.targetMarket.id)
-      }
-      return filteredMarkets.push({ name: "ALL", id: "x" });
-    },
     marketListButtonDisplay() {
       if (!this.targetMarket) {
         return "ALL"
@@ -187,7 +195,7 @@ export default {
     },
     getTextRules() {
       return [required];
-    }
+    },
 	},
 	methods: {
 		...mapActions({
@@ -198,6 +206,9 @@ export default {
     }),
     onMarketSelect(market) {
       this.targetMarket = market;
+    },
+    showAllMarkets() {
+      this.targetMarket = null;
     },
     changeStoreStatus(store) {
       var newStatus = !store.enabled
