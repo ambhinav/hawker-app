@@ -1,26 +1,16 @@
 <template>
-  <v-app>
-    <Navbar />
-    <v-main>
-      <router-view />
-    </v-main>
-    <Footer />
-  </v-app>
+  <div id="app">
+    <vue-extend-layouts />
+  </div>
 </template>
 
 <script>
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
-import { mixinDetectingMobile } from '@/components/layout/MobileMixin.js'
+import VueExtendLayouts from "vue-extend-layout";
 export default {
   name: "App",
-  components: {
-    Navbar,
-    Footer
-  },
-  mixins: [mixinDetectingMobile],
-  data: () => ({
-    //
-  })
+  components: { VueExtendLayouts },
+  created () {
+    this.$store.dispatch('init')
+  }
 };
 </script>

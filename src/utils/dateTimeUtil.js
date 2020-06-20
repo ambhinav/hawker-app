@@ -1,0 +1,65 @@
+/** Util file for formatting, parsing of timestamps using moment JS */
+import moment from 'moment';
+
+moment.updateLocale('en', {
+  week: {
+    dow: 1, // First day of week is Monday
+    doy: 4  // First week of year must contain 4 Jan (7 + 1 - 4)
+  }
+})
+
+const DAY = "dddd"
+const TIME = "HH:mm"
+const DATE_MONTH_YEAR = "DD-MMMM-YYYY"
+const DATE_MONTH_YEAR_ALT = "DD-MM-YY"
+const DATE_PICKER_FORMAT = 'MMMM Do YYYY'
+const DATE_PICKER_DEFAULT = "YYYY-MM-DD"
+
+// formatting
+const formatDate = v => moment(v).format(DATE_MONTH_YEAR)
+
+const formatDateShort = v => moment(v).format(DATE_MONTH_YEAR_ALT)
+
+const formatDayAndDate = v => moment(v).format(`${DAY}, ${DATE_MONTH_YEAR}`)
+
+const formatTimeAndDate = v => moment(v).format(`${TIME} ${DATE_MONTH_YEAR_ALT}`)
+
+// for date/time pickers
+const formatDatePicker = v => moment(v).format(DATE_PICKER_FORMAT)
+
+const getTimeStampFromDatePicker = v => moment(v, DATE_PICKER_DEFAULT).valueOf()
+
+const getTimeStamp = () => moment().valueOf()
+
+const convertTimeStampToISO = v => moment(v).toISOString().substr(0, 10)
+
+/**
+ * Checks if the given timestamp falls within the current week
+ * @param {*} v  unix timestamp in ms
+ * @returns true if v falls within the week
+ */
+const isWithinTheWeek = v => moment(v).isBetween(moment().startOf("week"), moment().endOf("week"))
+
+const isWithinTheMonth = v => moment(v).isBetween(moment().startOf("month"), moment().endOf("month"))
+
+/**
+ * Checks if two moments are equal
+ * Note: v1 and v2 have to both be a unix timestamp in milliseconds
+ * @param {Moment} v1 Unix timestamp in ms
+ * @param {Moment} v2 Other Unix timestamp in ms
+ */
+const isEqual = (v1, v2) => moment(v1).isSame(v2)
+
+export {
+  formatDate,
+  formatDateShort,
+  formatDayAndDate,
+  getTimeStampFromDatePicker,
+  convertTimeStampToISO,
+  formatTimeAndDate,
+  formatDatePicker,
+  isWithinTheMonth,
+  isWithinTheWeek,
+  getTimeStamp,
+  isEqual  
+}
