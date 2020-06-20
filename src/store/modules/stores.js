@@ -1,4 +1,5 @@
 import { db, storage } from "@/firebase/init";
+import firebase from 'firebase';
 
 export default {
   state: {
@@ -100,7 +101,23 @@ export default {
         .update({
           enabled: newStatus
         })
-    }
+    },
+    async addMenuItemToStore({ dispatch }, menuItem) {
+      var menuItemRef = await dispatch("addMenuItem", {
+        name: menuItem.name,
+        price: menuItem.price,
+        category: menuItem.category,
+        image: null
+      })
+      if (menuItem.image) {
+        await dispatch("uploadItemPic", { ref: menuItemRef, image: menuItem.image })
+      }
+      return db.collection("Stores")
+        .doc(menuItem.storeId)
+        .update({ // update the list of items the store carries
+          menu: firebase.firestore.FieldValue.arrayUnion(menuItemRef.id)
+        })
+    },
   },
   getters: {
     getStores: state => {

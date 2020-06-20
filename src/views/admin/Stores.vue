@@ -234,15 +234,35 @@ export default {
     handleMenuFormClose() {
       this.itemName = null;
       this.itemPrice = null;
+      this.itemCategory = null;
       this.fileImgPath = null;
       this.loading = false;
       this.targetStoreId = null;
       this.menuItemDialog = false;
-      this.$refs.addMenuItemForm.resetValidation();
+			this.$refs.addMenuItemForm.resetValidation();
+			this.file = null;
     },
     addMenuItemConfirm() {
       if (this.$refs.addMenuItemForm.validate()) {
-        console.log("adding menu item");
+        this.loading = true;
+        const callAddMenuItem = async () => {
+          try {
+            await this.addMenuItemToStore({
+              name: this.itemName,
+              category: this.itemCategory,
+              price: this.itemPrice,
+              image: this.file,
+              storeId: this.targetStoreId
+            }) 
+            this.successToast("Item added to store's menu!")
+          } catch (e) {
+            console.log(e)
+            this.errorToast("Error adding item to store's menu")
+          } finally {
+            this.handleMenuFormClose()
+          }
+        }
+        callAddMenuItem()
       }
     }
 	}
