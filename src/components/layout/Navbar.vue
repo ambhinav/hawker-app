@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <v-app-bar app color="green">
+    <v-app-bar app color="primary">
       <v-app-bar-nav-icon
         @click="drawer = true"
         class="hidden-md-and-up"
