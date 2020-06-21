@@ -5,6 +5,7 @@ import feedback from "./modules/feedback";
 import menu from "./modules/menu";
 import markets from './modules/markets';
 import stores from './modules/stores';
+import cart from './modules/cart';
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     root,
     feedback,
     markets,
-    stores
+    stores,
+    cart
   }
 });
