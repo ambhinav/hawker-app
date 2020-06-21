@@ -1,21 +1,33 @@
 <template>
-  <v-container fluid>
-    <v-row class="text-center" justify="center">
-      <v-col cols="12" class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">
-          {{ getMarket.name }}
-        </h1>
-        <p class="subheading font-weight-regular">
-          Add items to cart
-        </p>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12" lg="6" v-for="(store, i) in getStoresInMarket" :key="i">
-        <Menu :store="store" />
-      </v-col>
-    </v-row>
-  </v-container>
+  <div>
+    <v-img
+        :src="getMarket.image"
+        max-height="400"
+        class="align-content-end"
+      >
+        <v-row align="end" class="lightbox green--text pa-2 fill-height">
+          <v-col>
+            <h1>
+              {{ getMarket.name }}
+            </h1>
+          </v-col>
+        </v-row> 
+    </v-img>
+    <v-container fluid>
+      <v-row class="text-center" justify="center">
+        <v-col cols="12" class="mb-4">
+          <h2 class="font-weight-bold">
+            Menu
+          </h2>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col :cols="getStoresInMarket.length === 1 ? 12 : 6" v-for="(store, i) in getStoresInMarket" :key="i">
+          <Menu :store="store" />
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>

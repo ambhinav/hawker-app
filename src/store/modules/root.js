@@ -19,6 +19,7 @@ export default {
       console.log("Init");
       dispatch("initMarkets");
       dispatch("initStores");
+      dispatch("initMenu")
     }
   },
 };
