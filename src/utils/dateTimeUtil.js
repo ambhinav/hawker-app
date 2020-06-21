@@ -42,15 +42,18 @@ const isWithinTheWeek = v => moment(v).isBetween(moment().startOf("week"), momen
 
 const isWithinTheMonth = v => moment(v).isBetween(moment().startOf("month"), moment().endOf("month"))
 
-const isSameDay = v => v.find(moment().format(DAY))
+const isSameDay = v => { 
+  var day = v.find(day => day === moment().format(DAY));
+  return !!day;
+}
 
 /**
  * Checks if the current time is before the available delivery timings for the shops
  * @param {Array} v List of delivery timings shop is available for 
  * @returns the filtered list
  */
-const getValidTimings = v => {
-  return v.filter(timing => moment(timing, TIME).isAfter(moment().format(TIME)))
+const getValidTimings = timing => {
+  return moment(timing, TIME).isAfter(moment().format(TIME))
 }
 
 /**

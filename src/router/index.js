@@ -2,10 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import SignIn from "@/views/SignIn";
-import Contact from '@/views/Contact';
-import Orders from '@/views/admin/Orders';
-import Stores from '@/views/admin/Stores';
-import Onboarding from '@/views/admin/Onboarding';
+import Contact from "@/views/Contact";
+import StoreUser from "@/views/StoreUser";
+import Orders from "@/views/admin/Orders";
+import Stores from "@/views/admin/Stores";
+import Onboarding from "@/views/admin/Onboarding";
 import { auth } from "@/firebase/init";
 
 Vue.use(VueRouter);
@@ -14,7 +15,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
   },
   {
     path: "/about",
@@ -23,77 +24,78 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+  },
+  {
+    path: "/store",
+    name: "StoreUser",
+    component: StoreUser,
+    props: (route) => ({
+      ...route.params
+    }),
   },
   {
     path: "/contact",
     name: "Contact",
-    component: Contact
+    component: Contact,
   },
   {
     path: "/login",
     name: "SignIn",
     component: SignIn,
     meta: {
-      layout: 'AuthLayout'
-    }
+      layout: "AuthLayout",
+    },
   },
   {
     path: "/admin",
     component: Orders,
     meta: {
-      layout: 'AdminLayout',
-      requiresAuth: true
+      layout: "AdminLayout",
+      requiresAuth: true,
     },
   },
   {
     path: "/admin/stores",
     component: Stores,
     meta: {
-      layout: 'AdminLayout',
-      requiresAuth: true
-    }
+      layout: "AdminLayout",
+      requiresAuth: true,
+    },
   },
   {
     path: "/admin/onboarding",
     component: Onboarding,
     meta: {
-      layout: 'AdminLayout',
-      requiresAuth: true
-    }
+      layout: "AdminLayout",
+      requiresAuth: true,
+    },
   },
   {
     path: "*", //catch all other invalid URLS
     beforeEnter: (to, from, next) => {
       next({ name: "Home" });
-    }
-  }
+    },
+  },
 ];
 
 // for user pages like merchant and payment etc, use below
 /*
-beforeRouteLeave (to, from, next) {
-  const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
-  if (answer) {
-    next()
-  } else {
-    next(false)
-  }
-}
+
 */
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
   //check to see if route requires auth
   console.log("route check!");
-  if (to.matched.some(rec => rec.meta.requiresAuth)) {
+  if (to.matched.some((rec) => rec.meta.requiresAuth)) {
     //check auth state
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
         //user signed in, proceed to route
         next();
