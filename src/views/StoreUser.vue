@@ -158,14 +158,18 @@ export default {
     }
   },
   beforeRouteLeave(to, from, next) {
-    const answer = window.confirm(
-      "Do you really want to leave? You're order won't be saved!"
-    );
-    if (answer) {
-      this.clearCart()
-      next();
+    if (to.name == "OrderDetails") {
+        next()
     } else {
-      next(false);
+      const answer = window.confirm(
+      "Do you really want to leave? You're order won't be saved!"
+      );
+      if (answer) {
+        this.clearCart()
+        next();
+      } else {
+        next(false);
+      }
     }
   },
   components: {
@@ -203,7 +207,8 @@ export default {
       decrementQty: 'decrementQty',
       incrementQty: 'incrementQty',
       clearCart: 'clearCart',
-      toggleCartState: 'toggleCartState'
+      toggleCartState: 'toggleCartState',
+      setDeliveryDetails: 'setDeliveryDetails'
     }),
     handlePageReload() {
       console.log("Here")
@@ -212,7 +217,8 @@ export default {
       this.cartOpen = !this.cartOpen
     },
     checkOut() {
-      console.log("Check out")
+      this.setDeliveryDetails(this.deliveryDetails)
+      this.$router.push({ name: "OrderDetails" })
     },
   },
 }

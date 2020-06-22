@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import SignIn from "@/views/SignIn";
 import Contact from "@/views/Contact";
 import StoreUser from "@/views/StoreUser";
+import OrderDetails from "@/views/OrderDetails";
 import Orders from "@/views/admin/Orders";
 import Stores from "@/views/admin/Stores";
 import Onboarding from "@/views/admin/Onboarding";
@@ -33,6 +34,11 @@ const routes = [
     props: (route) => ({
       ...route.params
     }),
+  },
+  {
+    path: "/checkout",
+    name: "OrderDetails",
+    component: OrderDetails
   },
   {
     path: "/contact",
