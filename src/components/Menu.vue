@@ -32,7 +32,7 @@
               </p>
               <v-list class="transparent">
                 <v-list-item
-                  v-for="(food, i) in getMenuItems[0]"
+                  v-for="(item, i) in getMenuItems"
                   :key="i"
                 >
                   <v-row
@@ -47,9 +47,8 @@
                       rounded
                       >
                         <img
-                          v-if="food.image"
-                          alt="Food"
-                          :src="food.image"
+                          v-if="item.image"
+                          :src="item.image"
                         >
                         <v-icon
                           v-else
@@ -60,19 +59,19 @@
                     <v-col
                       cols="7"
                     >
-                      <v-list-item-title>{{ food.name }}</v-list-item-title>
+                      <v-list-item-title>{{ item.name }}</v-list-item-title>
                     </v-col>
                     <v-col
                       cols="1"
                       class="text-right"
                     >
-                      <v-list-item-title>{{ food.price }}</v-list-item-title>
+                      <v-list-item-title>{{ item.price }}</v-list-item-title>
                     </v-col>
                     <v-col
                       cols="2"
                       class="text-right"
                     >
-                      <v-btn :disabled="isDisabled(food)" x-small fab dark color="primary" @click="addItemToCart(food)">
+                      <v-btn :disabled="isDisabled(item)" x-small fab dark color="primary" @click="addItemToCart(item)">
                           <v-icon dark>mdi-plus</v-icon>
                       </v-btn> 
                     </v-col>
@@ -116,10 +115,7 @@ export default {
         var targetItem = this.store.menu.find(itemId => itemId === item.id);
         return !!targetItem;
       })
-      var food = targetItems.filter(item => item.category == "Food");
-      var drinks = targetItems.filter(item => item.category === "Drinks");
-      console.log(food)
-      return [food, drinks]
+      return targetItems
     },
   },
 }

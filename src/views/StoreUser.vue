@@ -1,6 +1,18 @@
 <template>
   <div>
-    <v-img
+    <div v-if="error">
+      <v-row justify="center mt-16">
+        <h1 class="justify-content-center">
+          Sorry, there are no stores available for this market based on your options.
+        </h1>
+        <br>
+        <h2>
+          Please navigate to the home page and try again.
+        </h2>
+      </v-row>
+    </div>
+    <div v-else>
+      <v-img
         :src="getMarket.image"
         max-height="400"
         class="align-content-end"
@@ -116,6 +128,7 @@
         </v-btn>
       </v-card>
     </v-bottom-sheet>
+    </div>
   </div>
 </template>
 
@@ -131,6 +144,7 @@ export default {
       loading: false,
       sheet: true,
       cartOpen: false,
+      error: false,
       // cartItems: []
     }
   },
@@ -139,6 +153,9 @@ export default {
   },
   created () {
     this.deliveryDetails = this.$route.params.deliveryDetails;
+    if (!this.deliveryDetails) {
+      this.error = true;
+    }
   },
   beforeRouteLeave(to, from, next) {
     const answer = window.confirm(
