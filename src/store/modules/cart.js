@@ -40,7 +40,7 @@ export default {
       state.cart = []
     },
     setDeliveryDetails: (state, deliveryDetails) => state.deliveryDetails = { ...deliveryDetails },
-    resetDeliveryDetails: (state) => state.deliveryDetails = {}
+    clearDeliveryDetails: (state) => state.deliveryDetails = {}
   },
   actions: {
    

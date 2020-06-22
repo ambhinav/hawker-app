@@ -145,14 +145,13 @@ export default {
       sheet: true,
       cartOpen: false,
       error: false,
-      // cartItems: []
     }
   },
   mounted () {
     window.addEventListener("beforeunload", this.handlePageReload);
   },
   created () {
-    this.deliveryDetails = this.$route.params.deliveryDetails;
+    this.deliveryDetails = this.getDeliveryDetails;
     if (!this.deliveryDetails) {
       this.error = true;
     }
@@ -166,6 +165,7 @@ export default {
       );
       if (answer) {
         this.clearCart()
+        this.clearDeliveryDetails();
         next();
       } else {
         next(false);
@@ -183,6 +183,7 @@ export default {
       getCartLength: 'getCartLength',
       getTotalPrice: 'getTotalPrice',
       isCartFilled: 'isCartFilled',
+      getDeliveryDetails: 'getDeliveryDetails'
     }),
     getMarket() {
       return this.getMarkets.find(market => market.id === this.deliveryDetails.marketId)
@@ -208,7 +209,8 @@ export default {
       incrementQty: 'incrementQty',
       clearCart: 'clearCart',
       toggleCartState: 'toggleCartState',
-      setDeliveryDetails: 'setDeliveryDetails'
+      setDeliveryDetails: 'setDeliveryDetails',
+      clearDeliveryDetails: 'clearDeliveryDetails'
     }),
     handlePageReload() {
       console.log("Here")
@@ -217,7 +219,6 @@ export default {
       this.cartOpen = !this.cartOpen
     },
     checkOut() {
-      this.setDeliveryDetails(this.deliveryDetails)
       this.$router.push({ name: "OrderDetails" })
     },
   },

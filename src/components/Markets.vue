@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 import rules from '@/utils/validation';
 export default {
   name: "Markets",
@@ -113,31 +113,29 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      getMarkets: 'getMarkets'
+      getMarkets: 'getMarkets',
     }),
     getTextRules() {
       return [rules.required];
     }
   },
   methods: {
-    // ...mapMutations({
-    //   setDeliveryDetails: 'setDeliveryDetails'
-    // }),
+    ...mapMutations({
+      setDeliveryDetails: 'setDeliveryDetails'
+    }),
     showDeliveryDialog(marketId) {
       this.targetMarket = marketId;
       this.deliveryDialog = true;
     },
     onSubmit() {
       if (this.$refs.deliveryDetailsForm.validate()) {
+        this.setDeliveryDetails({
+          deliveryTime: this.deliveryTime,
+          mealtype: this.mealType,
+          marketId: this.targetMarket
+        })
         this.$router.push({
           name: "StoreUser",
-          params: {
-            deliveryDetails: {
-              deliveryTime: this.deliveryTime,
-              mealtype: this.mealType,
-              marketId: this.targetMarket
-            }
-          } 
         })
       }
     },
