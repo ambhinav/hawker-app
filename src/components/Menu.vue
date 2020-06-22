@@ -28,7 +28,7 @@
           <v-row>
             <v-col cols="12">
               <p>
-                Food
+                Menu
               </p>
               <v-list class="transparent">
                 <v-list-item
@@ -72,7 +72,7 @@
                       cols="2"
                       class="text-right"
                     >
-                      <v-btn x-small fab dark color="primary">
+                      <v-btn :disabled="isDisabled(food)" x-small fab dark color="primary" @click="addItemToCart(food)">
                           <v-icon dark>mdi-plus</v-icon>
                       </v-btn> 
                     </v-col>
@@ -88,22 +88,29 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 export default {
   name: "Menu",
   data() {
     return {
-      show: false
+      show: false,
     }
   },
   props: ["store"],
   methods: {
+    ...mapMutations([
+      'addItemToCart'
+    ]),
     toggleMenu() {
       return this.show = !this.show
     },
+    isDisabled(item) {
+      var targetItem = this.getCart.find(cartItem => cartItem.id === item.id);
+      return !!targetItem;
+    }
   },
   computed: {
-    ...mapGetters({ getMenu: 'getMenu' }),
+    ...mapGetters({ getMenu: 'getMenu', getCart: 'getCart' }),
     getMenuItems() {
       var targetItems = this.getMenu.filter(item => {
         var targetItem = this.store.menu.find(itemId => itemId === item.id);
@@ -113,7 +120,7 @@ export default {
       var drinks = targetItems.filter(item => item.category === "Drinks");
       console.log(food)
       return [food, drinks]
-    }
+    },
   },
 }
 </script>
