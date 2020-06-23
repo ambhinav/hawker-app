@@ -56,28 +56,39 @@
       <v-card>
 				<v-form ref="deliveryDetailsForm">
 					<v-card-title>
-						<span class="headline">Enter delivery details</span>
+						<span class="headline">Choose your delivery period</span>
 					</v-card-title>
 					<v-card-text>
 						<v-container>
+              <v-row justify="center">
+                <v-col cols="12">
+                  <span class="subtitle red--text">Please note that delivery is not on-demand.</span>
+                  <br>
+                  <span class="subtitle">If you would like your food to be delivered between a certain period, please choose the relevant slot and place your order by that time</span> 
+                  <v-simple-table>
+                    <template>
+                      <thead>
+                        <tr>
+                          <th class="text-left">Delivery Period (PM)</th>
+                          <th class="text-left">Order By</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(timing, i) in deliveryTimings1" :key="i">
+                          <td>{{ timing.period }}</td>
+                          <td><b>{{ timing.orderBy }}</b></td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                </v-col>
+              </v-row>
 							<v-row>
 								<v-col cols="12">
                   <v-autocomplete
-                    :items="deliveryTimings"
+                    :items="deliveryTimings2"
                     v-model="deliveryTime"
-                    label="Delivery Timing"
-                    required
-                    :rules="getTextRules"
-                  >
-                  </v-autocomplete>
-								</v-col>
-							</v-row>
-							<v-row>
-								<v-col cols="12">
-                  <v-autocomplete
-                    :items="meals"
-                    v-model="mealType"
-                    label="Meal Type"
+                    label="Delivery Period (PM)"
                     required
                     :rules="getTextRules"
                   >
@@ -106,7 +117,35 @@ export default {
     deliveryDialog: false,
     loading: false,
     deliveryTime: null,
-    deliveryTimings: ["11:30", "14:30", "17:00"], 
+    deliveryTimings2: ["12 -2", "3 - 5", "6 - 8"], 
+    deliveryTimings1: [
+      { 
+        orderBy: "11:30 AM",
+        period: "12 - 2",
+      },
+      { 
+        orderBy: "2:30  PM",
+        period: "3 - 5",
+      },
+      { 
+        orderBy: "5:00  PM",
+        period: "6 - 8",
+      }
+    ], 
+    slots: [
+      { 
+        slot: "11:30",
+        period: "12 - 2",
+      },
+      { 
+        slot: "14:30",
+        period: "3 - 5",
+      },
+      { 
+        slot: "17:00",
+        period: "6 - 8",
+      }
+    ],
     mealType: null,
     meals: ["Breakfast", "Lunch", "Dinner"],
     targetMarket: null,
@@ -117,6 +156,11 @@ export default {
     }),
     getTextRules() {
       return [rules.required];
+    },
+
+    getDeliverySlot() {
+      var timing = this.slots.find(timing => timing.period == this.deliveryTime);
+      return timing.slot;
     }
   },
   methods: {
@@ -130,7 +174,7 @@ export default {
     onSubmit() {
       if (this.$refs.deliveryDetailsForm.validate()) {
         this.setDeliveryDetails({
-          deliveryTime: this.deliveryTime,
+          deliveryTime: this.getDeliverySlot,
           mealtype: this.mealType,
           marketId: this.targetMarket
         })
@@ -145,7 +189,7 @@ export default {
       this.deliveryTime = null;
       this.mealType = null;
       this.$refs.deliveryDetailsForm.resetValidation();
-    }
+    },
   }
 };
 </script>
