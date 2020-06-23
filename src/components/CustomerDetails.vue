@@ -26,7 +26,7 @@
                 label="Postal Code" 
                 type="number"
                 v-model.number="postalCode"
-                :rules="getIntRules"
+                :rules="getPostalCodeRules"
                 required
                 ></v-text-field>
             </v-col>
@@ -79,7 +79,7 @@
 
 <script>
 import rules from "@/utils/validation";
-const { required, isInt } = rules;
+const { required, isInt, isPostalCode, isNumber } = rules;
 export default {
   name: "CustomerDetails",
   data () {
@@ -100,8 +100,11 @@ export default {
     getTextRules() {
       return [required];
     },
+    getPostalCodeRules() {
+      return [isPostalCode, isInt, required];
+    },
     getIntRules() {
-      return [isInt, required];
+      return [isNumber, required]
     }
   },
   methods: {

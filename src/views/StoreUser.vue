@@ -189,16 +189,10 @@ export default {
       return this.getMarkets.find(market => market.id === this.deliveryDetails.marketId)
     },
     getStoresInMarket() {
-      var allStores = this.getStores.filter(store => {
+      var copy = JSON.parse(JSON.stringify(this.getStores))
+      var allStores = copy.filter(store => {
         return this.getMarket.stores.find(targetStore => targetStore === store.id);
       })
-      // var storesThatMatchCurrentDay = allStores.filter(store => {
-      //   return isSameDay(store.operatingTimes)
-      // })
-      // var storesThatAreOperating = storesThatMatchCurrentDay.filter(store => {
-      //   var deliveryTime = store.deliveryTimings.find(timing => timing === this.deliveryDetails.deliveryTime);
-      //   return !!deliveryTime;
-      // })
       allStores.forEach(store => {
         if (store.enabled) { // skip those that are already disabled
           if (!isSameDay(store.operatingTimes) || !store.deliveryTimings.includes(this.deliveryDetails.deliveryTime)) {
