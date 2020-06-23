@@ -17,6 +17,9 @@ function deg2rad(deg) {
 
 export function getCurrentLocation() {
   return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      console.log("Geo is not supported")
+    }
     navigator.geolocation.getCurrentPosition(pos => {
       resolve({
         latitude: pos.coords.latitude,
@@ -24,8 +27,6 @@ export function getCurrentLocation() {
       })
     }, err => {
       reject(err)
-    },
-    {timeout:10000}
-    );
+    })
   })
 } 

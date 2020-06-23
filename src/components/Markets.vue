@@ -117,6 +117,7 @@ import rules from '@/utils/validation';
 export default {
   name: "Markets",
   async created () {
+    await this.getLocation();
     this.distances = await Promise.all(this.getMarkets.map(market => this.getDistanceFromMarket(market)))
   },
   data: () => ({
@@ -174,7 +175,7 @@ export default {
     ...mapMutations({
       setDeliveryDetails: 'setDeliveryDetails'
     }),
-    ...mapActions(['getDistance']),
+    ...mapActions(['getDistance', 'getLocation']),
     showDeliveryDialog(marketId) {
       this.targetMarket = marketId;
       this.deliveryDialog = true;
@@ -199,14 +200,6 @@ export default {
       this.$refs.deliveryDetailsForm.resetValidation();
     },
     getDistanceFromMarket(market) {
-      // const callAsync = async () => {
-      //   try {
-      //     return await this.getDistance({ lat: market.location.latitude, lng: market.location.longitude })  
-      //   } catch(err) {
-      //     console.log(err)
-      //   }
-      // } 
-      // callAsync().then(d => d).catch(e => console.log(e));
       return this.getDistance({ lat: market.location.latitude, lng: market.location.longitude })
     }
   }

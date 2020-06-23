@@ -3,10 +3,12 @@ import { getDistanceFromLatLonInKm, getCurrentLocation } from '@/utils/distanceC
 
 export default {
   state: {
+    location: {}
   },
   getters: {
   },
   mutations: {
+    setLocation: (state, location) => state.location = { ...location }
   },
   actions: {
     logIn(context, { email, password }) {
@@ -22,9 +24,18 @@ export default {
       dispatch("initStores");
       dispatch("initMenu")
     },
-    async getDistance(context, { lat, lng }) {
+    async getLocation({ commit }) {
       try {
-        var currLocation = await getCurrentLocation();
+        var location = await getCurrentLocation();
+        commit('setLocation', location);
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async getDistance({ state }, { lat, lng }) {
+      try {
+        var currLocation = state.location;
+        console.log(currLocation)
         var d = getDistanceFromLatLonInKm(
           lat,
           lng,
