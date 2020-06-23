@@ -2,6 +2,7 @@
   <v-card
     class="mx-auto"
     max-width="600"
+    :disabled="!store.enabled"
   >
     <v-img
       :src="store.image"
@@ -11,13 +12,24 @@
     <v-card-title>
       {{ store.name }}
     </v-card-title>
+    <v-card-subtitle>
+      <b>Operating days</b>: {{ formatInfo(store.operatingTimes) }}
+      <br>
+      <b>Operating delivery slots</b>: {{ formatInfo(store.deliveryTimings) }}
+    </v-card-subtitle>
+    <v-card-text v-if="!store.enabled" class="red--text">
+      Sorry, this store is unavailable for the slot you chose.
+    </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn
+        v-if="store.enabled"
         icon
         @click="toggleMenu"
+        text
+        class="pr-12 primary--text"
       >
-        <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+        {{ show ? 'hide menu' : 'show menu' }}
       </v-btn>
     </v-card-actions>
 
@@ -106,6 +118,9 @@ export default {
     isDisabled(item) {
       var targetItem = this.getCart.find(cartItem => cartItem.id === item.id);
       return !!targetItem;
+    },
+    formatInfo(info) {
+      return info.reduce((acc, curr) => acc += ` ${curr},`, "");
     }
   },
   computed: {

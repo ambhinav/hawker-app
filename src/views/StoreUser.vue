@@ -29,7 +29,7 @@
       <v-row class="text-center" justify="center">
         <v-col cols="12" class="mb-4">
           <h2 class="font-weight-bold">
-            Menu
+            Menu's for {{ getMarket.name }}
           </h2>
         </v-col>
       </v-row>
@@ -192,14 +192,21 @@ export default {
       var allStores = this.getStores.filter(store => {
         return this.getMarket.stores.find(targetStore => targetStore === store.id);
       })
-      var storesThatMatchCurrentDay = allStores.filter(store => {
-        return isSameDay(store.operatingTimes)
+      // var storesThatMatchCurrentDay = allStores.filter(store => {
+      //   return isSameDay(store.operatingTimes)
+      // })
+      // var storesThatAreOperating = storesThatMatchCurrentDay.filter(store => {
+      //   var deliveryTime = store.deliveryTimings.find(timing => timing === this.deliveryDetails.deliveryTime);
+      //   return !!deliveryTime;
+      // })
+      allStores.forEach(store => {
+        if (store.enabled) { // skip those that are already disabled
+          if (!isSameDay(store.operatingTimes) || !store.deliveryTimings.includes(this.deliveryDetails.deliveryTime)) {
+            store.enabled = false;
+          }
+        }
       })
-      var storesThatAreOperating = storesThatMatchCurrentDay.filter(store => {
-        var deliveryTime = store.deliveryTimings.find(timing => timing === this.deliveryDetails.deliveryTime);
-        return !!deliveryTime;
-      })
-      return storesThatAreOperating;
+      return allStores;
     },
   },
   methods: {
