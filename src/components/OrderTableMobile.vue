@@ -11,18 +11,8 @@
       :items="getCart"
       class="elevation-1"
       hide-default-footer
+      :mobile-breakpoint="300"
       >
-        <template v-slot:item.img="{ item }">
-          <v-avatar
-          size="40px"
-          rounded
-          >
-            <img
-              v-if="item.image"
-              :src="item.image"
-            >
-          </v-avatar>
-        </template> 
         <template v-slot:item.cost="{ item }">
           {{ getCost(item) }}
         </template>
@@ -57,12 +47,6 @@ export default {
   data () {
     return {
       headers: [
-        {
-          text: 'Image',
-          align: 'start',
-          sortable: false,
-          value: 'img',
-        },
         {
           text: 'Name',
           align: 'start',
