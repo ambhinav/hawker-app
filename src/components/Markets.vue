@@ -38,7 +38,9 @@
               {{ market.stores.length }} shops available to choose from!
             </v-card-text>
             <v-card-actions>
-              {{ getDistance() }} km away
+              <v-btn v-if="distances.length > 0" color="purple" text>
+                {{ distances[i] }} km away
+              </v-btn>
               <v-spacer></v-spacer>
               <v-btn
                 text
@@ -110,11 +112,13 @@
 </template>
 
 <script>
-import { getCurrentLocation } from '@/utils/distanceCalculator';
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 import rules from '@/utils/validation';
 export default {
   name: "Markets",
+  async created () {
+    this.distances = await Promise.all(this.getMarkets.map(market => this.getDistanceFromMarket(market)))
+  },
   data: () => ({
     deliveryDialog: false,
     loading: false,
@@ -151,6 +155,7 @@ export default {
     mealType: null,
     meals: ["Breakfast", "Lunch", "Dinner"],
     targetMarket: null,
+    distances: []
   }),
   computed: {
     ...mapGetters({
@@ -169,6 +174,7 @@ export default {
     ...mapMutations({
       setDeliveryDetails: 'setDeliveryDetails'
     }),
+    ...mapActions(['getDistance']),
     showDeliveryDialog(marketId) {
       this.targetMarket = marketId;
       this.deliveryDialog = true;
@@ -192,28 +198,16 @@ export default {
       this.mealType = null;
       this.$refs.deliveryDetailsForm.resetValidation();
     },
-    getDistance() {
-      // return getCurrentLocation()
-      //   .then(loc => {
-      //     console.log(loc)
-      //     var d = distance(
-      //       loc.latitude,
-      //       loc.longitude,
-      //       market.location.latitude,
-      //       market.location.longitude,
-      //       "K"
-      //     )
-      //     return d
-      //   }).catch(e => console.log(e))
-      const callAsync = async () => {
-        try {
-          var currLocation = await getCurrentLocation();
-          console.log(currLocation)
-        } catch(err) {
-          console.log(err)
-        }
-      } 
-      callAsync() 
+    getDistanceFromMarket(market) {
+      // const callAsync = async () => {
+      //   try {
+      //     return await this.getDistance({ lat: market.location.latitude, lng: market.location.longitude })  
+      //   } catch(err) {
+      //     console.log(err)
+      //   }
+      // } 
+      // callAsync().then(d => d).catch(e => console.log(e));
+      return this.getDistance({ lat: market.location.latitude, lng: market.location.longitude })
     }
   }
 };
