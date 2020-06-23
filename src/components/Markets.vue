@@ -124,7 +124,7 @@ export default {
     deliveryDialog: false,
     loading: false,
     deliveryTime: null,
-    deliveryTimings2: ["12 -2", "3 - 5", "6 - 8"], 
+    deliveryTimings2: ["12 - 2", "3 - 5", "6 - 8"], 
     deliveryTimings1: [
       { 
         orderBy: "11:30 AM",
