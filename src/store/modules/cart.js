@@ -18,7 +18,6 @@ export default {
     addItemToCart(state, item) {
       state.cart.push({
         ...item,
-        qty: 1 // initial qty
       })
     },
     decrementQty(state, targetItem) {
