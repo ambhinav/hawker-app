@@ -55,15 +55,11 @@
           </v-row>
         </v-container>
       </v-form>
-      <v-list-item four-line class="caption font-weight-light">
+      <v-list-item two-line class="caption font-weight-light">
         <v-list-item-content>
-          <v-list-item-title>By placing your order you agree to:</v-list-item-title>
-          <v-list-item-subtitle>
-            <a>Data Processing Policy</a>
-          </v-list-item-subtitle>
-          <v-list-item-subtitle>
-            <a>End User License Agreement of Online Ordering System</a>
-          </v-list-item-subtitle>
+          <v-list-item-title>
+            By sharing your data with us you are protected by <a href="https://sso.agc.gov.sg/SL-Supp/S398-2020/Published/20200528?DocDate=20200528">PDPA</a>
+          </v-list-item-title>
           <v-list-item-subtitle>
             <a>Halale's Terms of Service</a>
           </v-list-item-subtitle>
@@ -113,6 +109,6 @@ export default {
         console.log("submitted")
       }
     }
-  }
+  },
 }
 </script>

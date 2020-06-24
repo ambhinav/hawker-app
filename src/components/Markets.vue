@@ -38,7 +38,7 @@
               {{ market.stores.length }} shops available to choose from!
             </v-card-text>
             <v-card-actions>
-              <v-btn v-if="distances.length > 0" color="purple" text>
+              <v-btn v-if="typeof distances[0] != NaN" color="purple" text>
                 {{ distances[i] }} km away
               </v-btn>
               <v-spacer></v-spacer>
@@ -131,7 +131,7 @@ export default {
         period: "12 - 2",
       },
       { 
-        orderBy: "2:30  PM",
+        orderBy: "2:00 PM",
         period: "3 - 5",
       },
       { 
@@ -145,7 +145,7 @@ export default {
         period: "12 - 2",
       },
       { 
-        slot: "14:30",
+        slot: "14:00",
         period: "3 - 5",
       },
       { 
