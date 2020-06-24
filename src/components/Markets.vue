@@ -116,6 +116,19 @@ import { mapGetters, mapMutations, mapActions } from 'vuex';
 import rules from '@/utils/validation';
 export default {
   name: "Markets",
+  created () {
+    var yo = () => {
+      this.initMarkets()
+      this.$forceUpdate()
+    }
+    navigator.permissions.query({name:'geolocation'}).then(function(result) {
+      result.onchange = () => {
+        if (result.state == "granted") {
+          yo();
+        }
+      }
+    })
+  },
   data: () => ({
     deliveryDialog: false,
     loading: false,
@@ -171,7 +184,7 @@ export default {
     ...mapMutations({
       setDeliveryDetails: 'setDeliveryDetails'
     }),
-    ...mapActions(['getDistance']),
+    ...mapActions(['getDistance', 'initMarkets']),
     showDeliveryDialog(marketId) {
       this.targetMarket = marketId;
       this.deliveryDialog = true;

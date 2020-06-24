@@ -31,6 +31,7 @@ export default {
       context.commit('resetMarkets')
     },
     initMarkets(context) {
+      context.commit("resetMarkets");
       db.collection("Markets")
         .onSnapshot(snapshot => {
           snapshot.docChanges().forEach(async change => {

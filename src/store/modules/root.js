@@ -21,8 +21,8 @@ export default {
       // initialise firestore listeners in markets, stores and orders modules
       console.log("Init");
       dispatch("getLocation")
-      dispatch("initMarkets");
       dispatch("initStores");
+      dispatch("initMarkets");
       dispatch("initMenu");
     },
     async getLocation({ commit }) {
@@ -34,7 +34,6 @@ export default {
       }
     },
     async getDistance({ state }, { lat, lng }) {
-      console.log(lat)
       try {
         var currLocation = state.location;
         var d = getDistanceFromLatLonInKm(
@@ -43,7 +42,6 @@ export default {
           currLocation.latitude,
           currLocation.longitude,
         )
-        console.log(d);
         return d.toFixed(1);
       } catch(err) {
         console.log(err)
