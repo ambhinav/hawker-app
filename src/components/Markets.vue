@@ -38,8 +38,8 @@
               {{ market.stores.length }} shops available to choose from!
             </v-card-text>
             <v-card-actions>
-              <v-btn v-if="typeof distances[0] != NaN" color="purple" text>
-                {{ distances[i] }} km away
+              <v-btn v-if="market.distance && !isNaN(market.distance)" color="purple" text>
+                {{ market.distance }} km away
               </v-btn>
               <v-spacer></v-spacer>
               <v-btn
@@ -116,10 +116,6 @@ import { mapGetters, mapMutations, mapActions } from 'vuex';
 import rules from '@/utils/validation';
 export default {
   name: "Markets",
-  async created () {
-    await this.getLocation();
-    this.distances = await Promise.all(this.getMarkets.map(market => this.getDistanceFromMarket(market)))
-  },
   data: () => ({
     deliveryDialog: false,
     loading: false,
@@ -175,7 +171,7 @@ export default {
     ...mapMutations({
       setDeliveryDetails: 'setDeliveryDetails'
     }),
-    ...mapActions(['getDistance', 'getLocation']),
+    ...mapActions(['getDistance']),
     showDeliveryDialog(marketId) {
       this.targetMarket = marketId;
       this.deliveryDialog = true;
@@ -199,9 +195,9 @@ export default {
       this.mealType = null;
       this.$refs.deliveryDetailsForm.resetValidation();
     },
-    getDistanceFromMarket(market) {
-      return this.getDistance({ lat: market.location.latitude, lng: market.location.longitude })
-    }
+    // getDistanceFromMarket(market) {
+    //   return this.getDistance({ lat: market.location.latitude, lng: market.location.longitude })
+    // }
   }
 };
 </script>
