@@ -106,7 +106,7 @@ export default {
       var menuItemRef = await dispatch("addMenuItem", {
         name: menuItem.name,
         price: menuItem.price,
-        category: menuItem.category,
+        deliverySlots: menuItem.deliverySlots,
         image: null
       })
       if (menuItem.image) {
