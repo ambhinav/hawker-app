@@ -44,7 +44,7 @@
                     <v-icon @click="handleEditMenuItem(item)">mdi-pencil</v-icon>
 									</template>
                   <template v-slot:item.delete="{ item }">
-                    <v-icon @click="deleteMenuItem(item.id)">mdi-delete</v-icon>
+                    <v-icon @click="deleteItem(item.id)">mdi-delete</v-icon>
 									</template>
 								</v-data-table>
 							</v-flex>
@@ -179,13 +179,29 @@ export default {
     ...mapActions({
       editMenuItem: "editMenuItem",
       successToast: "successToast",
-      errorToast: "errorToast" 
+      errorToast: "errorToast",
+      deleteMenuItem: "deleteMenuItem" 
     }),
     goBack() {
       this.$router.push("/admin/stores");
     },
-    deleteMenuItem(itemId) {
-      console.log(itemId);
+    deleteItem(itemId) {
+      const callDelete = async () => {
+        try {
+          this.loading = true;
+          await this.deleteMenuItem({
+            itemId,
+            storeId: this.storeId
+          });
+          this.loading = false;
+          this.successToast("Item deleted from menu!");
+        } catch (e) {
+          this.loading = false;
+          this.errorToast("Error removing item from menu");
+          console.log(e);
+        }
+      }
+      callDelete();
     },
     handleMenuFormClose() {
       this.itemName = null;

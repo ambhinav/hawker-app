@@ -81,6 +81,12 @@ export default {
           deliverySlots,
           name
         })
+    },
+    async deleteMenuItem({ dispatch }, payload) {
+      await dispatch("removeMenuItemFromStore", payload);
+      return db.collection("Menu")
+        .doc(payload.itemId)
+        .delete()
     }
   },
 };

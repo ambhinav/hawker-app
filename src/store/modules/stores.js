@@ -118,6 +118,13 @@ export default {
           menu: firebase.firestore.FieldValue.arrayUnion(menuItemRef.id)
         })
     },
+    removeMenuItemFromStore(context, { storeId, itemId }) {
+      return db.collection("Stores")
+        .doc(storeId)
+        .update({
+          menu: firebase.firestore.FieldValue.arrayRemove(itemId)
+        })
+    }
   },
   getters: {
     getStores: state => {
