@@ -8,6 +8,7 @@ import OrderDetails from "@/views/OrderDetails";
 import Orders from "@/views/admin/Orders";
 import Stores from "@/views/admin/Stores";
 import Onboarding from "@/views/admin/Onboarding";
+import EditMenu from '@/components/admin/EditMenu';
 import { auth } from "@/firebase/init";
 
 Vue.use(VueRouter);
@@ -64,6 +65,15 @@ const routes = [
   {
     path: "/admin/stores",
     component: Stores,
+    meta: {
+      layout: "AdminLayout",
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/stores/:id",
+    name: "EditMenu",
+    component: EditMenu,
     meta: {
       layout: "AdminLayout",
       requiresAuth: true,

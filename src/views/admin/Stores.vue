@@ -61,6 +61,9 @@
 										<v-btn v-if="item.enabled == true" color="green" depressed @click="changeStoreStatus(item)">Enabled</v-btn>
 										<v-btn v-else color="red" depressed @click="changeStoreStatus(item)">Disabled</v-btn>
 									</template>
+									<template v-slot:item.editMenu="{ item }">
+										<v-btn depressed @click="editMenu(item.id)">edit</v-btn>
+									</template>
 								</v-data-table>
 							</v-flex>
 						</v-col>
@@ -157,6 +160,12 @@ export default {
           value: 'enabled',
           sortable: false
 				},
+				{
+					text: "Edit Menu",
+					align: 'left',
+					value: 'editMenu',
+					sortable: false
+				}
 			],
       menuItemDialog: false,
       targetStoreId: null,
@@ -266,7 +275,10 @@ export default {
         }
         callAddMenuItem()
       }
-    }
+		},
+		editMenu(storeId) {
+			this.$router.push({ name: "EditMenu", params: { id: storeId } });
+		}
 	}
 }
 </script>
