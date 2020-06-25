@@ -42,6 +42,20 @@ const isWithinTheWeek = v => moment(v).isBetween(moment().startOf("week"), momen
 
 const isWithinTheMonth = v => moment(v).isBetween(moment().startOf("month"), moment().endOf("month"))
 
+const isSameDay = v => { 
+  var day = v.find(day => day === moment().format(DAY));
+  return !!day;
+}
+
+/**
+ * Checks if the current time is before the available delivery timings for the shops
+ * @param {Array} v List of delivery timings shop is available for 
+ * @returns the filtered list
+ */
+const getValidTimings = timing => {
+  return moment(timing, TIME).isAfter(moment().format(TIME))
+}
+
 /**
  * Checks if two moments are equal
  * Note: v1 and v2 have to both be a unix timestamp in milliseconds
@@ -61,5 +75,7 @@ export {
   isWithinTheMonth,
   isWithinTheWeek,
   getTimeStamp,
-  isEqual  
+  isEqual,
+  isSameDay,
+  getValidTimings  
 }
