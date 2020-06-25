@@ -13,6 +13,19 @@ export default {
         state.menu.push(payload.menuItem);
       }
     },
+    replaceMenuItem(state, payload) {
+      state.menu = state.menu.filter(menuItem => {
+        return menuItem.id != payload.menuItem.id;
+      });
+      if (!state.menu.find(menuItem => menuItem.id == payload.menuItem.id)) {
+        state.menu.push(payload.menuItem);
+      }
+    },
+    removeMenuItem: (state, payload) => {
+        state.menu = state.menu.filter(menuItem => {
+            return menuItem.id != payload.menuItem.id;
+        });
+    },
   },
   actions: {
     initMenu(context) {
@@ -27,16 +40,16 @@ export default {
                 menuItem: menuData
               });
             }
-            // if (change.type == "modified") {
-            //   context.commit("replaceItem", {
-            //     menuItem: menuItemData
-            //   });
-            // }
-            // if (change.type == "removed") {
-            //   context.commit("removeItem", {
-            //     menuItem: menuItemData
-            //   });
-            // }
+            if (change.type == "modified") {
+              context.commit("replaceMenuItem", {
+                menuItem: menuData
+              });
+            }
+            if (change.type == "removed") {
+              context.commit("removeMenuItem", {
+                menuItem: menuData
+              });
+            }
           });
         });
     },
@@ -59,5 +72,15 @@ export default {
         })
       })
     },
+    editMenuItem(context, item) {
+      const { name, price, id, deliverySlots } = item;
+      return db.collection("Menu")
+        .doc(id)
+        .update({
+          price,
+          deliverySlots,
+          name
+        })
+    }
   },
 };
