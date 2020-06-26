@@ -193,13 +193,18 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ getMenu: 'getMenu', getCart: 'getCart' }),
+    ...mapGetters({ getMenu: 'getMenu', getCart: 'getCart', getDeliveryDetails: 'getDeliveryDetails' }),
     getMenuItems() {
-      var targetItems = this.getMenu.filter(item => {
-        var targetItem = this.store.menu.find(itemId => itemId === item.id);
-        return !!targetItem;
-      })
-      return targetItems
+      var filteredItems = this.getMenu.filter(item => {
+        // check if store includes the item
+        var targetItemId = this.store.menu.find(itemId => itemId === item.id); 
+        // check if that items slots match the user's requested timing
+        if (targetItemId) {
+          return item.deliverySlots.includes(this.getDeliveryDetails.deliveryTime); 
+        }
+        return false;
+      });
+      return filteredItems;
     },
     getIntRules() {
       return [v => v > 0 || "Quantity must be at least 1",rules.required];
