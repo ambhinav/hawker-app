@@ -20,7 +20,7 @@
             </v-col>
             <v-col cols="6">
               <v-text-field 
-                label="Store ID" 
+                label="Store ID <Market Code><Unit Number>" 
                 :rules="getTextRules"
                 v-model="storeId"
                 ></v-text-field>

@@ -114,7 +114,6 @@
 import { mapGetters, mapActions } from 'vuex';
 import rules from '@/utils/validation';
 const { isNumber, required } = rules;
-import { deliverySlots } from '@/utils/deliveryData.js';
 export default {
   name: "EditMenu",
   created () {
@@ -165,8 +164,11 @@ export default {
       var selectedMenu = this.getMenu.filter(menuItem => targetStore.menu.includes(menuItem.id));
       return selectedMenu;
     },
+    getStore() {
+      return this.getStores.find(store => store.id == this.storeId);
+    },
     getDeliverySlots() {
-      return deliverySlots;
+      return this.getStore.deliveryTimings;
     },
     getNumberRules() {
       return [isNumber, required];
