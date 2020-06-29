@@ -49,12 +49,12 @@
                 *Please contact the administrator for order status
               </v-col>
             </v-row>
-            <v-row justify="">
+            <v-row>
               <v-col cols="1">
                 <v-icon>mdi-whatsapp</v-icon>
               </v-col>
               <v-col cols="1">
-                <v-icon class="pl-md-2">mdi-telegram</v-icon>
+                <v-icon>mdi-telegram</v-icon>
               </v-col>
               <v-col cols="4">
                 +65 91919191
@@ -78,9 +78,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 export default {
   name: "Invoice",
+  beforeRouteLeave(to, from, next) {
+    this.resetCartState();
+    next();  
+  },
   computed: {
     ...mapGetters(["getDeliveryDetails", "getCart", "getTotalPrice"]),
     getDeliveryCost() {
@@ -100,6 +104,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(["resetCartState"]),
     getPrice(item) {
       return parseFloat(item.price) * parseInt(item.qty);
     },

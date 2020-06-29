@@ -2,6 +2,13 @@ import { getDistanceFromLatLonInKm } from '@/utils/distanceCalculator';
 import { getCurrentDateAndMonth, getTimeStamp } from '@/utils/dateTimeUtil';
 import { db } from '@/firebase/init';
 
+const getDefaultState = () => {
+  return {
+    cart: [],
+    deliveryDetails: {}
+  }
+}
+
 export default {
   state: {
     deliveryDetails: {},
@@ -39,14 +46,11 @@ export default {
     removeItemFromCart(state, targetItem) {
       state.cart = state.cart.filter(item => item.id !== targetItem.id)
     },
-    clearCart(state) {
-      state.cart = []
-    },
     setDeliveryDetails: (state, deliveryDetails) => state.deliveryDetails = { ...deliveryDetails },
-    clearDeliveryDetails: (state) => state.deliveryDetails = {},
     setCustomerDetails: (state, customerDetails) => state.deliveryDetails = { ...state.deliveryDetails, ...customerDetails },
     setDeliveryLocation: (state, deliveryLocation) => state.deliveryDetails = { ...state.deliveryDetails, deliveryLocation },
-    setDeliveryCost: (state, deliveryCost) => state.deliveryDetails = { ...state.deliveryDetails, deliveryCost }
+    setDeliveryCost: (state, deliveryCost) => state.deliveryDetails = { ...state.deliveryDetails, deliveryCost },
+    resetCartState: (state) => Object.assign(state, getDefaultState())
   },
   actions: {
     getSearchResults(context, searchTerm) {
