@@ -5,6 +5,7 @@ import SignIn from "@/views/SignIn";
 import Contact from "@/views/Contact";
 import StoreUser from "@/views/StoreUser";
 import OrderDetails from "@/views/OrderDetails";
+import Invoice from "@/views/Invoice";
 import Orders from "@/views/admin/Orders";
 import Stores from "@/views/admin/Stores";
 import Onboarding from "@/views/admin/Onboarding";
@@ -40,6 +41,11 @@ const routes = [
     path: "/checkout",
     name: "OrderDetails",
     component: OrderDetails
+  },
+  {
+    path: "/invoice",
+    name: "Invoice",
+    component: Invoice
   },
   {
     path: "/contact",
