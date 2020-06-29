@@ -111,6 +111,7 @@
 <script>
 import rules from "@/utils/validation";
 const { required, isInt, isPostalCode, isNumber } = rules;
+import { mapActions } from 'vuex';
 export default {
   name: "CustomerDetails",
   data () {
@@ -140,16 +141,12 @@ export default {
       this.loading = true
 
       // Lazily load input items
-      fetch(`https://developers.onemap.sg/commonapi/search?searchVal=${val}&returnGeom=Y&getAddrDetails=Y&pageNum=1`)
-        .then(res => res.json())
-        .then(res => {
-          const { results } = res
-          this.results = results.slice(0, 5) // get first 5 entries
-        })
-        .catch(err => {
-          console.log(err)
-        })
-        .finally(() => this.loading = false);
+      this.getSearchResults(val) 
+      .then(res => this.results = res)
+      .catch(err => {
+        console.log(err)
+      })
+      .finally(() => this.loading = false);
     },
   },
   computed: {
@@ -167,6 +164,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getSearchResults']),
     handleSubmit() {
       if (this.$refs.form.validate()) {
         console.log("submitted")

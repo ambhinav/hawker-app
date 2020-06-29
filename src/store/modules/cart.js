@@ -43,6 +43,15 @@ export default {
     addDeliveryDetails: (state, customerDetails) => state.deliveryDetails = { ...state.deliveryDetails, ...customerDetails }
   },
   actions: {
-   
+    getSearchResults(context, searchTerm) {
+      return fetch(`https://developers.onemap.sg/commonapi/search?searchVal=${searchTerm}&returnGeom=Y&getAddrDetails=Y&pageNum=1`)
+        .then(res => res.json())
+        .then(res => {
+          if (!res.results) {
+            return [];
+          }
+          return res.results.slice(0, 5) // get first 5 entries
+        })
+    }
   },
 };
