@@ -1,31 +1,30 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="12">
-        <h2>Thank you! Your order has been received"</h2>
-        <br>
-        <h3>Please take a screen shot of the invoice below for reference</h3>
-      </v-col>
-    </v-row>
-    <v-divider></v-divider>
-    <v-row>
+    <v-row justify="center" class="pt-5">
       <v-card shaped>
-        <v-card-title>Order ID: {{ getDeliveryDetails.invoiceNumber }}</v-card-title>
+        <v-card-title>
+          <div>
+            <h2>Thank you! Your order has been received!</h2>
+            <br>
+            <h4>Order ID: {{ getDeliveryDetails.invoiceNumber }}</h4>
+          </div>
+        </v-card-title>
+        <v-divider></v-divider>
         <v-card-text>
           <v-container>
             <v-row>
               Name: {{ getDeliveryDetails.customerName }}
             </v-row>
             <v-row>
-              Phone Number: {{ getDeliveryDetails.customerPhoneNumber }}
+              Phone Number: {{ getDeliveryDetails.phoneNumber }}
             </v-row>
             <v-row>
               Address: {{ getDeliveryDetails.deliveryLocation["ADDRESS"] }}
             </v-row>
             <v-row>
-              Payment mode: {{ getDeliveryDetails.paymentMode }}
+              Payment mode: {{ getDeliveryDetails.paymentMethod }}
             </v-row>
-            <v-row>
+            <v-row justify="center">
               <v-simple-table>
                 <template v-slot:default>
                   <thead>
@@ -47,21 +46,28 @@
             </v-row>
             <v-row>
               <v-col cols="12" class="primary--text">
-                Please contact the administrator for order status
+                *Please contact the administrator for order status
               </v-col>
             </v-row>
-            <v-row>
-              <v-col cols="4">
+            <v-row justify="">
+              <v-col cols="1">
                 <v-icon>mdi-whatsapp</v-icon>
-                <v-icon>mdi-telegram</v-icon>
               </v-col>
-              <v-col cols="8">
+              <v-col cols="1">
+                <v-icon class="pl-md-2">mdi-telegram</v-icon>
+              </v-col>
+              <v-col cols="4">
                 +65 91919191
               </v-col>
+              <v-spacer></v-spacer>
             </v-row>
             <v-row>
               <v-col cols="12" class="error--text">
-                Note: For customers making payment via Paynow, please send proof of your e-payment to the administrator either through Whatsapp or Telegram.
+                <div>
+                  *For customers making payment via Paynow, please make payment to the number provided above.
+                  <br>
+                  *Please take a screenshot of the invoice for reference.
+                </div>
               </v-col>
             </v-row>
           </v-container>
@@ -76,7 +82,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: "Invoice",
   computed: {
-    ...mapGetters(["getDeliveryDetails", "getCart"]),
+    ...mapGetters(["getDeliveryDetails", "getCart", "getTotalPrice"]),
     getDeliveryCost() {
       if(!Object.prototype.hasOwnProperty.call(this.getDeliveryDetails, "deliveryCost")) {
         return 6;

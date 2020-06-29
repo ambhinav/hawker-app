@@ -122,7 +122,7 @@ export default {
       loading: false,
       paymentMethod: null,
       paymentMethods: [
-        "Cash on delivery",
+        "Cash",
         "Paynow",
         "Stripe",
       ],
@@ -168,11 +168,41 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getSearchResults', 'propogateDeliveryLocationAndCost']),
+    ...mapActions([
+      'getSearchResults',
+      'propogateDeliveryLocationAndCost',
+      "addPaynowAndCashOrder"
+      ]),
     handleSubmit() {
       if (this.$refs.form.validate()) {
-        console.log("submitted")
+        if (this.paymentMethod == "Paynow" || this.paymentMethod == "Cash") {
+          var callAddOrder = async () => {
+            try {
+              await this.addPaynowAndCashOrder({
+                paymentMethod: this.paymentMethod,
+                customerName: this.customerName,
+                phoneNumber: this.phoneNumber
+              })
+              this.handleSubmitCleanUp();
+              this.$router.push({ name: "Invoice" });
+            } catch (err) {
+              console.log(err);
+              this.loading = false;
+            }
+          } 
+          callAddOrder();
+        }
       }
+    },
+    handleSubmitCleanUp() {
+      this.customerName = null;
+      this.phoneNumber = null;
+      this.loading = false;
+      this.paymentMethod = null;
+      this.deliveryAddress = null;
+      this.search = null;
+      this.results = [];
+      this.isEditing = false;
     },
     handleAddressClose() {
       this.results = [];

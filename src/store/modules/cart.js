@@ -1,4 +1,6 @@
 import { getDistanceFromLatLonInKm } from '@/utils/distanceCalculator';
+import { getCurrentDateAndMonth, getTimeStamp } from '@/utils/dateTimeUtil';
+import { db } from '@/firebase/init';
 
 export default {
   state: {
@@ -42,7 +44,7 @@ export default {
     },
     setDeliveryDetails: (state, deliveryDetails) => state.deliveryDetails = { ...deliveryDetails },
     clearDeliveryDetails: (state) => state.deliveryDetails = {},
-    addDeliveryDetails: (state, customerDetails) => state.deliveryDetails = { ...state.deliveryDetails, ...customerDetails },
+    setCustomerDetails: (state, customerDetails) => state.deliveryDetails = { ...state.deliveryDetails, ...customerDetails },
     setDeliveryLocation: (state, deliveryLocation) => state.deliveryDetails = { ...state.deliveryDetails, deliveryLocation },
     setDeliveryCost: (state, deliveryCost) => state.deliveryDetails = { ...state.deliveryDetails, deliveryCost }
   },
@@ -78,6 +80,25 @@ export default {
         commit("setDeliveryCost", cost);
         resolve()
       })
+    },
+    addPaynowAndCashOrder({ commit, state }, customerDetails) {
+      var { paymentMethod, customerName, phoneNumber } = customerDetails;
+      var { deliveryLocation, marketId, deliveryCost } = state.deliveryDetails;
+      var shortenedPhoneNumber = phoneNumber.toString().slice(0, 4);
+      var invoiceNumber = `${marketId}${shortenedPhoneNumber}${getCurrentDateAndMonth()}`;
+      commit("setCustomerDetails", { ...customerDetails, invoiceNumber }); 
+      return db.collection("Orders")
+        .add({
+          invoiceNumber, // a friendlier ID for customer and admin to use
+          paid: false,
+          paymentMethod,
+          customerName,
+          customerNumber: phoneNumber,
+          deliveryCost,
+          deliveryAddress: deliveryLocation["ADDRESS"],
+          cart: state.cart,
+          timestamp: getTimeStamp() 
+        })
     }
   }
 };

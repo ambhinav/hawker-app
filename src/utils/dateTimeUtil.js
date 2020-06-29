@@ -10,6 +10,7 @@ moment.updateLocale('en', {
 
 const DAY = "dddd"
 const TIME = "HH:mm"
+const DATE_MONTH = "DDMM";
 const DATE_MONTH_YEAR = "DD-MMMM-YYYY"
 const DATE_MONTH_YEAR_ALT = "DD-MM-YY"
 const DATE_PICKER_FORMAT = 'MMMM Do YYYY'
@@ -32,6 +33,8 @@ const getTimeStampFromDatePicker = v => moment(v, DATE_PICKER_DEFAULT).valueOf()
 const getTimeStamp = () => moment().valueOf()
 
 const convertTimeStampToISO = v => moment(v).toISOString().substr(0, 10)
+
+const getCurrentDateAndMonth = () => moment().format(DATE_MONTH);
 
 /**
  * Checks if the given timestamp falls within the current week
@@ -77,5 +80,6 @@ export {
   getTimeStamp,
   isEqual,
   isSameDay,
-  getValidTimings  
+  getValidTimings,
+  getCurrentDateAndMonth  
 }
