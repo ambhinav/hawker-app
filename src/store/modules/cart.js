@@ -1,3 +1,5 @@
+import { getDistanceFromLatLonInKm } from '@/utils/distanceCalculator';
+
 export default {
   state: {
     deliveryDetails: {},
@@ -40,7 +42,9 @@ export default {
     },
     setDeliveryDetails: (state, deliveryDetails) => state.deliveryDetails = { ...deliveryDetails },
     clearDeliveryDetails: (state) => state.deliveryDetails = {},
-    addDeliveryDetails: (state, customerDetails) => state.deliveryDetails = { ...state.deliveryDetails, ...customerDetails }
+    addDeliveryDetails: (state, customerDetails) => state.deliveryDetails = { ...state.deliveryDetails, ...customerDetails },
+    setDeliveryLocation: (state, deliveryLocation) => state.deliveryDetails = { ...state.deliveryDetails, deliveryLocation },
+    setDeliveryCost: (state, deliveryCost) => state.deliveryDetails = { ...state.deliveryDetails, deliveryCost }
   },
   actions: {
     getSearchResults(context, searchTerm) {
@@ -52,6 +56,28 @@ export default {
           }
           return res.results.slice(0, 5) // get first 5 entries
         })
+    },
+    // finds the geolocation of users address based on OneMap's search results
+    // OneMap API: https://docs.onemap.sg/#search
+    // then calculates and sets delivery cost
+    propogateDeliveryLocationAndCost({ state, commit, getters }, { results, targetAddress }) {
+      return new Promise((resolve) => {
+        var geoAddress = results.find(res => res["ADDRESS"] == targetAddress);
+        commit('setDeliveryLocation', geoAddress);
+        var targetMarket = getters.getMarkets.find(market => market.id === state.deliveryDetails.marketId); 
+        var distance = getDistanceFromLatLonInKm(
+          targetMarket.location.latitude,
+          targetMarket.location.longitude,
+          geoAddress["LATITUDE"],
+          geoAddress["LONGITUDE"]
+        )
+        let cost = 6;
+        if (distance > 8) {
+          cost = 9;
+        }
+        commit("setDeliveryCost", cost);
+        resolve()
+      })
     }
-  },
+  }
 };

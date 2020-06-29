@@ -10,7 +10,7 @@
       >
         <template v-slot:top>
           <v-toolbar flat>
-            <v-toolbar-title>Your order for {{ getMarketName }}</v-toolbar-title>
+            <v-toolbar-title>Your order for {{ getMarket.name }}</v-toolbar-title>
           </v-toolbar>
         </template>
         <template v-slot:item.img="{ item }">
@@ -42,6 +42,11 @@
         </v-btn>
       </v-col>
       <v-col cols="2">
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" class="error--text subtitle-1">
+        Note: Delivery fee is $6 if within 8km, else is $9.
       </v-col>
     </v-row>
   </v-container>
@@ -83,19 +88,20 @@ export default {
   },
   computed: {
     ...mapGetters(["getCart", "getMarkets", "getDeliveryDetails", "getTotalPrice"]),
-    getMarketName() {
+    getMarket() {
       var targetMarket = this.getMarkets.find(market => market.id === this.getDeliveryDetails.marketId); 
-      return targetMarket.name;
+      return targetMarket;
     },
-    getPostalCode() {
-      if(!Object.prototype.hasOwnProperty.call(this.getDeliveryDetails, "postalCode")) {
-        return null;
+    getDeliveryCost() {
+      if(!Object.prototype.hasOwnProperty.call(this.getDeliveryDetails, "deliveryCost")) {
+        return 6;
+      } else {
+        return this.getDeliveryDetails.deliveryCost; 
       }
-      return this.getDeliveryDetails.postalCode; 
     },
     getTotalCost() {
-      return parseInt(this.geTotlaPrice) + 8;
-    }
+      return parseFloat(this.getTotalPrice) + this.getDeliveryCost;
+    },
   },
   methods: {
     getCost(item) {
@@ -106,7 +112,7 @@ export default {
     },
     getNewCart() {
       var copy = JSON.parse(JSON.stringify(this.getCart));
-      copy.push({ name: "Delivery Cost", price: 9 }, { name: "Total Cost", price: this.getTotalPrice + 9 })
+      copy.push({ name: "Delivery Cost", price: this.getDeliveryCost }, { name: "Total Cost", price: this.getTotalCost })
       return copy
     }
   }

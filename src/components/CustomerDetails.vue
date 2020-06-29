@@ -23,7 +23,7 @@
             </v-row>
             <v-row justify="center">
               <v-col cols="4">
-                <v-btn v-if="!deliveryAddress" @click="showAddressDialog = true">
+                <v-btn v-if="!getDeliveryLocation" @click="showAddressDialog = true">
                   add address
                 </v-btn>
                 <v-btn v-else @click="handleEditAddress">
@@ -31,9 +31,9 @@
                 </v-btn>
               </v-col>
             </v-row>
-            <v-row v-if="deliveryAddress">
+            <v-row v-if="getDeliveryLocation">
               <v-col cols="12">
-                Address: <b>{{ deliveryAddress }}</b>
+                Address: <b>{{ getDeliveryLocation["ADDRESS"] }}</b>
               </v-col>
             </v-row>
             <v-row>
@@ -111,7 +111,7 @@
 <script>
 import rules from "@/utils/validation";
 const { required, isInt, isPostalCode, isNumber } = rules;
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default {
   name: "CustomerDetails",
   data () {
@@ -150,6 +150,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(['getDeliveryDetails']),
     getTextRules() {
       return [required];
     },
@@ -161,10 +162,13 @@ export default {
     },
     getResults() {
       return this.results.map(res => res["ADDRESS"]);
+    },
+    getDeliveryLocation() {
+      return this.getDeliveryDetails.deliveryLocation;
     }
   },
   methods: {
-    ...mapActions(['getSearchResults']),
+    ...mapActions(['getSearchResults', 'propogateDeliveryLocationAndCost']),
     handleSubmit() {
       if (this.$refs.form.validate()) {
         console.log("submitted")
@@ -179,9 +183,14 @@ export default {
       }
     },
     handleConfirmAddress() {
-      // TODO: calculate delivery cost
-      this.results = [];
-      this.showAddressDialog = null;
+      if (this.$refs.addressForm.validate()) {
+        // process current results
+        this.propogateDeliveryLocationAndCost({ results: this.results, targetAddress: this.deliveryAddress }) 
+        .then(() => {
+          this.showAddressDialog = false;
+          this.results = [];
+        })
+      }
     },
     handleEditAddress() {
       this.isEditing = true;
