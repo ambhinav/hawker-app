@@ -4,9 +4,9 @@
       <v-card shaped>
         <v-card-title>
           <div>
-            <h2>Thank you! Your order has been received!</h2>
+            <h2>Thank you! Your order has been received</h2>
             <br>
-            <h4>Order ID: {{ getDeliveryDetails.invoiceNumber }}</h4>
+            <h4>Order ID: {{ getOrderId }}</h4>
           </div>
         </v-card-title>
         <v-divider></v-divider>
@@ -102,6 +102,9 @@ export default {
       copy.push({ name: "Delivery Cost", price: this.getDeliveryCost }, { name: "Total Cost", price: this.getTotalCost })
       return copy
     },
+    getOrderId() {
+      return this.getDeliveryDetails.orderNumber;
+    }
   },
   methods: {
     ...mapMutations(["resetCartState"]),

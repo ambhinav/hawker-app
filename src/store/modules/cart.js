@@ -1,6 +1,4 @@
 import { getDistanceFromLatLonInKm } from '@/utils/distanceCalculator';
-import { getCurrentDateAndMonth, getTimeStamp } from '@/utils/dateTimeUtil';
-import { db } from '@/firebase/init';
 
 const getDefaultState = () => {
   return {
@@ -54,7 +52,12 @@ export default {
   },
   actions: {
     getSearchResults(context, searchTerm) {
-      return fetch(`https://developers.onemap.sg/commonapi/search?searchVal=${searchTerm}&returnGeom=Y&getAddrDetails=Y&pageNum=1`)
+      return fetch(
+          `https://developers.onemap.sg/commonapi/search?searchVal=${searchTerm}&returnGeom=Y&getAddrDetails=Y&pageNum=1`,
+          {
+            credentials: 'omit'
+          }
+        )
         .then(res => res.json())
         .then(res => {
           if (!res.results) {
@@ -85,24 +88,5 @@ export default {
         resolve()
       })
     },
-    addPaynowAndCashOrder({ commit, state }, customerDetails) {
-      var { paymentMethod, customerName, phoneNumber } = customerDetails;
-      var { deliveryLocation, marketId, deliveryCost } = state.deliveryDetails;
-      var shortenedPhoneNumber = phoneNumber.toString().slice(0, 4);
-      var invoiceNumber = `${marketId}${shortenedPhoneNumber}${getCurrentDateAndMonth()}`;
-      commit("setCustomerDetails", { ...customerDetails, invoiceNumber }); 
-      return db.collection("Orders")
-        .add({
-          invoiceNumber, // a friendlier ID for customer and admin to use
-          paid: false,
-          paymentMethod,
-          customerName,
-          customerNumber: phoneNumber,
-          deliveryCost,
-          deliveryAddress: deliveryLocation["ADDRESS"],
-          cart: state.cart,
-          timestamp: getTimeStamp() 
-        })
-    }
   }
 };
