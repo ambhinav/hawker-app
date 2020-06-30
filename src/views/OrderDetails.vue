@@ -19,14 +19,33 @@ import { mixinDetectingMobile } from '@/components/layout/MobileMixin';
 import OrderTable from "@/components/OrderTable";
 import OrderTableMobile from "@/components/OrderTableMobile";
 import CustomerDetails from "@/components/CustomerDetails";
+import { mapMutations } from 'vuex';
 export default {
   name: "OrderDetails",
+  beforeRouteLeave(to, from, next) {
+    if (to.name == "Invoice" || to.name == "StoreUser") {
+      next();
+    } else {
+      const answer = window.confirm(
+      "Do you really want to leave? You're order won't be saved!"
+      );
+      if (answer) {
+        this.resetCartState();
+        next();
+      } else {
+        next(false);
+      }
+    }
+  },
   components: {
     OrderTable,
     OrderTableMobile,
     CustomerDetails
   },
   mixins: [mixinDetectingMobile],
+  methods: {
+    ...mapMutations(["resetCartState"])
+  }
 }
 </script>
 

@@ -19,6 +19,15 @@
                 ></v-text-field>
             </v-col>
             <v-col cols="6">
+              <v-text-field 
+                label="Store ID <Market Code><Unit Number>" 
+                :rules="getTextRules"
+                v-model="storeId"
+                ></v-text-field>
+            </v-col> 
+          </v-row>
+          <v-row>
+            <v-col cols="6">
               <v-autocomplete
                 label="Market Name" 
                 :rules="getTextRules"
@@ -78,7 +87,7 @@
             <v-col cols="6">
               <v-autocomplete
                 v-model="deliveryTimings"
-                :items="availableTimings"
+                :items="getDeliverySlots"
                 outlined
                 dense
                 chips
@@ -103,7 +112,8 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import rules from '@/utils/validation';
-const { required } = rules
+const { required } = rules;
+import { deliverySlots } from '@/utils/deliveryData.js';
 export default {
   name: "Onboarding",
   data () {
@@ -124,11 +134,7 @@ export default {
         "Sunday"
       ],
       deliveryTimings: null,
-      availableTimings: [
-        "11:30",
-        "14:30",
-        "17:00"
-      ],
+      storeId: null,
       loading: false
     }
   },
@@ -141,7 +147,10 @@ export default {
     }),
     getProcessedMarkets() {
       return this.getMarkets.map(market => market.name)
-    }
+    },
+    getDeliverySlots() {
+			return deliverySlots;
+		}
   },
   methods: {
     ...mapActions({
@@ -172,6 +181,7 @@ export default {
               pocName: this.pocName,
               pocContact: this.pocContact,
               image: this.file,
+              storeId: this.storeId,
               marketId: this.getTargetMarketId(this.marketName),
             });
             this.successToast("Store created!")
@@ -187,11 +197,13 @@ export default {
     },
     cleanUpSubmit() {
       this.loading = false;
+      this.marketName = null;
+      this.storeId = null;
       this.pocContact = null;
       this.pocName = null;
       this.name = null;
       this.deliveryTimings = null;
-      this.file = undefined;
+      this.file = null;
       this.operatingTimes = null;
       this.$refs.form.resetValidation()
     },

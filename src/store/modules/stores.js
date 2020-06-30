@@ -54,16 +54,16 @@ export default {
           });
         });
 		},
-    async createStore({ dispatch, getters }, store) {
-      var targetMarket = getters.getMarkets.find(market => market.id === store.marketId)
-      let storeId
-      if (Object.prototype.hasOwnProperty.call(targetMarket, "stores")) {
-        storeId = `${store.marketId}-${targetMarket.stores.length + 1}`;
-      } else {
-        storeId = `${store.marketId}-1`;
-      }
+    async createStore({ dispatch }, store) {
+      // var targetMarket = getters.getMarkets.find(market => market.id === store.marketId)
+      // let storeId
+      // if (Object.prototype.hasOwnProperty.call(targetMarket, "stores")) {
+      //   storeId = `${store.marketId}-${targetMarket.stores.length + 1}`;
+      // } else {
+      //   storeId = `${store.marketId}-1`;
+      // }
       await db.collection("Stores")
-        .doc(storeId)
+        .doc(store.storeId)
         .set({
           name: store.name,
           deliveryTimings: store.deliveryTimings,
@@ -73,10 +73,10 @@ export default {
           image: null,
           enabled: true
         })
-      await dispatch('uploadStorePic', { image: store.image, storeId })
+      await dispatch('uploadStorePic', { image: store.image, storeId: store.storeId })
       return dispatch("addStoreToMarket", { 
         marketId: store.marketId,
-        storeId: storeId
+        storeId: store.storeId
       })
     },
     uploadStorePic(context, { image, storeId }) {
@@ -106,7 +106,7 @@ export default {
       var menuItemRef = await dispatch("addMenuItem", {
         name: menuItem.name,
         price: menuItem.price,
-        category: menuItem.category,
+        deliverySlots: menuItem.deliverySlots,
         image: null
       })
       if (menuItem.image) {
@@ -118,6 +118,13 @@ export default {
           menu: firebase.firestore.FieldValue.arrayUnion(menuItemRef.id)
         })
     },
+    removeMenuItemFromStore(context, { storeId, itemId }) {
+      return db.collection("Stores")
+        .doc(storeId)
+        .update({
+          menu: firebase.firestore.FieldValue.arrayRemove(itemId)
+        })
+    }
   },
   getters: {
     getStores: state => {

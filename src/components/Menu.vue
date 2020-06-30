@@ -75,13 +75,13 @@
                         <v-list-item-title>{{ item.name }}</v-list-item-title>
                       </v-col>
                       <v-col
-                        cols="1"
-                        class="text-right"
+                        cols="2"
+                        class="text-left"
                       >
                         <v-list-item-title>{{ item.price }}</v-list-item-title>
                       </v-col>
                       <v-col
-                        cols="2"
+                        cols="1"
                         class="text-right"
                       >
                         <v-btn :disabled="isDisabled(item)" x-small fab dark color="primary" @click="handleAddItemDialog(item)">
@@ -100,8 +100,8 @@
     <v-dialog v-model="addItemDialog" max-width="500">
       <v-card>
         <v-form ref="addItemForm">
-          <v-card-title>
-            <span class="headline">Item details</span>
+          <v-card-title v-if="targetItem">
+            <span class="headline">{{ targetItem.name }} details</span>
           </v-card-title>
           <v-card-text>
             <v-container>
@@ -193,13 +193,18 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ getMenu: 'getMenu', getCart: 'getCart' }),
+    ...mapGetters({ getMenu: 'getMenu', getCart: 'getCart', getDeliveryDetails: 'getDeliveryDetails' }),
     getMenuItems() {
-      var targetItems = this.getMenu.filter(item => {
-        var targetItem = this.store.menu.find(itemId => itemId === item.id);
-        return !!targetItem;
-      })
-      return targetItems
+      var filteredItems = this.getMenu.filter(item => {
+        // check if store includes the item
+        var targetItemId = this.store.menu.find(itemId => itemId === item.id); 
+        // check if that items slots match the user's requested timing
+        if (targetItemId) {
+          return item.deliverySlots.includes(this.getDeliveryDetails.deliveryTime); 
+        }
+        return false;
+      });
+      return filteredItems;
     },
     getIntRules() {
       return [v => v > 0 || "Quantity must be at least 1",rules.required];

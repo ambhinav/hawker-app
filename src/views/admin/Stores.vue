@@ -61,6 +61,9 @@
 										<v-btn v-if="item.enabled == true" color="green" depressed @click="changeStoreStatus(item)">Enabled</v-btn>
 										<v-btn v-else color="red" depressed @click="changeStoreStatus(item)">Disabled</v-btn>
 									</template>
+									<template v-slot:item.editMenu="{ item }">
+										<v-btn depressed @click="editMenu(item.id)">edit</v-btn>
+									</template>
 								</v-data-table>
 							</v-flex>
 						</v-col>
@@ -84,15 +87,16 @@
 							<v-row>
                 <v-col cols="6">
 									<v-autocomplete
-                    label="Category"
-                    :items="categories"
-                    v-model="itemCategory"
-                    :rules="getTextRules"
+                    label="Delivery Slots"
+                    :items="getDeliverySlots"
+                    v-model="itemDeliverySlots"
+                    :rules="deliverySlotRules"
+										multiple
                   >
                   </v-autocomplete>
 								</v-col>
 								<v-col cols="6">
-									<v-text-field v-model="itemPrice" label="Price" required :rules="getNumberRules"></v-text-field>
+									<v-text-field type="number" v-model.number="itemPrice" label="Price" required :rules="getNumberRules"></v-text-field>
 								</v-col>
 							</v-row>
 							<v-row>
@@ -127,6 +131,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import rules from '@/utils/validation';
 const { isNumber, required } = rules;
+import { deliverySlots } from '@/utils/deliveryData.js';
 
 export default {
 	name: 'Stores',
@@ -155,18 +160,21 @@ export default {
           value: 'enabled',
           sortable: false
 				},
+				{
+					text: "Edit Menu",
+					align: 'left',
+					value: 'editMenu',
+					sortable: false
+				}
 			],
       menuItemDialog: false,
       targetStoreId: null,
-      itemCategory: null,
+      itemDeliverySlots: null,
       itemName: null,
       itemPrice: null,
       fileImgPath: null,
-      loading: false,
-      categories: [
-        "Food",
-        "Drinks"
-      ]
+			loading: false,
+			deliverySlotRules: [v => v.length > 0 || "At least one slot required"]
     }
 	},
 	computed: {
@@ -195,7 +203,10 @@ export default {
     },
     getTextRules() {
       return [required];
-    },
+		},
+		getDeliverySlots() {
+			return deliverySlots;
+		}
 	},
 	methods: {
 		...mapActions({
@@ -234,7 +245,7 @@ export default {
     handleMenuFormClose() {
       this.itemName = null;
       this.itemPrice = null;
-      this.itemCategory = null;
+      this.itemDeliverySlots = null;
       this.fileImgPath = null;
       this.loading = false;
       this.targetStoreId = null;
@@ -244,12 +255,12 @@ export default {
     },
     addMenuItemConfirm() {
       if (this.$refs.addMenuItemForm.validate()) {
-        this.loading = true;
+				this.loading = true;
         const callAddMenuItem = async () => {
           try {
             await this.addMenuItemToStore({
               name: this.itemName,
-              category: this.itemCategory,
+              deliverySlots: this.itemDeliverySlots,
               price: this.itemPrice,
               image: this.file,
               storeId: this.targetStoreId
@@ -264,7 +275,10 @@ export default {
         }
         callAddMenuItem()
       }
-    }
+		},
+		editMenu(storeId) {
+			this.$router.push({ name: "EditMenu", params: { id: storeId } });
+		}
 	}
 }
 </script>

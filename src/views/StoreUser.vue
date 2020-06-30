@@ -164,8 +164,7 @@ export default {
       "Do you really want to leave? You're order won't be saved!"
       );
       if (answer) {
-        this.clearCart()
-        this.clearDeliveryDetails();
+        this.resetCartState();
         next();
       } else {
         next(false);
@@ -208,10 +207,9 @@ export default {
       removeItemFromCart: 'removeItemFromCart',
       decrementQty: 'decrementQty',
       incrementQty: 'incrementQty',
-      clearCart: 'clearCart',
       toggleCartState: 'toggleCartState',
       setDeliveryDetails: 'setDeliveryDetails',
-      clearDeliveryDetails: 'clearDeliveryDetails'
+      resetCartState: "resetCartState"
     }),
     handlePageReload() {
       console.log("Here")
