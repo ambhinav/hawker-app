@@ -31,6 +31,7 @@ export default {
         customerName,
         customerNumber: phoneNumber,
         deliveryCost,
+        totalCost: deliveryCost + parseFloat(getters.getTotalPrice),
         deliveryAddress: deliveryLocation["ADDRESS"],
         cart: getters.getCart,
         created_at: getTimeStamp(),
