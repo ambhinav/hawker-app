@@ -20,13 +20,21 @@
             </v-col>
             <v-col cols="6">
               <v-text-field 
-                label="Store ID <Market Code><Unit Number>" 
+                label="Store ID: <Market Code><Unit Number>" 
                 :rules="getTextRules"
                 v-model="storeId"
                 ></v-text-field>
             </v-col> 
           </v-row>
           <v-row>
+            <v-col cols="6">
+              <v-text-field
+                label="Unit number"
+                :rules="getTextRules"
+                v-model="stallNumber"
+              >
+              </v-text-field>
+            </v-col>
             <v-col cols="6">
               <v-autocomplete
                 label="Market Name" 
@@ -60,7 +68,7 @@
               <v-img contain height="120" width="120" v-if="fileImgPath" :src="fileImgPath" class="grey lighten-2"></v-img>
             </v-col>
             <v-col cols="6">
-              <v-btn  @click="onPickFile()">Pick Item Image</v-btn>
+              <v-btn  @click="onPickFile()">Pick Store Image</v-btn>
               <input type="file" 
               style="display: none" 
               name="" id="" 
@@ -124,6 +132,7 @@ export default {
       pocName: null,
       fileImgPath: null,
       operatingTimes: null,
+      stallNumber: null,
       daysOfWeek: [
         "Monday",
         "Tuesday",
@@ -183,6 +192,7 @@ export default {
               image: this.file,
               storeId: this.storeId,
               marketId: this.getTargetMarketId(this.marketName),
+              stallNumber: this.stallNumber
             });
             this.successToast("Store created!")
           } catch (e) {
@@ -205,6 +215,7 @@ export default {
       this.deliveryTimings = null;
       this.file = null;
       this.operatingTimes = null;
+      this.stallNumber = null;
       this.$refs.form.resetValidation()
     },
     getTargetMarketId(marketName) {
