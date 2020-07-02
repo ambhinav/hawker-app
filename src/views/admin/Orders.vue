@@ -45,16 +45,29 @@
             </v-col>
           </v-row>
         </v-layout>
-        <v-layout row wrap class="mt-5">
-          <v-row no-gutters>
+        <v-layout column class="mt-5">
+          <v-row justify="center">
+            <v-col cols="8">
+              <v-text-field
+              outlined
+              v-model="search"
+              append-icon="mdi-search"
+              label="Search for an order (Payment method or number)"
+              single-line
+              hide-details
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row >
             <v-col cols="12">
               <v-flex xs12>
                 <v-data-table
                   :headers="headers"
                   :items="getSelectedOrders"
+                  :search="search"
                   class="elevation-1"
                 >
-                  <template v-slot:item.date="{ item }">
+                  <template v-slot:item.created_at="{ item }">
                     {{ formatTimeStamp(item.created_at) }}
                   </template>
                   <template v-slot:item.menu="{ item }">
@@ -91,14 +104,15 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="onOrderStatusChanged">close</v-btn>
           <v-btn
             color="primary"
             text
             @click="changeOrderStatus()"
+            :loading="loading"
           >
             change
           </v-btn>
-          <v-btn color="primary" text @click="onOrderStatusChanged">close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -137,8 +151,8 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-if="targetOrder" v-model="customerDialog" persistent max-width="400">
-      <v-card>
+    <v-dialog v-model="customerDialog" persistent max-width="400">
+      <v-card v-if="targetOrder">
         <v-card-title>
           Customer details
         </v-card-title>
@@ -148,7 +162,7 @@
               Name: {{ targetOrder.customerName }}
             </v-list-item>
             <v-list-item>
-              Contact: {{ targetOrder.phoneNumber }}
+              Contact: {{ targetOrder.customerNumber }}
             </v-list-item>
           </v-list>  
         </v-card-text>
@@ -176,6 +190,7 @@ export default {
 	data () {
 		return {
       targetMarket: null,
+      search: "",
 			headers: [
 				{ 
 					text: 'Number', 
@@ -185,7 +200,7 @@ export default {
         { 
 					text: 'Date/Time Placed', 
 					align: 'left', 
-					value: 'date' 
+					value: 'created_at' 
 				},
 				{ 
 					text: 'Payment Method', 
@@ -196,18 +211,22 @@ export default {
 					text: "Customer Details",
 					align: 'left',
 					value: 'customerDetails',
-					sortable: false
+          sortable: false,
+          filterable: false
         },
         {
           text: "Items Ordered",
           align: "left",
-          value: "menu"
+          value: "menu",
+          sortable: false,
+          filterable: false
         },
         {
 					text: 'Status',
 					align: 'left',
           value: 'status',
-          sortable: false
+          sortable: false,
+          filterable: false
 				},
       ],
       orderStates: [
@@ -272,6 +291,7 @@ export default {
       this.orderStatusDialog = true;
     },
     changeOrderStatus() {
+      this.loading = true;
       this.toggleOrderStatus({
         newStatus: this.selectedOrderStatus,
         orderId: this.targetOrder.id 
@@ -284,6 +304,7 @@ export default {
       this.selectedOrderStatus = null;
       this.targetOrder = null;
       this.orderStatusDialog = false;
+      this.loading = false;
     },
     handleShowMenuDetails(order) {
       this.targetOrder = order;
