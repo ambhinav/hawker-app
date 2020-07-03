@@ -4,7 +4,7 @@
 			<v-container grid-list-md>
 				<v-layout row wrap>
 					<v-row no-gutters>
-						<v-col cols="8">
+						<v-col cols="4">
 							<v-flex xs12>
 								<v-card>
 									<v-card-title  class="d-flex justify-space-between">
@@ -14,10 +14,10 @@
 								</v-card>
 							</v-flex>
 						</v-col>
-						<v-col cols="4">
+						<v-col cols="8">
 							<v-flex xs12>
 								<v-card>
-									<v-card-title  class="d-flex justify-space-between">
+									<v-card-title  class="d-flex justify-space-around">
                     <v-btn v-if="targetMarket" @click="showAllMarkets">ALL</v-btn>
 										<span style="font-weight: 300">Market:</span>
 											<v-menu offset-y>
