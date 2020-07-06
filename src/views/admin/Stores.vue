@@ -72,7 +72,7 @@
 			</v-container>
 		</v-card>
 		<v-dialog v-model="menuItemDialog" persistent max-width="600px">
-			<v-card>
+			<v-card v-if="targetStoreId">
 				<v-form ref="addMenuItemForm">
 					<v-card-title>
 						<span class="headline">Add Menu Item</span>
@@ -88,7 +88,7 @@
                 <v-col cols="6">
 									<v-autocomplete
                     label="Delivery Slots"
-                    :items="getDeliverySlots"
+                    :items="getStoreDeliverySlots"
                     v-model="itemDeliverySlots"
                     :rules="deliverySlotRules"
 										multiple
@@ -206,6 +206,10 @@ export default {
 		},
 		getDeliverySlots() {
 			return deliverySlots;
+		},
+		getStoreDeliverySlots() {
+			var targetStore = this.getStores.find(store => store.id == this.targetStoreId);
+			return targetStore.deliveryTimings;
 		}
 	},
 	methods: {
