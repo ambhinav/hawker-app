@@ -10,12 +10,51 @@ const leftFillNum = (num, targetLength) => {
 
 export default {
   state: {
+    orders: []
   },
   getters: {
+    getOrders: (state) => state.orders
   },
   mutations: {
+    setOrders(state, payload) {
+      if (!state.orders.find(order => order.id == payload.order.id)) {
+        state.orders.push(payload.order);
+      }
+    },
+    replaceOrder(state, payload) {
+      state.orders = state.orders.filter(order => {
+        return order.id != payload.order.id;
+      });
+      if (!state.orders.find(order => order.id == payload.order.id)) {
+        state.orders.push(payload.order);
+      }
+    },
   },
   actions: {
+    /** Initialised when admin logs in {@see Orders.vue} */
+    initOrders(context) {
+      db.collection("Orders")
+        .orderBy("orderNumber")
+        .onSnapshot(snapshot => {
+          snapshot.docChanges().forEach(change => {
+            var doc = change.doc;
+            if (doc.id !== "--stats--") {
+              var orderData = doc.data();
+              orderData.id = doc.id;
+              if (change.type == "added") {
+                context.commit("setOrders", {
+                  order: orderData
+                });
+              }
+              if (change.type == "modified") {
+                context.commit("replaceOrder", {
+                  order: orderData
+                });
+              }
+            }
+          });
+        });
+    },
     /**
      * Processes a new order that is paid via Paynow or Cash on delivery.
      * Runs a transaction to ensure that order number integrity is kept.
@@ -63,6 +102,13 @@ export default {
         })
       })
       return commit("setCustomerDetails", { ...customerDetails, orderNumber }); 
+    },
+    toggleOrderStatus(context, { newStatus, orderId }) {
+      return db.collection("Orders")
+        .doc(orderId)
+        .update({
+          orderStatus: newStatus
+        });
     }
   }
 };

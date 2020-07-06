@@ -29,7 +29,7 @@
       <v-row class="text-center" justify="center">
         <v-col cols="12" class="mb-4">
           <h2 class="font-weight-bold">
-            Menu's for {{ getMarket.name }}
+            {{ getMarket.name }} shops
           </h2>
         </v-col>
       </v-row>

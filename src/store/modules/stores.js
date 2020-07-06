@@ -71,7 +71,8 @@ export default {
           pocName: store.pocName,
           pocContact: store.pocContact,
           image: null,
-          enabled: true
+          enabled: true,
+          stallNumber: store.stallNumber,
         })
       await dispatch('uploadStorePic', { image: store.image, storeId: store.storeId })
       return dispatch("addStoreToMarket", { 

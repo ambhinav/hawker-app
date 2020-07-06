@@ -4,7 +4,7 @@
 			<v-container grid-list-md>
 				<v-layout row wrap>
 					<v-row no-gutters>
-						<v-col cols="8">
+						<v-col cols="4">
 							<v-flex xs12>
 								<v-card>
 									<v-card-title  class="d-flex justify-space-between">
@@ -14,10 +14,10 @@
 								</v-card>
 							</v-flex>
 						</v-col>
-						<v-col cols="4">
+						<v-col cols="8">
 							<v-flex xs12>
 								<v-card>
-									<v-card-title  class="d-flex justify-space-between">
+									<v-card-title  class="d-flex justify-space-around">
                     <v-btn v-if="targetMarket" @click="showAllMarkets">ALL</v-btn>
 										<span style="font-weight: 300">Market:</span>
 											<v-menu offset-y>
@@ -72,7 +72,7 @@
 			</v-container>
 		</v-card>
 		<v-dialog v-model="menuItemDialog" persistent max-width="600px">
-			<v-card>
+			<v-card v-if="targetStoreId">
 				<v-form ref="addMenuItemForm">
 					<v-card-title>
 						<span class="headline">Add Menu Item</span>
@@ -88,7 +88,7 @@
                 <v-col cols="6">
 									<v-autocomplete
                     label="Delivery Slots"
-                    :items="getDeliverySlots"
+                    :items="getStoreDeliverySlots"
                     v-model="itemDeliverySlots"
                     :rules="deliverySlotRules"
 										multiple
@@ -206,6 +206,10 @@ export default {
 		},
 		getDeliverySlots() {
 			return deliverySlots;
+		},
+		getStoreDeliverySlots() {
+			var targetStore = this.getStores.find(store => store.id == this.targetStoreId);
+			return targetStore.deliveryTimings;
 		}
 	},
 	methods: {

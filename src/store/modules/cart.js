@@ -17,9 +17,10 @@ export default {
     getCart: (state) => state.cart,
     isCartFilled: (state) => state.cart.length > 0,
     getTotalPrice: (state) => {
-      return state.cart.reduce((acc, currItem) => { 
+      var total = state.cart.reduce((acc, currItem) => { 
         return acc + (parseFloat(currItem.price) * parseInt(currItem.qty))
       }, 0)
+      return total.toFixed(2);
     },
     getCartLength: (state) => state.cart.length,
   },

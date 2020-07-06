@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container fluid>
-      <v-row class="text-center" justify="center">
+      <v-row class="text-center">
         <v-col cols="12" class="mb-4">
           <h1 class="display-2 font-weight-bold mb-3">
             Choose from our partner hawker centers!
@@ -15,7 +15,7 @@
             v-for="(market, i) in getMarkets"
             :key="i"
             cols="12"
-            lg="8"
+            md="6"
           >
           <v-card
             max-width="500"
@@ -30,11 +30,18 @@
             </v-list-item>
 
             <v-img
+              v-if="market.image"
               :src="market.image"
               max-height="300"
             ></v-img>
+            <v-img
+              v-else
+              max-height="300"
+              src="https://image.shutterstock.com/image-photo/singapore-january-14-2020-inside-600w-1626451243.jpg"
+            >
+            </v-img>
 
-            <v-card-text>
+            <v-card-text v-if="market.stores">
               {{ market.stores.length }} shops available to choose from!
             </v-card-text>
             <v-card-actions>
