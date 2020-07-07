@@ -27,23 +27,22 @@
             class="mx-auto"
             shaped
             v-else
+            :disabled="isMarketDisabled(market)"
           >
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title class="headline">{{ market.name }}</v-list-item-title>
-                <v-list-item-subtitle></v-list-item-subtitle>
+                <v-list-item-subtitle v-if="isMarketDisabled(market)">Coming Soon!</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
 
             <v-img
               v-if="market.image"
               :src="market.image"
-              :v-on:load="loading = false"
               max-height="300"
             ></v-img>
             <v-img
               v-else
-              :v-on:load="loading = false"
               max-height="300"
               src="https://image.shutterstock.com/image-photo/singapore-january-14-2020-inside-600w-1626451243.jpg"
             >
@@ -227,6 +226,12 @@ export default {
     // }
     setUpComponent() {
       return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 4000));
+    },
+    isMarketDisabled(market) {
+      if (market.stores) { // there are stores
+        return market.stores.length < 1;
+      }
+      return true;
     }
   }
 };

@@ -34,10 +34,10 @@
         :small="small"
       >
         <span slot="opposite" class="subtitle-1">{{ step.name }}</span>
-        <v-card class="elevation-2">
-          <v-card-title class="headline">Lorem ipsum</v-card-title>
+        <v-card class="elevation-2 hidden-sm-and-down">
+          <v-card-title>{{ step.title }}</v-card-title>
           <v-card-text>
-            Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at.
+            {{ step.text }}
           </v-card-text>
         </v-card>
       </v-timeline-item>
@@ -56,13 +56,19 @@ export default {
     return {
       timeline: [
         {
-          name: "Choose a market"
+          name: "Choose a market",
+          title: "Markets",
+          text: "Choose your favourite hawker food from all the available shops in the market!"
         },
         {
-          name: "Tell us when you want your food"
+          name: "Tell us when you want your food",
+          title: "Delivery Timing",
+          text: "Choose when you want your food delivered and we will show you the available shops!"
         },
         {
-          name: "Choose your food and checkout"
+          name: "Choose your food and checkout",
+          title: "Menu and Checkout",
+          text: "Add the food you want to the cart and checkout. Payment can be made via Paynow, Stripe or Cash on delivery."
         },
       ]  
     }
