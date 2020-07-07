@@ -169,7 +169,6 @@ export default {
         period: "6 - 8",
       }
     ],
-    mealType: null,
     meals: ["Breakfast", "Lunch", "Dinner"],
     targetMarket: null,
     distances: []
@@ -200,7 +199,6 @@ export default {
       if (this.$refs.deliveryDetailsForm.validate()) {
         this.setDeliveryDetails({
           deliveryTime: this.getDeliverySlot,
-          mealtype: this.mealType,
           marketId: this.targetMarket
         })
         this.$router.push({
