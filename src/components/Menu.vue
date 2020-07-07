@@ -177,6 +177,7 @@ export default {
     onAddItem() {
       if (this.$refs.addItemForm.validate()) {
         this.addItemToCart({
+          storeId: this.store.id,
           ...this.targetItem,
           qty: this.qty,
           specialInstructions: this.specialInstructions

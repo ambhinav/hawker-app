@@ -1,7 +1,24 @@
 import { getDistanceFromLatLonInKm } from '@/utils/distanceCalculator';
+import { isEmpty, isMinimumPurchaseAmount } from "@/utils/deliveryData";
+import Vue from "vue";
+
+// order data model
+/*
+  cart: {
+    store1id: [
+      item1id,
+      item2id,
+    ],
+    store2id: [
+      item3id,
+      item4id,
+    ]
+  }
+*/
 
 const getDefaultState = () => {
   return {
+    order: {},
     cart: [],
     deliveryDetails: {}
   }
@@ -9,13 +26,19 @@ const getDefaultState = () => {
 
 export default {
   state: {
+    order: {},
     deliveryDetails: {},
     cart: [],
   },
   getters: {
     getDeliveryDetails: (state) => state.deliveryDetails,
     getCart: (state) => state.cart,
-    isCartFilled: (state) => state.cart.length > 0,
+    isCartFilled: (state) => {
+      if (state.cart.length < 0 || isEmpty(state.order)) {
+        return false;
+      }
+      return isMinimumPurchaseAmount(state.cart, state.order);
+    },
     getTotalPrice: (state) => {
       var total = state.cart.reduce((acc, currItem) => { 
         return acc + (parseFloat(currItem.price) * parseInt(currItem.qty))
@@ -26,9 +49,18 @@ export default {
   },
   mutations: {
     addItemToCart(state, item) {
+      // update orders
+      if (Object.prototype.hasOwnProperty.call(state.order, item.storeId)) {
+        var currentItems = state.order[item.storeId];
+        currentItems.push(item.id);
+        Vue.set(state.order, item.storeId, currentItems);
+      } else {
+        Vue.set(state.order, item.storeId, [item.id]); // initial item for the store
+      }
+      // update cart
       state.cart.push({
-        ...item,
-      })
+        ...item
+      });
     },
     decrementQty(state, targetItem) {
       var newQty = parseInt(targetItem.qty) - 1;
@@ -43,13 +75,22 @@ export default {
       state.cart.splice(index, 1, newItem);
     },
     removeItemFromCart(state, targetItem) {
-      state.cart = state.cart.filter(item => item.id !== targetItem.id)
+      // update cart
+      state.cart = state.cart.filter(item => item.id !== targetItem.id);
+      // update orders
+      var currentItems = state.order[targetItem.storeId];
+      var filtered = currentItems.filter(itemId => itemId !== targetItem.id);
+      if (filtered.length < 1) { // no more items left
+        Vue.delete(state.order, targetItem.storeId);
+      } else { 
+        Vue.set(state.order, targetItem.storeId, filtered);
+      }
     },
+    resetCartState: (state) => Object.assign(state, getDefaultState()),
     setDeliveryDetails: (state, deliveryDetails) => state.deliveryDetails = { ...deliveryDetails },
     setCustomerDetails: (state, customerDetails) => state.deliveryDetails = { ...state.deliveryDetails, ...customerDetails },
     setDeliveryLocation: (state, deliveryLocation) => state.deliveryDetails = { ...state.deliveryDetails, deliveryLocation },
     setDeliveryCost: (state, deliveryCost) => state.deliveryDetails = { ...state.deliveryDetails, deliveryCost },
-    resetCartState: (state) => Object.assign(state, getDefaultState())
   },
   actions: {
     getSearchResults(context, searchTerm) {

@@ -17,15 +17,22 @@
             cols="12"
             md="6"
           >
+          <v-skeleton-loader
+            v-if="loading"
+            type="card"
+          >
+          </v-skeleton-loader>
           <v-card
             max-width="500"
             class="mx-auto"
             shaped
+            v-else
+            :disabled="isMarketDisabled(market)"
           >
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title class="headline">{{ market.name }}</v-list-item-title>
-                <v-list-item-subtitle></v-list-item-subtitle>
+                <v-list-item-subtitle v-if="isMarketDisabled(market)">Coming Soon!</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
 
@@ -135,10 +142,10 @@ export default {
         }
       }
     })
+    this.setUpComponent();
   },
   data: () => ({
     deliveryDialog: false,
-    loading: false,
     deliveryTime: null,
     deliveryTimings2: ["12 - 2", "3 - 5", "6 - 8"], 
     deliveryTimings1: [
@@ -169,10 +176,10 @@ export default {
         period: "6 - 8",
       }
     ],
-    mealType: null,
     meals: ["Breakfast", "Lunch", "Dinner"],
     targetMarket: null,
-    distances: []
+    distances: [],
+    loading: true,
   }),
   computed: {
     ...mapGetters({
@@ -200,7 +207,6 @@ export default {
       if (this.$refs.deliveryDetailsForm.validate()) {
         this.setDeliveryDetails({
           deliveryTime: this.getDeliverySlot,
-          mealtype: this.mealType,
           marketId: this.targetMarket
         })
         this.$router.push({
@@ -218,6 +224,15 @@ export default {
     // getDistanceFromMarket(market) {
     //   return this.getDistance({ lat: market.location.latitude, lng: market.location.longitude })
     // }
+    setUpComponent() {
+      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 4000));
+    },
+    isMarketDisabled(market) {
+      if (market.stores) { // there are stores
+        return market.stores.length < 1;
+      }
+      return true;
+    }
   }
 };
 </script>

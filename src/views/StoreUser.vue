@@ -35,7 +35,12 @@
       </v-row>
       <v-row>
         <v-col cols="12" :md="getStoresInMarket.length === 1 ? 12 : 6" v-for="(store, i) in getStoresInMarket" :key="i">
-          <Menu :store="store" />
+          <v-skeleton-loader
+            v-if="loading"
+            type="card"
+          >
+          </v-skeleton-loader>
+          <Menu v-else :store="store" />
         </v-col>
       </v-row>
     </v-container>
@@ -54,17 +59,17 @@
           class="d-flex justify-space-between"
           >
           {{getCartLength}} Items in cart 
-          <v-btn v-if="isCartFilled" @click="toggleCartState" depressed>Open Cart</v-btn>
+          <v-btn v-if="isCartOpen" @click="toggleCartState" depressed>Open Cart</v-btn>
         </v-card-title>
         <v-card-title 
           style="font-size: 16px; font-family: 'Palanquin Dark', sans-serif;" 
           v-else class="d-flex justify-space-between"
           >
           {{getCartLength}} Items in cart 
-          <v-btn color="error" v-if="isCartFilled" @click="toggleCartState" depressed>Close Cart</v-btn>
+          <v-btn color="error" v-if="isCartOpen" @click="toggleCartState" depressed>Close Cart</v-btn>
         </v-card-title>
         <v-divider></v-divider>
-        <v-card-text v-if="cartOpen && isCartFilled">
+        <v-card-text v-if="cartOpen && isCartOpen">
           <v-list>
             <v-list-item-group>
               <v-list-item 
@@ -122,7 +127,7 @@
             </v-list-item-group>
           </v-list>
         </v-card-text>
-        <v-btn :loading="loading" v-if="isCartFilled" color="primary" @click="checkOut()" style="height: 50px; font-size: 15px;">
+        <v-btn :loading="loading" :disabled="!isValidPurchase" color="primary" @click="checkOut()" style="height: 50px; font-size: 15px;">
           <span style="font-family: 'Palanquin Dark', sans-serif;">Check Out - </span>
           <b>${{getTotalPrice}}</b>
         </v-btn>
@@ -141,10 +146,10 @@ export default {
   data () {
     return {
       deliveryDetails: null,
-      loading: false,
       sheet: true,
       cartOpen: false,
       error: false,
+      loading: true
     }
   },
   mounted () {
@@ -155,6 +160,7 @@ export default {
     if (!this.deliveryDetails) {
       this.error = true;
     }
+    this.setUpComponent();
   },
   beforeRouteLeave(to, from, next) {
     if (to.name == "OrderDetails") {
@@ -201,6 +207,12 @@ export default {
       })
       return allStores;
     },
+    isValidPurchase() {
+      return this.isCartFilled && (this.getTotalPrice > 30.00)
+    },
+    isCartOpen() {
+      return this.getCart.length > 0;
+    }
   },
   methods: {
     ...mapMutations({
@@ -220,6 +232,9 @@ export default {
     checkOut() {
       this.$router.push({ name: "OrderDetails" })
     },
+    setUpComponent() {
+      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 4000));
+    }
   },
 }
 </script>

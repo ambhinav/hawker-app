@@ -12,9 +12,6 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn icon>
-          <v-icon color="secondary">mdi-cart</v-icon>
-        </v-btn>
         <v-btn text to="/about">
           About
         </v-btn>
@@ -57,9 +54,6 @@ export default {
       items: [
         {
           icon: "mdi-home", title: "Home", link: "/"
-        },
-        {
-          icon: "mdi-cart", title: "Cart", link: "/"
         },
         {
           icon: "mdi-information", title: "About", link: "/about"
