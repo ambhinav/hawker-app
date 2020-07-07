@@ -35,7 +35,12 @@
       </v-row>
       <v-row>
         <v-col cols="12" :md="getStoresInMarket.length === 1 ? 12 : 6" v-for="(store, i) in getStoresInMarket" :key="i">
-          <Menu :store="store" />
+          <v-skeleton-loader
+            v-if="loading"
+            type="card"
+          >
+          </v-skeleton-loader>
+          <Menu v-else :store="store" />
         </v-col>
       </v-row>
     </v-container>
@@ -141,10 +146,10 @@ export default {
   data () {
     return {
       deliveryDetails: null,
-      loading: false,
       sheet: true,
       cartOpen: false,
       error: false,
+      loading: true
     }
   },
   mounted () {
@@ -155,6 +160,7 @@ export default {
     if (!this.deliveryDetails) {
       this.error = true;
     }
+    this.setUpComponent();
   },
   beforeRouteLeave(to, from, next) {
     if (to.name == "OrderDetails") {
@@ -226,6 +232,9 @@ export default {
     checkOut() {
       this.$router.push({ name: "OrderDetails" })
     },
+    setUpComponent() {
+      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 4000));
+    }
   },
 }
 </script>

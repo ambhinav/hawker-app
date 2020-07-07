@@ -17,10 +17,16 @@
             cols="12"
             md="6"
           >
+          <v-skeleton-loader
+            v-if="loading"
+            type="card"
+          >
+          </v-skeleton-loader>
           <v-card
             max-width="500"
             class="mx-auto"
             shaped
+            v-else
           >
             <v-list-item>
               <v-list-item-content>
@@ -32,10 +38,12 @@
             <v-img
               v-if="market.image"
               :src="market.image"
+              :v-on:load="loading = false"
               max-height="300"
             ></v-img>
             <v-img
               v-else
+              :v-on:load="loading = false"
               max-height="300"
               src="https://image.shutterstock.com/image-photo/singapore-january-14-2020-inside-600w-1626451243.jpg"
             >
@@ -135,10 +143,10 @@ export default {
         }
       }
     })
+    this.setUpComponent();
   },
   data: () => ({
     deliveryDialog: false,
-    loading: false,
     deliveryTime: null,
     deliveryTimings2: ["12 - 2", "3 - 5", "6 - 8"], 
     deliveryTimings1: [
@@ -171,7 +179,8 @@ export default {
     ],
     meals: ["Breakfast", "Lunch", "Dinner"],
     targetMarket: null,
-    distances: []
+    distances: [],
+    loading: true,
   }),
   computed: {
     ...mapGetters({
@@ -216,6 +225,9 @@ export default {
     // getDistanceFromMarket(market) {
     //   return this.getDistance({ lat: market.location.latitude, lng: market.location.longitude })
     // }
+    setUpComponent() {
+      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 4000));
+    }
   }
 };
 </script>
