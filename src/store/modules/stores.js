@@ -20,6 +20,9 @@ export default {
         state.stores.push(payload.store);
       }
     },
+    removeStore(state, payload) {
+      state.stores = state.stores.filter(store => store.id != payload.store.id);
+    },
     resetStores(state) {
       state.stores = [];
     }
@@ -46,11 +49,11 @@ export default {
                 store: storeData
               });
             }
-            // if (change.type == "removed") {
-            //   context.commit("removeItem", {
-            //     store: storeData
-            //   });
-            // }
+            if (change.type == "removed") {
+              context.commit("removeStore", {
+                store: storeData
+              });
+            }
           });
         });
 		},
@@ -125,6 +128,15 @@ export default {
         .update({
           menu: firebase.firestore.FieldValue.arrayRemove(itemId)
         })
+    },
+    async removeStoreAndMenuItems(context, { store, marketId }) {
+      await Promise.all(store.menu.map(menuItemId => db.collection("Menu").doc(menuItemId).delete()));
+      await db.collection("Markets")
+        .doc(marketId)
+        .update({
+          stores: firebase.firestore.FieldValue.arrayRemove(store.id)
+        })
+      return db.collection("Stores").doc(store.id).delete();
     }
   },
   getters: {
