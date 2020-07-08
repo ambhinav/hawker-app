@@ -53,35 +53,31 @@
                       no-gutters
                     >
                       <v-col
-                        cols="2"
+                        v-if="item.image"
+                        :cols="imageBp.image"
                       >
                         <v-avatar
                         size="40px"
                         rounded
                         >
                           <img
-                            v-if="item.image"
                             :src="item.image"
                           >
-                          <v-icon
-                            v-else
-                          >
-                          </v-icon>
                         </v-avatar>
                       </v-col>
                       <v-col
-                        cols="7"
+                        :cols="item.image ? imageBp.name : noImageBp.name"
                       >
                         <v-list-item-title>{{ item.name }}</v-list-item-title>
                       </v-col>
                       <v-col
-                        cols="2"
+                        :cols="item.image ? imageBp.price : noImageBp.price"
                         class="text-left"
                       >
                         <v-list-item-title>{{ item.price }}</v-list-item-title>
                       </v-col>
                       <v-col
-                        cols="1"
+                        :cols="item.cart ? imageBp.cart : noImageBp.cart"
                         class="text-right"
                       >
                         <v-btn :disabled="isDisabled(item)" x-small fab dark color="primary" @click="handleAddItemDialog(item)">
@@ -153,6 +149,17 @@ export default {
       addItemDialog: false,
       specialInstructions: null,
       qty: null,
+      imageBp: {
+        image: "2",
+        name: "7",
+        price: "2",
+        cart: "1"  
+      },
+      noImageBp: {
+        name: "9",
+        price: "2",
+        cart: "1"  
+      },
     }
   },
   props: ["store"],

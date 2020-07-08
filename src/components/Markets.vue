@@ -225,7 +225,7 @@ export default {
     //   return this.getDistance({ lat: market.location.latitude, lng: market.location.longitude })
     // }
     setUpComponent() {
-      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 4000));
+      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 3000));
     },
     isMarketDisabled(market) {
       if (market.stores) { // there are stores
