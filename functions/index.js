@@ -6,6 +6,8 @@ const bot = new Telegraf(TELEGRAM.BOT_TOKEN);
 const dateTimeHelpers = require("./utils/dateTime");
 const botHelpers = require("./botHelpers");
 const DOUBLE_SPACED = "\n\n";
+const admin = require("firebase-admin");
+admin.initializeApp();
 
 /**
  * Triggered when a new order is created. 
@@ -41,6 +43,17 @@ exports.onOrderCreated = functions.firestore
         + `Address: ${deliveryAddress}`;
     return bot.telegram.sendMessage(TELEGRAM.ADMIN_CONTACT, message);
   });
+
+/** Job that runs at the end of every week to reset the Order numbers. */
+exports.resetOrderStatisticsWeekly = functions.pubsub.schedule("every sunday 23:59")
+  .timeZone("Asia/Singapore")
+  .onRun((context) => {
+    return botHelpers.admin
+      .firestore()
+      .collection("Orders")
+      .doc("--stats--")
+      .delete() // client side will re-create the stats doc if not found, thereby resetting the counter
+  })
 
 /** Bot-related scripts */
 

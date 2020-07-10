@@ -1,5 +1,4 @@
 const admin = require("firebase-admin");
-admin.initializeApp();
 
 // formats the order cart to telegram msg
 const processCart = async (cart, marketId) => {
