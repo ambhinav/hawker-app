@@ -1,14 +1,16 @@
 <template>
   <v-container>
-    <v-row class="orange pa-4" justify="center" align-content="center">
-      <v-col cols="1"></v-col>
-      <v-col cols="2">
-        <v-icon>mdi-alert-circle</v-icon>
-      </v-col>
-      <v-col cols="8">
+    <v-row class="orange pa-4 text-center hidden-sm-and-down">
+      <v-spacer></v-spacer>
+      <v-icon class="pr-2">mdi-alert-circle</v-icon>
+      <div>{{ info }}</div>
+      <v-spacer></v-spacer>
+    </v-row>
+    <v-row class="orange pa-4 text-center hidden-md-and-up">
+      <v-col cols="12">
+        <v-icon class="pb-2">mdi-alert-circle</v-icon>
         <div>{{ info }}</div>
       </v-col>
-      <v-col cols="1"></v-col>
     </v-row>
   </v-container>
 </template>

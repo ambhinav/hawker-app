@@ -7,6 +7,7 @@ import markets from './modules/markets';
 import stores from './modules/stores';;
 import cart from './modules/cart';
 import orders from './modules/orders';
+import contact from './modules/contact';
 
 Vue.use(Vuex);
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     markets,
     stores,
     cart,
-    orders
+    orders,
+    contact
   }
 });

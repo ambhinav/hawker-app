@@ -2,7 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import SignIn from "@/views/SignIn";
-import Contact from "@/views/Contact";
+import ClientContact from "@/views/Contact";
+import ClientContactSuccess from "@/views/ContactSuccess";
 import StoreUser from "@/views/StoreUser";
 import OrderDetails from "@/views/OrderDetails";
 import Invoice from "@/views/Invoice";
@@ -49,8 +50,13 @@ const routes = [
   },
   {
     path: "/contact",
-    name: "Contact",
-    component: Contact,
+    name: "ClientContact",
+    component: ClientContact,
+  },
+  {
+    path: "/contact/success",
+    name: "ClientContactSuccess",
+    component: ClientContactSuccess,
   },
   {
     path: "/login",
