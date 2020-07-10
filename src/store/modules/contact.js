@@ -1,21 +1,45 @@
 import { db } from '@/firebase/init';
+import { getTimeStamp } from '@/utils/dateTimeUtil';
 const state = {
+  requests: []
 }
 
 const getters = {
-  //  getMessage: (state) => state.message 
+   getContactRequests: (state) => state.requests 
 }
 
 const mutations = {
-    // setStatus: (state, status) => state.status = status,
-    // setMessage: (state, message) => state.message = message
+  setRequests(state, payload) {
+    if (!state.requests.find(request => request.id == payload.request.id)) {
+      state.requests.push(payload.request);
+    }
+  }
 }
 
-/** Add all types of statuses and messages here */
 const actions = {
+    /** Initialised when admin logs in @see AdminContact.vue */
+    initContact(context) {
+      db.collection("ContactRequests")
+        .orderBy("created_at", "desc")
+        .onSnapshot(snapshot => {
+          snapshot.docChanges().forEach(change => {
+            var doc = change.doc;
+            var requestData = doc.data();
+            requestData.id = doc.id;
+            if (change.type == "added") {
+              context.commit("setRequests", {
+                request: requestData
+              });
+            }
+          })
+        })
+    },
     createContactRequest: (context, request) => {
       return db.collection("ContactRequests")
-        .add(request)
+        .add({ 
+          created_at: getTimeStamp(), 
+          ...request 
+        })
     }
 }
 

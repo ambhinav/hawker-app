@@ -35,6 +35,9 @@
         </v-col>
       </v-row>
       <v-row>
+        <InfoBanner info="Note that there is a minimum spend of $4 for each shop that you buy from, and $30 overall." />
+      </v-row>
+      <v-row>
         <v-col cols="12" :md="getStoresInMarket.length === 1 ? 12 : 6" v-for="(store, i) in getStoresInMarket" :key="i">
           <v-skeleton-loader
             v-if="loading"
@@ -129,7 +132,11 @@
             </v-list-item-group>
           </v-list>
         </v-card-text>
-        <v-card-actions>
+        <v-btn :loading="loading" :disabled="!isValidPurchase" color="primary" @click="checkOut()" style="height: 50px; font-size: 15px;">
+          <span style="font-family: 'Palanquin Dark', sans-serif;">Check Out - </span>
+          <b>${{getTotalPrice}}</b>
+        </v-btn>
+        <!-- <v-card-actions>
               <div class="error--text subtitle-2 font-weight-light hidden-sm-and-down">*Note that there is a minimum spend of $4 for each shop that you buy from, and $30 overall.</div>
               <div class="error--text subtitle-2 font-weight-light hidden-md-and-up">*Note: Minimum spend of $4 for each shop purchased from, and $30 overall.</div>
               <v-spacer></v-spacer>
@@ -137,7 +144,7 @@
                 <span style="font-family: 'Palanquin Dark', sans-serif;">Check Out - </span>
                 <b>${{getTotalPrice}}</b>
               </v-btn>
-        </v-card-actions>
+        </v-card-actions> -->
       </v-card>
     </v-bottom-sheet>
     </div>
@@ -147,6 +154,7 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex';
 import Menu from '@/components/Menu';
+import InfoBanner from '@/components/feedback/InfoBanner';
 import { isSameDay } from '@/utils/dateTimeUtil';
 export default {
   name: "StoreUser",
@@ -185,7 +193,8 @@ export default {
     }
   },
   components: {
-    Menu
+    Menu,
+    InfoBanner
   },
   computed: {
     ...mapGetters({
