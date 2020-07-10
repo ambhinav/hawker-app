@@ -1,5 +1,6 @@
 /** Util file for formatting, parsing of timestamps using moment JS */
-import moment from 'moment';
+import moment from 'moment-timezone';
+moment.tz.setDefault("Asia/Singapore")
 
 moment.updateLocale('en', {
   week: {
@@ -67,6 +68,8 @@ const getValidTimings = timing => {
  */
 const isEqual = (v1, v2) => moment(v1).isSame(v2)
 
+const isClosed = () => moment(new Date()).isAfter(moment("17:00", "HH:mm"));
+
 export {
   formatDate,
   formatDateShort,
@@ -81,5 +84,6 @@ export {
   isEqual,
   isSameDay,
   getValidTimings,
-  getCurrentDateAndMonth  
+  getCurrentDateAndMonth,
+  isClosed  
 }

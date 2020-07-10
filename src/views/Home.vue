@@ -17,6 +17,7 @@
         </v-row>
       </v-container> -->
     </v-img> 
+    <InfoBanner v-if="showBanner" info="Sorry, we are closed after 5pm. Please visit us tomorrow." />
     <v-timeline
       :align-top="alignTop"
       :dense="dense"
@@ -49,6 +50,8 @@
 <script>
 // @ is an alias to /src
 import Markets from "@/components/Markets.vue";
+import InfoBanner from '@/components/feedback/InfoBanner';
+import { isClosed } from '@/utils/dateTimeUtil';
 
 export default {
   name: "Home",
@@ -74,7 +77,15 @@ export default {
     }
   },
   components: {
-    Markets
+    Markets,
+    InfoBanner
+  },
+  computed: {
+    showBanner() {
+      var x = isClosed();
+      console.log(x);
+      return x;
+    }
   }
 };
 </script>
