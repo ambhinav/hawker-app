@@ -82,9 +82,7 @@ export default {
   },
   computed: {
     showBanner() {
-      var x = isClosed();
-      console.log(x);
-      return x;
+      return isClosed();
     }
   }
 };

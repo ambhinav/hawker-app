@@ -128,6 +128,7 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import rules from '@/utils/validation';
+import { isClosed } from '@/utils/dateTimeUtil';
 export default {
   name: "Markets",
   created () {
@@ -228,10 +229,10 @@ export default {
       return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 3000));
     },
     isMarketDisabled(market) {
-      if (market.stores) { // there are stores
-        return market.stores.length < 1;
+      if (isClosed() || !market.stores) { // there are stores
+        return true;
       }
-      return true;
+      return market.stores.length < 1;
     }
   }
 };
