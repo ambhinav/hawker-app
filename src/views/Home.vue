@@ -17,7 +17,7 @@
         </v-row>
       </v-container> -->
     </v-img> 
-    <InfoBanner v-if="showBanner" info="Sorry, we are closed after 5pm. Please visit us tomorrow." />
+    <InfoBanner v-if="isSiteClosed" info="Sorry, we are closed after 5pm. Please visit us tomorrow." />
     <v-timeline
       :align-top="alignTop"
       :dense="dense"
@@ -55,6 +55,12 @@ import { isClosed } from '@/utils/dateTimeUtil';
 
 export default {
   name: "Home",
+  created () {
+    var self = this; 
+    setInterval(() => {
+      self.isBannerShown = isClosed();
+    }, 5000)
+  },
   data () {
     return {
       timeline: [
@@ -73,7 +79,8 @@ export default {
           title: "Menu and Checkout",
           text: "Add the food you want to the cart and checkout. Payment can be made via Paynow, Stripe or Cash on delivery."
         },
-      ]  
+      ],
+      isBannerShown: false,  
     }
   },
   components: {
@@ -81,9 +88,12 @@ export default {
     InfoBanner
   },
   computed: {
-    showBanner() {
-      return isClosed();
-    }
+    isSiteClosed() {
+      return this.isBannerShown;
+    } 
+  },
+  beforeDestroy () {
+    clearInterval();
   }
 };
 </script>

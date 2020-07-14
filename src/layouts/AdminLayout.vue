@@ -72,6 +72,16 @@
             </v-list-item-content>
           </v-list-item>
         </router-link>
+        <router-link id="link" to='/'>
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-home</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Home</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
       </v-list>
       <template v-slot:append>
         <div class="pa-2">

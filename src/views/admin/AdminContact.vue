@@ -9,8 +9,10 @@
           v-for="(request,i) in getContactRequests"
           :key="i"
         >
-          <v-expansion-panel-header>{{ request.fullName }} - {{ request.category }}</v-expansion-panel-header>
+          <v-expansion-panel-header>{{ request.category }} - {{ formatDate(request.created_at) }}</v-expansion-panel-header>
           <v-expansion-panel-content>
+            Name: {{ request.fullName }}
+            <br>
             Details: {{ request.details }}
             <br>
             Email: {{ request.email }}
@@ -22,17 +24,21 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex';
+import { formatTimeAndDate } from "@/utils/dateTimeUtil";
 export default {
   name: "AdminContact",
   created() {
     this.initContact()
   },
   computed: {
-    ...mapGetters(["getContactRequests"])
+    ...mapGetters(["getContactRequests"]),
   },
   methods: {
-    ...mapActions(["initContact"])
+    ...mapActions(["initContact"]),
+    formatDate(timestamp) {
+      return formatTimeAndDate(timestamp);
+    }
   }
 }
 </script>

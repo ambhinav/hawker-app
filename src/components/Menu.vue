@@ -34,7 +34,7 @@
         </v-btn>
       </v-card-actions>
 
-      <v-expand-transition>
+      <v-expand-transition v-if="store.menu">
         <div v-show="show">
           <v-divider></v-divider>
           <v-container fluid>
@@ -81,7 +81,7 @@
                         class="text-right"
                       >
                         <v-btn :disabled="isDisabled(item)" x-small fab dark color="primary" @click="handleAddItemDialog(item)">
-                            <v-icon dark>mdi-plus</v-icon>
+                            <v-icon dark>mdi-cart</v-icon>
                         </v-btn> 
                       </v-col>
                     </v-row>

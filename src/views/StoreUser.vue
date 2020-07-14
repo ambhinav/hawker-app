@@ -35,7 +35,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <InfoBanner info="Note that there is a minimum spend of $4 for each shop that you buy from, and $30 overall." />
+        <InfoBanner info="Please note that there is a minimum spend of $4 for each shop that you buy from, and $30 overall." />
       </v-row>
       <v-row>
         <v-col cols="12" :md="getStoresInMarket.length === 1 ? 12 : 6" v-for="(store, i) in getStoresInMarket" :key="i">
