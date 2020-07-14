@@ -5,7 +5,7 @@
         class="headline grey lighten-3 justify-center"
         primary-title
       >
-        <h2>Your Delivery Details</h2>
+        <h2>Your Details</h2>
       </v-card-title>
 
       <v-card-text class="px3">
