@@ -3,9 +3,7 @@ const Telegraf = require("telegraf");
 // const Markup = require('telegraf/markup')
 const TELEGRAM = require('./secrets/telegram');
 const bot = new Telegraf(TELEGRAM.BOT_TOKEN);
-const dateTimeHelpers = require("./utils/dateTime");
 const botHelpers = require("./botHelpers");
-const DOUBLE_SPACED = "\n\n";
 const admin = require("firebase-admin");
 admin.initializeApp();
 
@@ -17,30 +15,7 @@ admin.initializeApp();
 exports.onOrderCreated = functions.firestore
   .document('Orders/{orders}')
   .onCreate(async (snap, context) => {
-    // TODO: format the message, send message to admin with metada of order id
-    const { 
-        created_at,
-        customerName,
-        customerNumber,
-        deliveryAddress,
-        deliveryCost,
-        totalCost,
-        orderNumber,
-        paymentMethod,
-        cart,
-        marketId
-     } = snap.data();
-     var cartDetails = await botHelpers.processCart(cart, marketId);
-     var formattedDate = dateTimeHelpers.formatCreateDate(created_at);
-     var message = `Order Number: ${orderNumber}(${formattedDate})` + DOUBLE_SPACED
-        + cartDetails + DOUBLE_SPACED
-        + `Delivery Cost: ${deliveryCost}` + DOUBLE_SPACED
-        + `Total Cost: ${totalCost}` + DOUBLE_SPACED
-        + `Payment Method: ${paymentMethod}` + DOUBLE_SPACED
-        + "Delivery Details:" + DOUBLE_SPACED
-        + `Customer Name: ${customerName}` + DOUBLE_SPACED
-        + `Contact: ${customerNumber}` + DOUBLE_SPACED
-        + `Address: ${deliveryAddress}`;
+    var message = await botHelpers.createAdminMessage(snap.data());
     return bot.telegram.sendMessage(TELEGRAM.ADMIN_CONTACT, message);
   });
 
@@ -48,7 +23,7 @@ exports.onOrderCreated = functions.firestore
 exports.resetOrderStatisticsWeekly = functions.pubsub.schedule("every sunday 23:59")
   .timeZone("Asia/Singapore")
   .onRun((context) => {
-    return botHelpers.admin
+    return admin
       .firestore()
       .collection("Orders")
       .doc("--stats--")

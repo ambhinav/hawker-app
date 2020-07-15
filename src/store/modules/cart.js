@@ -51,7 +51,8 @@ export default {
       return total.toFixed(2);
     },
     getCartLength: (state) => state.cart.length,
-    getRedeemedPromo: (state) => state.promo
+    getRedeemedPromo: (state) => state.promo,
+    getCartStoreMappings: state => state.order
   },
   mutations: {
     addItemToCart(state, item) {

@@ -95,7 +95,7 @@ export default {
         return trx.get(promoRef).then(promoDoc => {
           var qty = promoDoc.data().qty;
           var newQty = qty - 1;
-          if (qty == 0) { // last promo code is used
+          if (newQty == 0) { // last promo code is used
               trx.update(promoRef, {
                 enabled: false
               })
