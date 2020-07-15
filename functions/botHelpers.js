@@ -1,6 +1,12 @@
 const admin = require("firebase-admin");
 const dateTimeHelpers = require("./utils/dateTime");
 const DOUBLE_SPACED = "\n\n";
+const StatesEnum = {
+  PAID: 0,
+  CANCELLED: 1,
+  GO_BACK: 3,
+  ORDER_COMPLETED: 4
+};
 
 const createAdminMessage = async orderData => {
   const { 
@@ -55,6 +61,16 @@ const processCart = async (cart, cartStoreMappings) => {
   return result
 }
 
+const updateOrderStatus = (newStatus, orderId) => {
+  return admin.firestore().collection("Orders")
+  .doc(orderId)
+  .update({
+    orderStatus: newStatus
+  })
+}
+
 module.exports = {
-  createAdminMessage
+  createAdminMessage,
+  StatesEnum,
+  updateOrderStatus
 }
