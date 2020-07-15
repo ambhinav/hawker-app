@@ -58,10 +58,11 @@ export default {
     /**
      * Processes a new order that is paid via Paynow or Cash on delivery.
      * Runs a transaction to ensure that order number integrity is kept.
+     * Updates the promo codes used
      * Updates store with customer details and order number.
      * @param {*} customerDetails details given in @see CustomerDetails.vue
      */
-    async addPaynowAndCashOrder({ commit, getters }, customerDetails) {
+    async addPaynowAndCashOrder({ commit, getters, dispatch }, customerDetails) {
       var { paymentMethod, customerName, phoneNumber } = customerDetails;
       var { deliveryLocation, marketId, deliveryCost } = getters.getDeliveryDetails;
       var orderDetails = {
@@ -101,6 +102,9 @@ export default {
           return formattedNum;
         })
       })
+      if (Object.keys(getters.getRedeemedPromo).length > 0) { // redeem promo code if used
+        await dispatch("onPromoCodeRedeemed", getters.getRedeemedPromo.id)
+      }
       return commit("setCustomerDetails", { ...customerDetails, orderNumber }); 
     },
     toggleOrderStatus(context, { newStatus, orderId }) {

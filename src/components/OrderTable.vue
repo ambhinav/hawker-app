@@ -104,14 +104,13 @@ export default {
       promo: null,
       isPromoValid: false,
       targetPromo: null,
-      snackbar: false,
     }
   },
   watch: {
     // triggered when user types in a promo code
     // checks if it valids and enables the redeem button if it is
     promo(val) {
-      var filteredPromo = this.getPromos.find(promo => promo.code == val);
+      var filteredPromo = this.getFilteredPromos.find(promo => promo.code == val);
       if (filteredPromo) {
         this.isPromoValid = true;
         this.targetPromo = filteredPromo;
@@ -141,6 +140,9 @@ export default {
     },
     isPromoRedeemed() {
       return Object.keys(this.getRedeemedPromo).length > 0;
+    },
+    getFilteredPromos() {
+      return this.getPromos.filter(promo => promo.enabled == true);
     }
   },
   methods: {

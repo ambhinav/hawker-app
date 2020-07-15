@@ -84,6 +84,27 @@ export default {
       return db.collection("Promotions")
         .doc(promoId)
         .delete();
+    },
+    /** 
+     * Dispatched when an order is created to ensure that promotions are used up accurately 
+     * After calculation, If promo code is found to be fully redeemed, its disabled
+    */
+    onPromoCodeRedeemed(context, promoId) {
+      var promoRef = db.collection("Promotions").doc(promoId);
+      return db.runTransaction(trx => {
+        return trx.get(promoRef).then(promoDoc => {
+          var qty = promoDoc.data().qty;
+          var newQty = qty - 1;
+          if (qty == 0) { // last promo code is used
+              trx.update(promoRef, {
+                enabled: false
+              })
+          }
+          return trx.update(promoRef, {
+              qty: newQty
+            });
+        });
+      })
     }
   }
 };
