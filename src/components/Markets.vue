@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-container fluid>
+    <v-container>
       <v-row class="text-center">
         <v-col cols="12" class="mb-4">
-          <h1 class="display-2 font-weight-bold mb-3">
+          <h1 class="font-weight-bold mb-3">
             Choose from our Partner Hawker Centers!
           </h1>
 
@@ -23,7 +23,7 @@
           >
           </v-skeleton-loader>
           <v-card
-            max-width="500"
+            max-width="600"
             class="mx-auto"
             shaped
             v-else
