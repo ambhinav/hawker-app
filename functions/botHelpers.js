@@ -1,44 +1,76 @@
 const admin = require("firebase-admin");
-admin.initializeApp();
+const dateTimeHelpers = require("./utils/dateTime");
+const DOUBLE_SPACED = "\n\n";
+const StatesEnum = {
+  PAID: 0,
+  CANCELLED: 1,
+  GO_BACK: 3,
+  ORDER_COMPLETED: 4
+};
 
-// formats the order cart to telegram msg
-const processCart = async (cart, marketId) => {
-  var organisedCart = await organiseCart(cart, marketId);
-  var result = "Order Details: " + "\n\n";
-  Object.entries(organisedCart).forEach(itemArray => {
-    var storeName = itemArray[0];
-    var details = itemArray[1];
-    var storeOrder = `${storeName}` + "\n"
-      + `${details.stallNumber}` + "\n";
-    details.matchingItems.forEach((item, index) => {
-      storeOrder += `${index + 1}) ${item.name} x ${item.qty}` + "\n";
-      if (item.specialInstructions) {
-        storeOrder += `(Special instruction: ${item.specialInstructions})` + "\n"
-      }
-    })
-    return result += storeOrder + "\n\n";
-  })
-  return result;
+const createAdminMessage = async orderData => {
+  const { 
+    created_at,
+    customerName,
+    customerNumber,
+    deliveryAddress,
+    deliveryCost,
+    totalCost,
+    orderNumber,
+    paymentMethod,
+    cart,
+    cartStoreMappings,
+    deliverySlot
+  } = orderData;
+  var storeOrders = await processCart(cart, cartStoreMappings);
+  var cartDetails = storeOrders.reduce((acc, storeOrder) => {
+    return acc += storeOrder + "\n";
+  }, "Order Details: \n\n")
+  var formattedDate = dateTimeHelpers.formatCreateDate(created_at);
+  var message = `Order Number: ${orderNumber}(${formattedDate})` + DOUBLE_SPACED
+    + cartDetails + DOUBLE_SPACED
+    + `Delivery Cost: ${deliveryCost}` + DOUBLE_SPACED
+    + `Total Cost: ${totalCost}` + DOUBLE_SPACED
+    + `Payment Method: ${paymentMethod}` + DOUBLE_SPACED
+    + "Delivery Details:" + DOUBLE_SPACED
+    + `Delivery Slot: ${deliverySlot}` + DOUBLE_SPACED
+    + `Customer Name: ${customerName}` + DOUBLE_SPACED
+    + `Contact: ${customerNumber}` + DOUBLE_SPACED
+    + `Address: ${deliveryAddress}`;
+  return message;
 }
 
-/** Result looks like { "Adam Road": { stallNumber: "#01-26", matchingItems: [item1, item2...] }, ... } */
-const organiseCart = async (cart , marketId) => {
-  var targetMarket = await admin.firestore()
-    .collection("Markets")
-    .doc(marketId)
-    .get()
-    .then(ref => ref.data());
-  var marketStores = targetMarket.stores; // list of store IDs attached to market 
-  return marketStores.reduce(async (acc, storeId) => {
-    var accumulator = await acc.then(); // since the callback returns a promise
-    var targetStore = await admin.firestore().collection("Stores").doc(storeId).get().then(ref => ref.data());
-    const { menu, name, stallNumber } = targetStore;
-    var matchingItems = cart.filter(cartItem => menu.includes(cartItem.id));
-    accumulator[name] = { matchingItems, stallNumber };
-    return Promise.resolve(accumulator);
-  }, Promise.resolve({}));
+// Creates a list containing the orders for each store in the target market
+const processCart = async (cart, cartStoreMappings) => {
+  var result = await Promise.all(Object.entries(cartStoreMappings).map(async mapping => {
+    var storeId = mapping[0];
+    var storeData = await admin.firestore().collection("Stores").doc(storeId).get().then(ref => ref.data());
+    var { name, stallNumber } = storeData;
+    var items = mapping[1];
+    var storeOrder = `${name}` + "\n"
+      + `${stallNumber}` + "\n";
+    items.forEach((itemId, index) => {
+      var matchingItem = cart.find(cartItem => cartItem.id == itemId);
+      storeOrder += `${index + 1}) ${matchingItem.name} x ${matchingItem.qty}` + "\n";
+      if (matchingItem.specialInstructions) {
+        storeOrder += `(Special instruction: ${matchingItem.specialInstructions})` + "\n"
+      }
+    })
+    return storeOrder;
+  }))
+  return result
+}
+
+const updateOrderStatus = (newStatus, orderId) => {
+  return admin.firestore().collection("Orders")
+  .doc(orderId)
+  .update({
+    orderStatus: newStatus
+  })
 }
 
 module.exports = {
-  processCart
+  createAdminMessage,
+  StatesEnum,
+  updateOrderStatus
 }

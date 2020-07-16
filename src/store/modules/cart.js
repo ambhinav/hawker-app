@@ -20,7 +20,8 @@ const getDefaultState = () => {
   return {
     order: {},
     cart: [],
-    deliveryDetails: {}
+    deliveryDetails: {},
+    promo: {}
   }
 }
 
@@ -29,6 +30,7 @@ export default {
     order: {},
     deliveryDetails: {},
     cart: [],
+    promo: {}
   },
   getters: {
     getDeliveryDetails: (state) => state.deliveryDetails,
@@ -40,12 +42,17 @@ export default {
       return isMinimumPurchaseAmount(state.cart, state.order);
     },
     getTotalPrice: (state) => {
-      var total = state.cart.reduce((acc, currItem) => { 
+      let total = state.cart.reduce((acc, currItem) => { 
         return acc + (parseFloat(currItem.price) * parseInt(currItem.qty))
       }, 0)
+      if (state.promo.discount) { // check if promo is redeemed
+        total -= state.promo.discount;
+      }
       return total.toFixed(2);
     },
     getCartLength: (state) => state.cart.length,
+    getRedeemedPromo: (state) => state.promo,
+    getCartStoreMappings: state => state.order
   },
   mutations: {
     addItemToCart(state, item) {
@@ -91,6 +98,7 @@ export default {
     setCustomerDetails: (state, customerDetails) => state.deliveryDetails = { ...state.deliveryDetails, ...customerDetails },
     setDeliveryLocation: (state, deliveryLocation) => state.deliveryDetails = { ...state.deliveryDetails, deliveryLocation },
     setDeliveryCost: (state, deliveryCost) => state.deliveryDetails = { ...state.deliveryDetails, deliveryCost },
+    setRedeemedPromo: (state, promo) => state.promo = { ...promo }
   },
   actions: {
     getSearchResults(context, searchTerm) {

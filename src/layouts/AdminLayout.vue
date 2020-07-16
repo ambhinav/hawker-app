@@ -35,7 +35,7 @@
         <router-link id="link" to='/admin'>
           <v-list-item link>
               <v-list-item-icon>
-                <v-icon>mdi-sale</v-icon>
+                <v-icon>mdi-cash</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>Orders</v-list-item-title>
@@ -59,6 +59,36 @@
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>Onboarding</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+        <router-link id="link" to='/admin/contact'>
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-phone</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Enquiries</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+        <router-link id="link" to='/admin/promos'>
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-sale</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Promotions</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+        <router-link id="link" to='/'>
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-home</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Home</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </router-link>

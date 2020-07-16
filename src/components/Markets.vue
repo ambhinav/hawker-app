@@ -4,7 +4,7 @@
       <v-row class="text-center">
         <v-col cols="12" class="mb-4">
           <h1 class="display-2 font-weight-bold mb-3">
-            Choose from our partner hawker centers!
+            Choose from our Partner Hawker Centers!
           </h1>
 
           <p class="subheading font-weight-regular">
@@ -128,6 +128,7 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import rules from '@/utils/validation';
+// import { isClosed } from '@/utils/dateTimeUtil';
 export default {
   name: "Markets",
   created () {
@@ -225,13 +226,17 @@ export default {
     //   return this.getDistance({ lat: market.location.latitude, lng: market.location.longitude })
     // }
     setUpComponent() {
-      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 4000));
+      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 3000));
     },
     isMarketDisabled(market) {
-      if (market.stores) { // there are stores
-        return market.stores.length < 1;
+      // if (isClosed() || !market.stores) { // there are stores
+      //   return true;
+      // }
+      // return market.stores.length < 1;
+      if (!market.stores) {
+        return true;
       }
-      return true;
+      return market.stores.length < 1;
     }
   }
 };

@@ -19,9 +19,12 @@ import { mixinDetectingMobile } from '@/components/layout/MobileMixin';
 import OrderTable from "@/components/OrderTable";
 import OrderTableMobile from "@/components/OrderTableMobile";
 import CustomerDetails from "@/components/CustomerDetails";
-import { mapMutations } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
 export default {
   name: "OrderDetails",
+  created () {
+    this.initPromos();
+  },
   beforeRouteLeave(to, from, next) {
     if (to.name == "Invoice" || to.name == "StoreUser") {
       next();
@@ -44,7 +47,8 @@ export default {
   },
   mixins: [mixinDetectingMobile],
   methods: {
-    ...mapMutations(["resetCartState"])
+    ...mapMutations(["resetCartState"]),
+    ...mapActions(["initPromos"])
   }
 }
 </script>

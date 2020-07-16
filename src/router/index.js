@@ -2,7 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import SignIn from "@/views/SignIn";
-import Contact from "@/views/Contact";
+import ClientContact from "@/views/Contact";
+import ClientContactSuccess from "@/views/ContactSuccess";
 import StoreUser from "@/views/StoreUser";
 import OrderDetails from "@/views/OrderDetails";
 import Invoice from "@/views/Invoice";
@@ -10,6 +11,8 @@ import Orders from "@/views/admin/Orders";
 import Stores from "@/views/admin/Stores";
 import Onboarding from "@/views/admin/Onboarding";
 import EditMenu from '@/components/admin/EditMenu';
+import AdminContact from '@/views/admin/AdminContact';
+import Promos from '@/views/admin/Promos';
 import { auth } from "@/firebase/init";
 
 Vue.use(VueRouter);
@@ -49,8 +52,13 @@ const routes = [
   },
   {
     path: "/contact",
-    name: "Contact",
-    component: Contact,
+    name: "ClientContact",
+    component: ClientContact,
+  },
+  {
+    path: "/contact/success",
+    name: "ClientContactSuccess",
+    component: ClientContactSuccess,
   },
   {
     path: "/login",
@@ -88,6 +96,22 @@ const routes = [
   {
     path: "/admin/onboarding",
     component: Onboarding,
+    meta: {
+      layout: "AdminLayout",
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/contact",
+    component: AdminContact,
+    meta: {
+      layout: "AdminLayout",
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/admin/promos",
+    component: Promos,
     meta: {
       layout: "AdminLayout",
       requiresAuth: true,

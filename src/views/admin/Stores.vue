@@ -64,6 +64,9 @@
 									<template v-slot:item.editMenu="{ item }">
 										<v-btn depressed @click="editMenu(item.id)">edit</v-btn>
 									</template>
+									<template v-slot:item.delete="{ item }">
+										<v-icon depressed @click="removeStore(item)">mdi-delete</v-icon>
+									</template>
 								</v-data-table>
 							</v-flex>
 						</v-col>
@@ -165,6 +168,12 @@ export default {
 					align: 'left',
 					value: 'editMenu',
 					sortable: false
+				},
+				{
+					text: "Delete",
+					align: "left",
+					value: "delete",
+					sortable: false
 				}
 			],
       menuItemDialog: false,
@@ -217,7 +226,8 @@ export default {
       addMenuItemToStore: "addMenuItemToStore",
       toggleStoreStatus: "toggleStoreStatus",
       successToast: "successToast",
-      errorToast: "errorToast" 
+			errorToast: "errorToast",
+			removeStoreAndMenuItems: "removeStoreAndMenuItems"
     }),
     onMarketSelect(market) {
       this.targetMarket = market;
@@ -282,11 +292,27 @@ export default {
 		},
 		editMenu(storeId) {
 			this.$router.push({ name: "EditMenu", params: { id: storeId } });
+		},
+		removeStore(store) {
+			var callRemoveStore = async () => {
+				try {
+					var targetMarket = this.getMarkets.find(market => {
+						if (market.stores) {
+							return market.stores.includes(store.id);
+						}
+					});
+					await this.removeStoreAndMenuItems({ store, marketId: targetMarket.id });
+					this.successToast("Store deleted!")
+				} catch (e) {
+					console.log(e);
+					this.errorToast("Error deleting store")
+				}
+			}
+			return callRemoveStore();
 		}
 	}
 }
 </script>
 
 <style>
-
 </style>

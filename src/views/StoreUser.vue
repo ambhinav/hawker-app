@@ -13,6 +13,7 @@
     </div>
     <div v-else>
       <v-img
+        v-if="getMarket.image"
         :src="getMarket.image"
         max-height="400"
         class="align-content-end"
@@ -32,6 +33,9 @@
             {{ getMarket.name }} shops
           </h2>
         </v-col>
+      </v-row>
+      <v-row>
+        <InfoBanner info="Please note that there is a minimum spend of $4 for each shop that you buy from, and $30 overall." />
       </v-row>
       <v-row>
         <v-col cols="12" :md="getStoresInMarket.length === 1 ? 12 : 6" v-for="(store, i) in getStoresInMarket" :key="i">
@@ -77,53 +81,54 @@
               :key="i"
               class="justify-md-space-between justify-sm-space-between"
               >
-              <v-list-item-content class="hidden-sm-and-down">
-                  <v-avatar size="36px" style="margin-left: 5px;">    
-                      <img v-if="item.image"
-                          :src="item.image"
-                      >
-                  </v-avatar>    
-              </v-list-item-content>
-              <v-list-item-content class="hidden-sm-and-down">
-                  {{item.name}}
-              </v-list-item-content>
-              <v-list-item-content class="hidden-sm-and-down">
-                  ${{item.price}}
-              </v-list-item-content>
-              <v-list-item-content class="hidden-sm-and-down">
-                  <v-btn v-if="item.qty > 1" x-small fab dark color="primary" @click="decrementQty(item)">
-                    <v-icon dark>mdi-minus</v-icon>
-                  </v-btn> 
-                  <!-- <v-list-item-title v-text="item.qty"></v-list-item-title> -->
-                  <v-btn text>
-                    <span>{{ item.qty }}</span>
-                  </v-btn>
-                  <v-btn x-small fab dark color="primary" @click="incrementQty(item)">
-                    <v-icon dark>mdi-plus</v-icon>
-                  </v-btn>
-              </v-list-item-content>
-              <v-list-item-content class="hidden-sm-and-down">
-                  <v-btn depressed @click="removeItemFromCart(item)"><v-icon>mdi-delete</v-icon></v-btn>
-              </v-list-item-content>
-              <v-list-item-content class="hidden-md-and-up">
-                <v-row justify="center">
-                  <v-col cols="4">
+                <v-list-item-content class="hidden-sm-and-down">
+                    <v-avatar size="36px" style="margin-left: 5px;">    
+                        <img v-if="item.image"
+                            :src="item.image"
+                        >
+                    </v-avatar>    
+                </v-list-item-content>
+                <v-list-item-content class="hidden-sm-and-down">
                     {{item.name}}
-                  </v-col>
-                  <v-col cols="3">
+                </v-list-item-content>
+                <v-list-item-content class="hidden-sm-and-down">
                     ${{item.price}}
-                  </v-col>
-                  <v-col cols="3">
-                    <v-icon class="pr-2" v-if="item.qty > 1" color="primary" @click="decrementQty(item)" x-small dark>mdi-minus</v-icon>
-                    <span>{{ item.qty }}</span>
-                    <v-icon class="pl-2" color="primary" @click="incrementQty(item)" x-small dark>mdi-plus</v-icon>
-                  </v-col>
-                  <v-col cols="2">
-                    <v-icon small @click="removeItemFromCart(item)">mdi-delete</v-icon>
-                  </v-col>
-                </v-row>
-              </v-list-item-content>
+                </v-list-item-content>
+                <v-list-item-content class="hidden-sm-and-down">
+                    <v-btn v-if="item.qty > 1" x-small fab dark color="primary" @click="decrementQty(item)">
+                      <v-icon dark>mdi-minus</v-icon>
+                    </v-btn> 
+                    <!-- <v-list-item-title v-text="item.qty"></v-list-item-title> -->
+                    <v-btn text>
+                      <span>{{ item.qty }}</span>
+                    </v-btn>
+                    <v-btn x-small fab dark color="primary" @click="incrementQty(item)">
+                      <v-icon dark>mdi-plus</v-icon>
+                    </v-btn>
+                </v-list-item-content>
+                <v-list-item-content class="hidden-sm-and-down">
+                    <v-btn depressed @click="removeItemFromCart(item)"><v-icon>mdi-delete</v-icon></v-btn>
+                </v-list-item-content>
+                <v-list-item-content class="hidden-md-and-up">
+                  <v-row justify="center">
+                    <v-col cols="4">
+                      {{item.name}}
+                    </v-col>
+                    <v-col cols="3">
+                      ${{item.price}}
+                    </v-col>
+                    <v-col cols="3">
+                      <v-icon class="pr-2" v-if="item.qty > 1" color="primary" @click="decrementQty(item)" x-small dark>mdi-minus</v-icon>
+                      <span>{{ item.qty }}</span>
+                      <v-icon class="pl-2" color="primary" @click="incrementQty(item)" x-small dark>mdi-plus</v-icon>
+                    </v-col>
+                    <v-col cols="2">
+                      <v-icon small @click="removeItemFromCart(item)">mdi-delete</v-icon>
+                    </v-col>
+                  </v-row>
+                </v-list-item-content>
               </v-list-item>
+              
             </v-list-item-group>
           </v-list>
         </v-card-text>
@@ -131,6 +136,15 @@
           <span style="font-family: 'Palanquin Dark', sans-serif;">Check Out - </span>
           <b>${{getTotalPrice}}</b>
         </v-btn>
+        <!-- <v-card-actions>
+              <div class="error--text subtitle-2 font-weight-light hidden-sm-and-down">*Note that there is a minimum spend of $4 for each shop that you buy from, and $30 overall.</div>
+              <div class="error--text subtitle-2 font-weight-light hidden-md-and-up">*Note: Minimum spend of $4 for each shop purchased from, and $30 overall.</div>
+              <v-spacer></v-spacer>
+              <v-btn bottom :loading="loading" :disabled="!isValidPurchase" color="primary" @click="checkOut()" style="height: 50px; font-size: 15px;">
+                <span style="font-family: 'Palanquin Dark', sans-serif;">Check Out - </span>
+                <b>${{getTotalPrice}}</b>
+              </v-btn>
+        </v-card-actions> -->
       </v-card>
     </v-bottom-sheet>
     </div>
@@ -140,6 +154,7 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex';
 import Menu from '@/components/Menu';
+import InfoBanner from '@/components/feedback/InfoBanner';
 import { isSameDay } from '@/utils/dateTimeUtil';
 export default {
   name: "StoreUser",
@@ -178,7 +193,8 @@ export default {
     }
   },
   components: {
-    Menu
+    Menu,
+    InfoBanner
   },
   computed: {
     ...mapGetters({
@@ -233,7 +249,7 @@ export default {
       this.$router.push({ name: "OrderDetails" })
     },
     setUpComponent() {
-      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 4000));
+      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 3000));
     }
   },
 }
