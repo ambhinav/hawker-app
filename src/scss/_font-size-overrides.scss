@@ -1,0 +1,12 @@
+/**
+ * define font-sizes with css custom properties.
+ * you can change the values of these properties in a media query
+*/
+@import "~vuetify/src/styles/settings/_variables.scss";
+
+:root {
+    --font-size: 16px;
+    @media #{map-get($display-breakpoints, 'sm-and-down')} {
+        --font-size: 14px;
+    }
+}
