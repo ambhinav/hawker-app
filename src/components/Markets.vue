@@ -103,7 +103,7 @@
 							<v-row>
 								<v-col cols="12">
                   <v-autocomplete
-                    :items="deliveryTimings2"
+                    :items="getDeliveryTimings"
                     v-model="deliveryTime"
                     label="Delivery Period (PM)"
                     required
@@ -128,7 +128,8 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import rules from '@/utils/validation';
-// import { isClosed } from '@/utils/dateTimeUtil';
+import { isBefore, isClosed } from '@/utils/dateTimeUtil';
+import { lastOrderTimings } from '@/utils/deliveryData';
 export default {
   name: "Markets",
   created () {
@@ -191,11 +192,22 @@ export default {
     getTextRules() {
       return [rules.required];
     },
-
     getDeliverySlot() {
       var timing = this.slots.find(timing => timing.period == this.deliveryTime);
       return timing.slot;
     },
+    getDeliveryTimings() {
+      if (!isClosed()) {
+        var res = [];
+        lastOrderTimings.forEach(timing => {
+          if (isBefore(timing.slot)) {
+            res.push(timing.period);
+          }
+        })
+        return res;
+      }
+      return this.deliveryTimings2;
+    }
   },
   methods: {
     ...mapMutations({

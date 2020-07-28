@@ -1,15 +1,27 @@
 <template>
   <nav>
-    <v-app-bar app color="primary">
+    <v-app-bar app color="primary" elevation="0">
       <v-app-bar-nav-icon
         @click="drawer = true"
         class="hidden-md-and-up"
       ></v-app-bar-nav-icon>
-      <v-toolbar-title>
-        <v-btn text to="/">
-          Halale
+      <!-- <v-avatar :tile="true" size="96" >
+        <v-img :src="require('@/assets/logo.svg')"></v-img>
+      </v-avatar> -->
+      <v-btn to="/" text>
+        <v-img 
+          contain 
+          :src="require('@/assets/logo.svg')"
+          max-height="120"
+          max-width="150"
+          >
+        </v-img>
+      </v-btn>
+      <!-- <v-toolbar-title>
+        <v-btn to="/">
+          <v-img :src="require("@/assets/logo.svg")"></v-img>
         </v-btn>
-      </v-toolbar-title>
+      </v-toolbar-title> -->
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn text to="/about">
@@ -67,7 +79,7 @@ export default {
   methods: {
     changeRoute(link) {
       this.$router.push(link);
-    }
+    },
   }
 };
 </script>

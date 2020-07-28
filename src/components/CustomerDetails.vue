@@ -62,12 +62,12 @@
         </v-form>
         <v-list-item two-line class="caption font-weight-light">
           <v-list-item-content>
-            <v-list-item-title>
+            <v-list-item-title class="terms-service">
               By sharing your data with us you are protected by <a href="https://sso.agc.gov.sg/SL-Supp/S398-2020/Published/20200528?DocDate=20200528">PDPA</a>
             </v-list-item-title>
-            <v-list-item-subtitle>
+            <v-list-item-title class="terms-service">
               <a>Halale's Terms of Service</a>
-            </v-list-item-subtitle>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item> 
       </v-card-text>
@@ -165,6 +165,12 @@ export default {
     },
     getDeliveryLocation() {
       return this.getDeliveryDetails.deliveryLocation;
+    },
+    fontSize() {
+      if (this.$vuetify.breakpoint.smAndDown) {
+        return '10px';
+      }
+      return '12px'
     }
   },
   methods: {
@@ -229,3 +235,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.terms-service {
+  font-size: 10px
+}
+</style>
