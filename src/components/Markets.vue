@@ -136,13 +136,15 @@ export default {
       this.initMarkets()
       this.$forceUpdate()
     }
-    navigator.permissions.query({name:'geolocation'}).then(function(result) {
-      result.onchange = () => {
-        if (result.state == "granted") {
-          yo();
+    if (!(navigator.userAgent.indexOf("Safari") > -1)) { // runs code if user is NOT on IOS or Safari
+      navigator.permissions.query({name:'geolocation'}).then(function(result) {
+        result.onchange = () => {
+          if (result.state == "granted") {
+            yo();
+          }
         }
-      }
-    })
+      })
+    }
     this.setUpComponent();
   },
   data: () => ({
