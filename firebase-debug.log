@@ -1,0 +1,29 @@
+[debug] [2020-08-12T14:20:50.602Z] ----------------------------------------------------------------------
+[debug] [2020-08-12T14:20:50.604Z] Command:       /home/abhinav/node-v10.15.3-linux-x64/bin/node /home/abhinav/node-v10.15.3-linux-x64/bin/firebase deploy --only hosting
+[debug] [2020-08-12T14:20:50.605Z] CLI Version:   8.6.0
+[debug] [2020-08-12T14:20:50.605Z] Platform:      linux
+[debug] [2020-08-12T14:20:50.605Z] Node Version:  v10.15.3
+[debug] [2020-08-12T14:20:50.606Z] Time:          Wed Aug 12 2020 22:20:50 GMT+0800 (Singapore Standard Time)
+[debug] [2020-08-12T14:20:50.606Z] ----------------------------------------------------------------------
+[debug] [2020-08-12T14:20:50.606Z] 
+[debug] [2020-08-12T14:20:50.617Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-08-12T14:20:50.617Z] > authorizing via signed-in user
+[debug] [2020-08-12T14:20:50.618Z] [iam] checking project halale-56586 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2020-08-12T14:20:50.619Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-08-12T14:20:50.619Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2020-08-12T14:20:50.717Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Wed, 12 Aug 2020 14:20:50 GMT","server":"scaffolding on HTTPServer2","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-08-12T14:20:50.743Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/halale-56586:testIamPermissions  
+ {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2020-08-12T14:20:51.793Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Wed, 12 Aug 2020 14:20:51 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=1004","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-08-12T14:20:51.795Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/halale-56586  
+ 
+[debug] [2020-08-12T14:20:52.120Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Wed, 12 Aug 2020 14:20:52 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions.
+Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[info] 
+[info] === Deploying to 'halale-56586'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2020-08-12T14:20:54.417Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/halale-56586/versions  
+ {"config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"}}
