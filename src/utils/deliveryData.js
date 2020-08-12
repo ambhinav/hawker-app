@@ -4,6 +4,21 @@ export var deliverySlots = [
   "17:00"
 ]
 
+export var lastOrderTimings = [
+  { 
+    slot: "11:20",
+    period: "12 - 2",
+  },
+  { 
+    slot: "13:50",
+    period: "3 - 5",
+  },
+  { 
+    slot: "16:50",
+    period: "6 - 8",
+  }
+]
+
 export function isEmpty(obj) {
     for(var key in obj) {
         if(Object.prototype.hasOwnProperty.call(obj, key))

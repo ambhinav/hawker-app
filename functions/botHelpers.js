@@ -1,6 +1,8 @@
 const admin = require("firebase-admin");
 const dateTimeHelpers = require("./utils/dateTime");
+const { HAWKER_GROUPS } = require("./secrets/telegram")
 const DOUBLE_SPACED = "\n\n";
+const SINGLE_SPACED = "\n";
 const StatesEnum = {
   PAID: 0,
   CANCELLED: 1,
@@ -8,7 +10,24 @@ const StatesEnum = {
   ORDER_COMPLETED: 4
 };
 
-const createAdminMessage = async orderData => {
+// creates and sends each store's orders to the relevant hawker telegram group
+const sendHawkerGroupMessage = async (orderData, storeOrders, bot) => {
+  const {
+    created_at,
+    orderNumber,
+    deliverySlot,
+    marketId
+  } = orderData;
+  var formattedDate = dateTimeHelpers.formatCreateDate(created_at);
+  var header = `Order Number: ${orderNumber}(${formattedDate})` + SINGLE_SPACED
+    + `Delivery slot: ${deliverySlot}`;
+  return Promise.all(storeOrders.map(storeOrder => {
+    var message = `${header}${DOUBLE_SPACED}${storeOrder}`;
+    return bot.telegram.sendMessage(HAWKER_GROUPS[marketId], message);
+  }))
+}
+
+const createAdminMessage = async (orderData, storeOrders) => {
   const { 
     created_at,
     customerName,
@@ -18,11 +37,8 @@ const createAdminMessage = async orderData => {
     totalCost,
     orderNumber,
     paymentMethod,
-    cart,
-    cartStoreMappings,
     deliverySlot
   } = orderData;
-  var storeOrders = await processCart(cart, cartStoreMappings);
   var cartDetails = storeOrders.reduce((acc, storeOrder) => {
     return acc += storeOrder + "\n";
   }, "Order Details: \n\n")
@@ -71,6 +87,8 @@ const updateOrderStatus = (newStatus, orderId) => {
 
 module.exports = {
   createAdminMessage,
+  processCart,
+  sendHawkerGroupMessage,
   StatesEnum,
   updateOrderStatus
 }

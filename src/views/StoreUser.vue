@@ -35,7 +35,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <InfoBanner info="Please note that there is a minimum spend of $4 for each shop that you buy from, and $30 overall." />
+        <InfoBanner info="Please note that there is a minimum spend of $4 for each shop that you buy from, and $30 overall. Please check out by 5pm" />
       </v-row>
       <v-row>
         <v-col cols="12" :md="getStoresInMarket.length === 1 ? 12 : 6" v-for="(store, i) in getStoresInMarket" :key="i">
@@ -49,6 +49,7 @@
       </v-row>
     </v-container>
     <v-bottom-sheet 
+      v-if="isCheckoutButtonShown"
       v-model="sheet"
       hide-overlay
       inset
@@ -156,6 +157,7 @@ import { mapGetters, mapMutations } from 'vuex';
 import Menu from '@/components/Menu';
 import InfoBanner from '@/components/feedback/InfoBanner';
 import { isSameDay } from '@/utils/dateTimeUtil';
+import { isClosed } from '@/utils/dateTimeUtil';
 export default {
   name: "StoreUser",
   data () {
@@ -164,7 +166,8 @@ export default {
       sheet: true,
       cartOpen: false,
       error: false,
-      loading: true
+      loading: true,
+      isCheckoutButtonShown: true,
     }
   },
   mounted () {
@@ -176,6 +179,10 @@ export default {
       this.error = true;
     }
     this.setUpComponent();
+    var self = this; 
+    setInterval(() => {
+      self.isCheckoutButtonShown = !isClosed();
+    }, 5000)
   },
   beforeRouteLeave(to, from, next) {
     if (to.name == "OrderDetails") {

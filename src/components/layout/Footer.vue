@@ -28,10 +28,16 @@
       <v-row>
         <v-col cols="12">
           <v-row justify="center">
-            <strong>Halale</strong> <v-icon>mdi-copyright</v-icon> {{ new Date().getFullYear() }} - All rights reserved. 
+            <div class="copyright"><strong>Halale</strong> <v-icon>mdi-copyright</v-icon> {{ new Date().getFullYear() }} - All rights reserved. </div> 
           </v-row>
         </v-col>
       </v-row>
     </v-container>
   </v-footer>
 </template>
+
+<style>
+.copyright {
+  font-size: 12px;
+}
+</style>

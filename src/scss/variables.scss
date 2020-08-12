@@ -1,3 +1,7 @@
+@import "./font-size-overrides";
+
+$font-size-root: var(--font-size, 16px);
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
 $body-font-family: 'Montserrat', serif;

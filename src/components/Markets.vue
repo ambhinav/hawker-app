@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-container fluid>
+    <v-container>
       <v-row class="text-center">
         <v-col cols="12" class="mb-4">
-          <h1 class="display-2 font-weight-bold mb-3">
+          <h1 class="font-weight-bold mb-3">
             Choose from our Partner Hawker Centers!
           </h1>
 
@@ -23,7 +23,7 @@
           >
           </v-skeleton-loader>
           <v-card
-            max-width="500"
+            max-width="600"
             class="mx-auto"
             shaped
             v-else
@@ -103,7 +103,7 @@
 							<v-row>
 								<v-col cols="12">
                   <v-autocomplete
-                    :items="deliveryTimings2"
+                    :items="getDeliveryTimings"
                     v-model="deliveryTime"
                     label="Delivery Period (PM)"
                     required
@@ -128,7 +128,8 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import rules from '@/utils/validation';
-// import { isClosed } from '@/utils/dateTimeUtil';
+import { isBefore, isClosed } from '@/utils/dateTimeUtil';
+import { lastOrderTimings } from '@/utils/deliveryData';
 export default {
   name: "Markets",
   created () {
@@ -136,13 +137,15 @@ export default {
       this.initMarkets()
       this.$forceUpdate()
     }
-    navigator.permissions.query({name:'geolocation'}).then(function(result) {
-      result.onchange = () => {
-        if (result.state == "granted") {
-          yo();
+    if (!(navigator.userAgent.indexOf("Safari") > -1)) { // runs code if user is NOT on IOS or Safari
+      navigator.permissions.query({name:'geolocation'}).then(function(result) {
+        result.onchange = () => {
+          if (result.state == "granted") {
+            yo();
+          }
         }
-      }
-    })
+      })
+    }
     this.setUpComponent();
   },
   data: () => ({
@@ -189,11 +192,22 @@ export default {
     getTextRules() {
       return [rules.required];
     },
-
     getDeliverySlot() {
       var timing = this.slots.find(timing => timing.period == this.deliveryTime);
       return timing.slot;
     },
+    getDeliveryTimings() {
+      if (!isClosed()) {
+        var res = [];
+        lastOrderTimings.forEach(timing => {
+          if (isBefore(timing.slot)) {
+            res.push(timing.period);
+          }
+        })
+        return res;
+      }
+      return this.deliveryTimings2;
+    }
   },
   methods: {
     ...mapMutations({

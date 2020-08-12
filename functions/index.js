@@ -17,16 +17,19 @@ admin.initializeApp();
 exports.onOrderCreated = functions.firestore
   .document('Orders/{orders}')
   .onCreate(async (snap, context) => {
-    var message = await botHelpers.createAdminMessage(snap.data());
-    var str = stringify({ s: StatesEnum.PAID, id: snap.id, c: 0 });
-    console.log(str + ": " + str.length + " characters, " + Buffer.byteLength(str, 'utf8') + " bytes");
-    return bot.telegram.sendMessage(TELEGRAM.ADMIN_CONTACT, message, {
+    var { cart, cartStoreMappings } = snap.data();
+    var storeOrders = await botHelpers.processCart(cart, cartStoreMappings);
+    var message = await botHelpers.createAdminMessage(snap.data(), storeOrders);
+    return Promise.all([
+      bot.telegram.sendMessage(TELEGRAM.ADMIN_CONTACT, message, {
       reply_markup:
         Markup.inlineKeyboard([
           Markup.callbackButton("Paid", stringify({ s: StatesEnum.PAID, id: snap.id, c: 0 })),
           Markup.callbackButton("Cancelled", stringify({ s: StatesEnum.CANCELLED, id: snap.id, c: 0 }))
         ])
-    })
+      }),
+      botHelpers.sendHawkerGroupMessage(snap.data(), storeOrders, bot)  
+    ])
   });
 
 /** Job that runs at the end of every week to reset the Order numbers. */
