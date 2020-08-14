@@ -53,7 +53,7 @@
             </v-card-text>
             <v-card-actions>
               <v-btn v-if="market.distance && !isNaN(market.distance)" color="purple" text>
-                {{ market.distance }} km away
+                Delivery cost - ${{ getDeliveryCost(market.distance) }}
               </v-btn>
               <v-spacer></v-spacer>
               <v-btn
@@ -141,6 +141,7 @@ export default {
       navigator.permissions.query({name:'geolocation'}).then(function(result) {
         result.onchange = () => {
           if (result.state == "granted") {
+            console.log("updating...")
             yo();
           }
         }
@@ -251,6 +252,9 @@ export default {
         return true;
       }
       return market.stores.length < 1;
+    },
+    getDeliveryCost(distance) {
+      return distance <= 8 ? 6 : 9;
     }
   }
 };
