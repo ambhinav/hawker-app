@@ -22,6 +22,7 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+    meta: { title: "Home - Foodboys" }
   },
   {
     path: "/about",
@@ -31,6 +32,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    meta: { title: "About - Foodboys" }
   },
   {
     path: "/store",
@@ -39,26 +41,31 @@ const routes = [
     props: (route) => ({
       ...route.params
     }),
+    meta: { title: "Stores - Foodboys" }
   },
   {
     path: "/checkout",
     name: "OrderDetails",
-    component: OrderDetails
+    component: OrderDetails,
+    meta: { title: "Checkout - Foodboys" }
   },
   {
     path: "/invoice",
     name: "Invoice",
-    component: Invoice
+    component: Invoice,
+    meta: { title: "Invoice - Foodboys" }
   },
   {
     path: "/contact",
     name: "ClientContact",
     component: ClientContact,
+    meta: { title: "Contact - Foodboys" }
   },
   {
     path: "/contact/success",
     name: "ClientContactSuccess",
     component: ClientContactSuccess,
+    meta: { title: "Thank you" }
   },
   {
     path: "/login",
@@ -66,6 +73,7 @@ const routes = [
     component: SignIn,
     meta: {
       layout: "AuthLayout",
+      title: "Foodboys Admin"
     },
   },
   {
@@ -74,6 +82,7 @@ const routes = [
     meta: {
       layout: "AdminLayout",
       requiresAuth: true,
+      title: "Admin - Orders"
     },
   },
   {
@@ -82,6 +91,7 @@ const routes = [
     meta: {
       layout: "AdminLayout",
       requiresAuth: true,
+      title: "Admin - Stores"
     },
   },
   {
@@ -91,6 +101,7 @@ const routes = [
     meta: {
       layout: "AdminLayout",
       requiresAuth: true,
+      title: "Admin - Menu"
     },
   },
   {
@@ -99,6 +110,7 @@ const routes = [
     meta: {
       layout: "AdminLayout",
       requiresAuth: true,
+      title: "Admin - Onboard"
     },
   },
   {
@@ -107,6 +119,7 @@ const routes = [
     meta: {
       layout: "AdminLayout",
       requiresAuth: true,
+      title: "Admin - Contact"
     },
   },
   {
@@ -115,6 +128,7 @@ const routes = [
     meta: {
       layout: "AdminLayout",
       requiresAuth: true,
+      title: "Admin - Promos"
     },
   },
   {
@@ -138,7 +152,6 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   //check to see if route requires auth
-  console.log("route check!");
   if (to.matched.some((rec) => rec.meta.requiresAuth)) {
     //check auth state
     auth.onAuthStateChanged((user) => {
@@ -154,5 +167,11 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+
+router.afterEach((to) => {
+  Vue.nextTick(() => {
+    document.title = to.meta.title
+  })
+})
 
 export default router;
