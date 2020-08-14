@@ -28,7 +28,7 @@
       <v-row>
         <v-col cols="12">
           <v-row justify="center">
-            <div class="copyright"><strong>Halale</strong> <v-icon>mdi-copyright</v-icon> {{ new Date().getFullYear() }} - All rights reserved. </div> 
+            <div class="copyright"><strong>Foodboys</strong> <v-icon>mdi-copyright</v-icon> {{ new Date().getFullYear() }} - All rights reserved. </div> 
           </v-row>
         </v-col>
       </v-row>
