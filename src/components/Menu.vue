@@ -74,7 +74,7 @@
                         :cols="item.image ? imageBp.price : noImageBp.price"
                         class="text-left"
                       >
-                        <v-list-item-title>{{ item.price }}</v-list-item-title>
+                        <v-list-item-title>${{ item.price }}</v-list-item-title>
                       </v-col>
                       <v-col
                         :cols="item.cart ? imageBp.cart : noImageBp.cart"

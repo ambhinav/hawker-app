@@ -110,13 +110,13 @@ export default {
     },
     getDeliveryCost() {
       if(!Object.prototype.hasOwnProperty.call(this.getDeliveryDetails, "deliveryCost")) {
-        return 6;
+        return 6.0;
       } else {
-        return this.getDeliveryDetails.deliveryCost; 
+        return parseFloat(this.getDeliveryDetails.deliveryCost).toFixed(1); 
       }
     },
     getTotalCost() {
-      return parseFloat(this.getTotalPrice) + this.getDeliveryCost;
+      return parseFloat(parseFloat(this.getTotalPrice) + this.getDeliveryCost).toFixed(1);
     },
     showRedeemButton() {
       return this.isPromoValid && !this.isPromoRedeemed;
@@ -132,7 +132,7 @@ export default {
     ...mapMutations(["setRedeemedPromo"]),
     ...mapActions(["successToast", "errorToast"]),
     getCost(item) {
-      return parseFloat(item.price) * parseInt(item.qty);
+      return parseFloat(parseFloat(item.price) * parseInt(item.qty)).toFixed(1);
     },
     editCart() {
       this.$router.push("/store");
