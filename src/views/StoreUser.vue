@@ -93,7 +93,7 @@
                     {{item.name}}
                 </v-list-item-content>
                 <v-list-item-content class="hidden-sm-and-down">
-                    ${{item.price}}
+                    ${{parseFloat(item.price).toFixed(2)}}
                 </v-list-item-content>
                 <v-list-item-content class="hidden-sm-and-down">
                     <v-btn v-if="item.qty > 1" x-small fab dark color="primary" @click="decrementQty(item)">

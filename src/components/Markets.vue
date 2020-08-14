@@ -69,7 +69,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-dialog v-model="deliveryDialog" max-width="600">
+    <v-dialog v-model="deliveryDialog" max-width="600" persistent>
       <v-card>
 				<v-form ref="deliveryDetailsForm">
 					<v-card-title>
