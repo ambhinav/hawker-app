@@ -33,6 +33,7 @@ const createAdminMessage = async (orderData, storeOrders) => {
     customerName,
     customerNumber,
     deliveryAddress,
+    deliveryUnitNumber,
     deliveryCost,
     totalCost,
     orderNumber,
@@ -52,7 +53,8 @@ const createAdminMessage = async (orderData, storeOrders) => {
     + `Delivery Slot: ${deliverySlot}` + DOUBLE_SPACED
     + `Customer Name: ${customerName}` + DOUBLE_SPACED
     + `Contact: ${customerNumber}` + DOUBLE_SPACED
-    + `Address: ${deliveryAddress}`;
+    + `Address: ${deliveryAddress}` + SINGLE_SPACED
+    + `Unit No.: ${deliveryUnitNumber}`;
   return message;
 }
 

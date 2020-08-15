@@ -19,7 +19,9 @@
               Phone Number: {{ getDeliveryDetails.phoneNumber }}
             </v-row>
             <v-row>
-              Address: {{ getDeliveryDetails.deliveryLocation["ADDRESS"] }}
+              Address: {{ getDeliveryDetails.deliveryLocation["ADDRESS"] }}, {{ getDeliveryDetails.unitNumber }}
+            </v-row>
+            <v-row>
             </v-row>
             <v-row>
               Payment mode: {{ getDeliveryDetails.paymentMethod }}
@@ -109,7 +111,7 @@ export default {
   methods: {
     ...mapMutations(["resetCartState"]),
     getPrice(item) {
-      return parseFloat(item.price) * parseInt(item.qty);
+      return parseFloat(parseFloat(item.price) * parseInt(item.qty)).toFixed(1);
     },
   }
 }

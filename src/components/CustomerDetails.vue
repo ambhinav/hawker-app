@@ -39,6 +39,16 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field 
+                  label="Unit/House Number" 
+                  :rules="getTextRules"
+                  v-model="unitNumber"
+                  required
+                  ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field 
                   label="Phone Number" 
                   type="number"
                   v-model.number="phoneNumber"
@@ -118,6 +128,7 @@ export default {
     return {
       customerName: null,
       postalCode: null,
+      unitNumber: null,
       phoneNumber: null,
       loading: false,
       paymentMethod: null,
@@ -187,7 +198,8 @@ export default {
               await this.addPaynowAndCashOrder({
                 paymentMethod: this.paymentMethod,
                 customerName: this.customerName,
-                phoneNumber: this.phoneNumber
+                phoneNumber: this.phoneNumber,
+                unitNumber: this.unitNumber
               })
               this.handleSubmitCleanUp();
               this.$router.push({ name: "Invoice" });

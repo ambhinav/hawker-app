@@ -63,7 +63,7 @@ export default {
      * @param {*} customerDetails details given in @see CustomerDetails.vue
      */
     async addPaynowAndCashOrder({ commit, getters, dispatch }, customerDetails) {
-      var { paymentMethod, customerName, phoneNumber } = customerDetails;
+      var { paymentMethod, customerName, phoneNumber, unitNumber } = customerDetails;
       var { deliveryLocation, marketId, deliveryCost, deliveryTime } = getters.getDeliveryDetails;
       var orderDetails = {
         marketId,
@@ -73,6 +73,7 @@ export default {
         deliveryCost,
         totalCost: deliveryCost + parseFloat(getters.getTotalPrice),
         deliveryAddress: deliveryLocation["ADDRESS"],
+        deliveryUnitNumber: unitNumber,
         cart: getters.getCart,
         created_at: getTimeStamp(),
         orderStatus: "pending", // three main statuses: pending, cancelled, paid
