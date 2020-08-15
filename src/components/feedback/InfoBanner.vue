@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row class="orange pa-4 text-center hidden-sm-and-down">
+    <v-row class="pa-4 text-center hidden-sm-and-down secondary">
       <v-spacer></v-spacer>
       <v-icon class="pr-2">mdi-alert-circle</v-icon>
       <div>{{ info }}</div>
