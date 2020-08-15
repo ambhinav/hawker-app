@@ -17,6 +17,8 @@
         <b>Operating days</b>: {{ formatInfo(store.operatingTimes) }}
         <br>
         <b>Operating delivery slots</b>: {{ formatInfo(store.deliveryTimings) }}
+        <br>
+        <div class="error--text">Minimum order is $4.</div>
       </v-card-subtitle>
       <v-card-text v-if="!store.enabled" class="red--text">
         Sorry, this store is unavailable for the slot you chose.
