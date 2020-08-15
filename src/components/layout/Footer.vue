@@ -1,5 +1,5 @@
 <template>
-  <v-footer absolute class="font-weight-medium" app>
+  <v-footer absolute app>
     <v-container>
       <v-row class="pb-10">
         <v-col cols="6">
@@ -8,10 +8,10 @@
           </v-row>
           <v-row class="hidden-sm-and-down pt-2">
             <v-icon>mdi-email</v-icon>
-            <div class="pl-1 subtitle">sales.halale@gmail.com</div>
+            <div class="pl-1 subtitle">foodboysg@gmail.com</div>
           </v-row>
           <v-row class="hidden-md-and-up pt-2">
-            <div class="subtitle">sales.halale@gmail.com</div>
+            <div class="subtitle">foodboysg@gmail.com</div>
           </v-row>
         </v-col>
         <v-col cols="6" class="pl-5">
@@ -19,8 +19,8 @@
             Social Media
           </v-row>
           <v-row class="pt-2">
-            <v-icon>mdi-facebook</v-icon>
-            <v-icon class="pl-4">mdi-instagram</v-icon>
+            <a href="https://www.facebook.com/FoodBoys"><v-icon>mdi-facebook</v-icon></a>
+            <a href="https://www.instagram.com/foodboys.sg/"><v-icon class="pl-4">mdi-instagram</v-icon></a>
           </v-row>
         </v-col>
       </v-row>
@@ -28,7 +28,7 @@
       <v-row>
         <v-col cols="12">
           <v-row justify="center">
-            <div class="copyright"><strong>Foodboys</strong> <v-icon>mdi-copyright</v-icon> {{ new Date().getFullYear() }} - All rights reserved. </div> 
+            <div class="copyright"><strong>FoodBoys</strong> <v-icon>mdi-copyright</v-icon> {{ new Date().getFullYear() }} - All rights reserved. </div> 
           </v-row>
         </v-col>
       </v-row>

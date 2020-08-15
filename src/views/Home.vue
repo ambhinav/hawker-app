@@ -17,7 +17,7 @@
         </v-row>
       </v-container> -->
     </v-img> 
-    <InfoBanner v-if="isSiteClosed" info="Sorry, we are closed after 5pm. Please check our menu and come back tomorrow to order!." />
+    <InfoBanner v-if="isSiteClosed" info="Sorry, we are closed after 5pm. Please check our menu and come back tomorrow to order!" />
     <v-timeline
       :align-top="alignTop"
       :dense="dense"
