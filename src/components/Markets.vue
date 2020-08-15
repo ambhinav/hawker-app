@@ -52,7 +52,7 @@
               {{ market.stores.length }} shops available to choose from!
             </v-card-text>
             <v-card-actions>
-              <v-btn v-if="market.distance && !isNaN(market.distance)" color="purple" text>
+              <v-btn v-if="market.distance && !isNaN(market.distance)" text>
                 Delivery cost - ${{ getDeliveryCost(market.distance) }}
               </v-btn>
               <v-spacer></v-spacer>

@@ -6,15 +6,15 @@ export var deliverySlots = [
 
 export var lastOrderTimings = [
   { 
-    slot: "11:20",
+    slot: "11:25",
     period: "12 - 2",
   },
   { 
-    slot: "13:50",
+    slot: "13:55",
     period: "3 - 5",
   },
   { 
-    slot: "16:50",
+    slot: "16:55",
     period: "6 - 8",
   }
 ]
