@@ -111,7 +111,8 @@ export default {
         name: menuItem.name,
         price: menuItem.price,
         deliverySlots: menuItem.deliverySlots,
-        image: null
+        image: null,
+        nm: menuItem.nm
       })
       if (menuItem.image) {
         await dispatch("uploadItemPic", { ref: menuItemRef, image: menuItem.image })

@@ -65,9 +65,12 @@
 					<v-card-text>
 						<v-container>
 							<v-row>
-								<v-col cols="12">
+								<v-col cols="6">
 									<v-text-field v-model="itemName" label="Name" required :rules="getTextRules"></v-text-field>
 								</v-col>
+                <v-col cols="6">
+                  <v-text-field type="number" v-model.number="nm" label="NM" required :rules="getNumberRules"></v-text-field>
+                </v-col>
 							</v-row>
 							<v-row>
                 <v-col cols="6">
@@ -254,6 +257,7 @@ export default {
       this.itemPrice = item.price;
       this.itemDeliverySlots = item.deliverySlots;
       this.itemId = item.id;
+      this.nm = item.nm;
       this.menuItemDialog = true;
     },
     editMenuItemConfirm() {
@@ -265,7 +269,8 @@ export default {
               name: this.itemName,
               deliverySlots: this.itemDeliverySlots,
               price: this.itemPrice,
-              id: this.itemId
+              id: this.itemId,
+              nm: this.nm
             }) 
             this.successToast("Menu item updated!")
           } catch (e) {

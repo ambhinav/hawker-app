@@ -83,8 +83,11 @@
 					<v-card-text>
 						<v-container>
 							<v-row>
-								<v-col cols="12">
+								<v-col cols="6">
 									<v-text-field v-model="itemName" label="Name" required :rules="getTextRules"></v-text-field>
+								</v-col>
+								<v-col cols="6">
+              		<v-text-field type="number" v-model.number="nm" label="Price (NM)" required :rules="getNumberRules"></v-text-field>
 								</v-col>
 							</v-row>
 							<v-row>
@@ -99,7 +102,7 @@
                   </v-autocomplete>
 								</v-col>
 								<v-col cols="6">
-									<v-text-field type="number" v-model.number="itemPrice" label="Price" required :rules="getNumberRules"></v-text-field>
+									<v-text-field type="number" v-model.number="itemPrice" label="Price (AM)" required :rules="getNumberRules"></v-text-field>
 								</v-col>
 							</v-row>
 							<v-row>
@@ -180,7 +183,8 @@ export default {
       targetStoreId: null,
       itemDeliverySlots: null,
       itemName: null,
-      itemPrice: null,
+			itemPrice: null,
+			nm: null, // price (nm)
       fileImgPath: null,
 			loading: false,
 			deliverySlotRules: [v => v.length > 0 || "At least one slot required"]
@@ -266,6 +270,7 @@ export default {
       this.menuItemDialog = false;
 			this.$refs.addMenuItemForm.resetValidation();
 			this.file = null;
+			this.nm = null;
     },
     addMenuItemConfirm() {
       if (this.$refs.addMenuItemForm.validate()) {
@@ -276,8 +281,9 @@ export default {
               name: this.itemName,
               deliverySlots: this.itemDeliverySlots,
               price: this.itemPrice,
-              image: this.file,
-              storeId: this.targetStoreId
+              image: this.file, // optional
+							storeId: this.targetStoreId,
+							nm: this.nm
             }) 
             this.successToast("Item added to store's menu!")
           } catch (e) {

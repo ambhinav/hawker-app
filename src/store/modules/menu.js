@@ -73,13 +73,14 @@ export default {
       })
     },
     editMenuItem(context, item) {
-      const { name, price, id, deliverySlots } = item;
+      const { name, price, id, deliverySlots, nm } = item;
       return db.collection("Menu")
         .doc(id)
         .update({
           price,
           deliverySlots,
-          name
+          name,
+          nm
         })
     },
     async deleteMenuItem({ dispatch }, payload) {
