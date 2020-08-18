@@ -46,6 +46,9 @@
                   <template v-slot:item.delete="{ item }">
                     <v-icon @click="deleteItem(item.id)">mdi-delete</v-icon>
 									</template>
+                  <template v-slot:item.addNm="{ item }">
+                    <v-btn @click="addNm(item.id)">add</v-btn>
+									</template>
 								</v-data-table>
 							</v-flex>
 						</v-col>
@@ -107,6 +110,25 @@
 				</v-form>
 			</v-card>
 		</v-dialog>
+    <v-dialog v-model="addNmDialog" max-width="600px">
+      <v-card>
+        <v-card-title>
+          Add NM
+        </v-card-title>
+        <v-container>
+          <v-row>
+            <v-col>
+              <v-text-field type="number" v-model.number="nm" label="NM" required :rules="getNumberRules"></v-text-field>
+            </v-col>
+          </v-row>
+        </v-container>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn :loading="loading" color="primary darken-1" @click="confirmAddNm">add</v-btn>
+        </v-card-actions>
+      </v-card>
+      
+    </v-dialog>
 	</div>
 </template>
 
@@ -129,9 +151,14 @@ export default {
           value: "name"
         },
         {
-          text: "Price",
+          text: "Price (AM)",
           align: "left",
           value: "price"
+        },
+        {
+          text: "Price (NM)",
+          align: "left",
+          value: "nm"
         },
         {
           text: "Slots",
@@ -148,6 +175,11 @@ export default {
           align: "left",
           value: "delete"
         },
+        {
+          text: "Add NM",
+          align: "left",
+          value: "addNm"
+        },
       ],
       deliverySlotRules: [v => v.length > 0 || "At least one slot required"],
       menuItemDialog: false,
@@ -155,6 +187,8 @@ export default {
       itemName: null,
       itemPrice: null,
       itemId: null,
+      nm: null,
+      addNmDialog: false
     }
   },
   computed: {
@@ -182,7 +216,8 @@ export default {
       editMenuItem: "editMenuItem",
       successToast: "successToast",
       errorToast: "errorToast",
-      deleteMenuItem: "deleteMenuItem" 
+      deleteMenuItem: "deleteMenuItem",
+      addNonMarkup: "addNonMarkup" 
     }),
     goBack() {
       this.$router.push("/admin/stores");
@@ -242,7 +277,35 @@ export default {
         }
         callEditMenuItem()
       }
-		},
+    },
+    addNm(itemId) {
+      this.itemId = itemId;
+      this.addNmDialog = true;
+    },
+    confirmAddNm() {
+      var callAddNm = async () => {
+        try {
+          this.loading = true;
+          await this.addNonMarkup({
+            id: this.itemId,
+            nm: this.nm
+          });
+          this.successToast("Menu item nm added!");
+        } catch (err) {
+          console.log(err);
+          this.errorToast("Error updating menu item")
+        } finally {
+          this.handleNmFormClose()
+        }
+      }
+      return callAddNm()
+    },
+    handleNmFormClose() {
+      this.loading = false;
+      this.itemId = null;
+      this.addNmDialog = false;
+      this.nm = null;
+    }
   }
 }
 </script>
