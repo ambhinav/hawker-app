@@ -5,6 +5,9 @@ const DAY_MONTH = "DDMM";
 
 const formatCreateDate = v => moment(v).format(DAY_MONTH);
 
+const getToday = () => moment()
+
 module.exports = {
-  formatCreateDate
+  formatCreateDate,
+  getToday
 }

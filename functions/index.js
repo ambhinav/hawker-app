@@ -18,7 +18,7 @@ exports.onOrderCreated = functions.firestore
   .document('Orders/{orders}')
   .onCreate(async (snap, context) => {
     var { cart, cartStoreMappings } = snap.data();
-    var storeOrders = await botHelpers.processCart(cart, cartStoreMappings);
+    var storeOrders = await botHelpers.processCart(cart, cartStoreMappings, snap.id);
     var message = await botHelpers.createAdminMessage(snap.data(), storeOrders);
     return Promise.all([
       bot.telegram.sendMessage(TELEGRAM.ADMIN_CONTACT, message, {
@@ -42,6 +42,18 @@ exports.resetOrderStatisticsWeekly = functions.pubsub.schedule("every sunday 23:
       .doc("--stats--")
       .delete() // client side will re-create the stats doc if not found, thereby resetting the counter
   })
+
+// exports.calculateDailyExpenses = functions.pubsub.schedule("every day 18:00")
+//   .timeZone("Asia/Singapore")
+//   .onRun(async context => {
+    
+//     return botHelpers.
+//   })
+exports.calculateDailyExpenses = functions.https.onCall((data, context) => {
+  return botHelpers.getDailyExpense();
+}
+
+)
 
 /** Bot-related scripts */
 exports.botWebhook = functions.https.onRequest(
