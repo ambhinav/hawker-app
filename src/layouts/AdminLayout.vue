@@ -35,7 +35,7 @@
         <router-link id="link" to='/admin'>
           <v-list-item link>
               <v-list-item-icon>
-                <v-icon>mdi-cash</v-icon>
+                <v-icon>mdi-clipboard-text</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>Orders</v-list-item-title>
