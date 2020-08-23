@@ -80,16 +80,17 @@ const processCart = async (cart, cartStoreMappings, orderId) => {
       }
     })
 
-    // update the order to include how many of each item was bought and from which store
-    await admin.firestore()
-      .collection("Orders")
-      .doc(orderId)
-      .update({
-        cartStoreMappings: sales
-      })
-
     return storeOrder;
   }))
+
+  // update the order to include how many of each item was bought and from which store
+  await admin.firestore()
+    .collection("Orders")
+    .doc(orderId)
+    .update({
+      cartStoreMappings: sales
+    })
+
   return result
 }
 
@@ -106,14 +107,12 @@ const updateOrderStatus = (newStatus, orderId) => {
 const getDailyExpense = async () => {
   let m1 = dateTimeHelpers.getToday();
   let m2 = dateTimeHelpers.getToday();
-  m1.add(-1, 'days');
-  m2.add(-1, 'days');
   m1.startOf('day');
-  m2.startOf('day');
+  m2.endOf('day');
   var data = {}
   var completedOrders = await admin.firestore()
     .collection("Orders")
-    .orderBy('created_at')
+    .orderBy('created_at', "desc")
     .where("orderStatus", "==", "paid")
     .where("created_at", ">", m1.valueOf())
     .where("created_at", "<=", m2.valueOf())
@@ -134,13 +133,13 @@ const getDailyExpense = async () => {
     })
   })
   result = {};
-  data.map(val => {
+  Object.entries(data).forEach(val => {
     storeId = val[0];
     costs = val[1];
     result[storeId] = costs.reduce((acc, val) => acc + val, 0);
   })
   return admin.firestore()
-    .collection("DailyExpenses")
+    .collection("Expenses")
     .add({
       created_at: dateTimeHelpers.getToday().valueOf(),
       expenses: result

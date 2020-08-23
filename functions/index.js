@@ -43,17 +43,11 @@ exports.resetOrderStatisticsWeekly = functions.pubsub.schedule("every sunday 23:
       .delete() // client side will re-create the stats doc if not found, thereby resetting the counter
   })
 
-// exports.calculateDailyExpenses = functions.pubsub.schedule("every day 18:00")
-//   .timeZone("Asia/Singapore")
-//   .onRun(async context => {
-    
-//     return botHelpers.
-//   })
-exports.calculateDailyExpenses = functions.https.onCall((data, context) => {
-  return botHelpers.getDailyExpense();
-}
-
-)
+exports.calculateDailyExpenses = functions.pubsub.schedule("every day 18:00")
+  .timeZone("Asia/Singapore")
+  .onRun(((data, context) => {
+    return botHelpers.getDailyExpense();
+  }))
 
 /** Bot-related scripts */
 exports.botWebhook = functions.https.onRequest(

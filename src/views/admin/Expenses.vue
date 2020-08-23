@@ -9,17 +9,12 @@
 								<v-card>
 									<v-card-title  class="d-flex justify-space-between">
 										<span style="font-weight: 300">No. of Expenses</span>
-										<span style="font-weight: 300">{{ this.getExpenses.length }}</span>
+										<span style="font-weight: 300">{{ getExpenses.length }}</span>
 									</v-card-title>
 								</v-card>
 							</v-flex>
 						</v-col>
             <v-spacer></v-spacer>
-            <v-col cols="4">
-              <v-card>
-                <v-btn @click="getTodayExpenses()">Get</v-btn>
-              </v-card>
-            </v-col>
 					</v-row>
 				</v-layout>
         <v-layout row wrap class="mt-5">
@@ -32,10 +27,10 @@
 									class="elevation-1"
 								>
                   <template v-slot:item.created_at="{ item }">
-                    {{ this.formatDate(item.created_at) }}
+                    {{ formatDate(item.created_at) }}
 									</template>
                  <template v-slot:item.expenses="{ item }">
-                    {{ this.viewExpenditure(item.expenses) }}
+                    <v-btn @click="viewExpenditure(item.expenses)">view</v-btn>
 									</template> 
 								</v-data-table>
 							</v-flex>
@@ -48,12 +43,12 @@
       <v-card>
         <v-container>
           <v-list>
-            <v-subheader>Store - Amount owed</v-subheader>
+            <v-list-title>Store - Amount owed</v-list-title>
             <v-list-item
-              v-for="(storeId, cost) in targetExpenditure"
+              v-for="(cost, storeId) in targetExpenditure"
               :key="storeId"
             >
-              {{ this.getStoreName(storeId) }} - ${{ cost }}
+              {{ getStoreName(storeId) }} ({{ storeId }}) - ${{ cost }}
             </v-list-item>
           </v-list>
         </v-container>
@@ -64,7 +59,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import { functions } from '@/firebase/init';
 import { formatDateShort } from '@/utils/dateTimeUtil';
 export default {
   name: "Expenses",
@@ -94,15 +88,12 @@ export default {
   },
   methods: {
     ...mapActions(["initExpenses"]),
-    getTodayExpenses() {
-      return functions.httpsCallable("calculateDailyExpenses");
-    },
     viewExpenditure(expenditure) {
       this.targetExpenditure = expenditure;
       this.showExpenditure = true;
     },
     getStoreName(storeId) {
-      return this.getStores.find(store => store.id == storeId);
+      return this.getStores.find(store => store.id == storeId).name;
     },
     formatDate(date) {
       return formatDateShort(date);
