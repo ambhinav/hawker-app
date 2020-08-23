@@ -13,6 +13,7 @@ import Onboarding from "@/views/admin/Onboarding";
 import EditMenu from '@/components/admin/EditMenu';
 import AdminContact from '@/views/admin/AdminContact';
 import Promos from '@/views/admin/Promos';
+import Expenses from '@/views/admin/Expenses';
 import { auth } from "@/firebase/init";
 
 Vue.use(VueRouter);
@@ -131,6 +132,15 @@ const routes = [
       title: "Admin - Promos"
     },
   },
+  {
+    path: "/admin/expenses",
+    component: Expenses,
+    meta: {
+      layout: "AdminLayout",
+      requiresAuth: true,
+      title: "Admin - Expenses"
+    },
+  }, 
   {
     path: "*", //catch all other invalid URLS
     beforeEnter: (to, from, next) => {
