@@ -73,13 +73,14 @@ export default {
       })
     },
     editMenuItem(context, item) {
-      const { name, price, id, deliverySlots } = item;
+      const { name, price, id, deliverySlots, nm } = item;
       return db.collection("Menu")
         .doc(id)
         .update({
           price,
           deliverySlots,
-          name
+          name,
+          nm
         })
     },
     async deleteMenuItem({ dispatch }, payload) {
@@ -87,6 +88,13 @@ export default {
       return db.collection("Menu")
         .doc(payload.itemId)
         .delete()
+    },
+    addNonMarkup(context, { id, nm }) {
+      return db.collection("Menu")
+        .doc(id)
+        .update({
+          nm
+        })
     }
   },
 };

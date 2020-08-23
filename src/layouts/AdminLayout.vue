@@ -35,10 +35,20 @@
         <router-link id="link" to='/admin'>
           <v-list-item link>
               <v-list-item-icon>
-                <v-icon>mdi-cash</v-icon>
+                <v-icon>mdi-clipboard-text</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>Orders</v-list-item-title>
+              </v-list-item-content>
+          </v-list-item>
+        </router-link>
+        <router-link id="link" to='/admin/expenses'>
+          <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-cash</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Expenses</v-list-item-title>
               </v-list-item-content>
           </v-list-item>
         </router-link>

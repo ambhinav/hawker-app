@@ -49,7 +49,7 @@
         </v-row>
       </v-container>
       <v-bottom-sheet 
-        v-model="sheet"
+        v-model="isCheckoutButtonShown"
         hide-overlay
         inset
         persistent
@@ -162,7 +162,6 @@ export default {
   data () {
     return {
       deliveryDetails: null,
-      sheet: true,
       cartOpen: false,
       error: false,
       loading: true,

@@ -9,6 +9,7 @@ import cart from './modules/cart';
 import orders from './modules/orders';
 import contact from './modules/contact';
 import promos from './modules/promos';
+import expenses from './modules/expenses';
 
 Vue.use(Vuex);
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     cart,
     orders,
     contact,
-    promos
+    promos,
+    expenses
   }
 });
