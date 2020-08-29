@@ -110,6 +110,7 @@ const getDailyExpense = async () => {
   m1.startOf('day');
   m2.endOf('day');
   var data = {}
+  var ordersByCost = { "6": 0, "9": 0 };
   var completedOrders = await admin.firestore()
     .collection("Orders")
     .orderBy('created_at', "desc")
@@ -117,6 +118,14 @@ const getDailyExpense = async () => {
     .where("created_at", ">", m1.valueOf())
     .where("created_at", "<=", m2.valueOf())
     .get()
+
+  completedOrders.docs.forEach(order => {
+    var deliveryCost = order.data().deliveryCost.toString();
+    var currentVal = ordersByCost[deliveryCost];
+    currentVal++;
+    ordersByCost[deliveryCost] = currentVal;
+  })
+
   var mappings = completedOrders.docs.map(order => order.data().cartStoreMappings)
   mappings.forEach(mapping => {
     Object.entries(mapping).forEach(val => {
@@ -142,7 +151,9 @@ const getDailyExpense = async () => {
     .collection("Expenses")
     .add({
       created_at: dateTimeHelpers.getToday().valueOf(),
-      expenses: result
+      expenses: result,
+      numberOfOrdersCompleted: completedOrders.docs.length,
+      deliveryPricings: ordersByCost
     })
 }
 

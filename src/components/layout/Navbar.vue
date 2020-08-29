@@ -10,10 +10,9 @@
       </v-avatar> -->
       <v-btn to="/" text>
         <v-img 
-          contain 
           :src="require('@/assets/logo.svg')"
-          max-height="120"
-          max-width="150"
+          max-height="60"
+          max-width="120"
           >
         </v-img>
       </v-btn>

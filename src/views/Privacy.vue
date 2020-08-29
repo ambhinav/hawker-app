@@ -18,11 +18,10 @@
       1.2 We, Foodboys Pte Ltd, are committed to respecting your online privacy and recognize your need for appropriate protection and management of any personally identifiable information (“Personal Information”) you share with us. For purpose of this Policy, Personal Information means any information that may be used to identify an individual, including, but not limited to, a first and last name, a home or other physical address and an email address or other contact information, such as a contact number, whether at work or home. In general, you can visit the Site’s web pages without telling us who you are or revealing any Personal Information about yourself. If however, Personal Information is revealed to us, we won’t sell or give away any content of your Personal Information to anyone except people who may be involved in the process of your delivery or part of Foodboys Pte Ltd for communication purposes to complete your order.
       <br>
       <br>
+      1 ‘User’ shall have the same meaning as defined under Section 2 (1) (j) of the Information Technology (Intermediaries Guidelines Rules, 2011). Per the said Rules, user means any person who accesses or avails any computer recourse of intermediary for the purpose of hosting, publishing, sharing, transacting, displaying or uploading information or views and includes other persons jointly participating in using the computer recourses of an intermediary.
       <br>
-      1‘User’ shall have the same meaning as defined under Section 2 (1) (j) of the Information Technology (Intermediaries Guidelines Rules, 2011). Per the said Rules, user means any person who accesses or avails any computer recourse of intermediary for the purpose of hosting, publishing, sharing, transacting, displaying or uploading information or views and includes other persons jointly participating in using the computer recourses of an intermediary.
       <br>
-      <br>
-      2. information we collect and how we use it
+      2. Information we collect and how we use it
       <br>
       2.1 When you visit the Site or use our Service, we collect and store information about you, your computer or mobile device and your activities. This information may include, but is not limited to:
       <br>
