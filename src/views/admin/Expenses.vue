@@ -30,7 +30,7 @@
                     {{ formatDate(item.created_at) }}
 									</template>
                  <template v-slot:item.expenses="{ item }">
-                    <v-btn @click="viewExpenditure(item.expenses)">view</v-btn>
+                    <v-btn @click="viewExpenditure(item)">view</v-btn>
 									</template> 
 								</v-data-table>
 							</v-flex>
@@ -40,18 +40,34 @@
 			</v-container>
 		</v-card>
     <v-dialog v-model="showExpenditure" max-width="600">
-      <v-card>
+      <v-card v-if="targetExpenditure">
+        <v-card-title>Daily expenditure</v-card-title>
         <v-container>
           <v-list>
-            <v-list-title>Store - Amount owed</v-list-title>
+            <v-list-title><b>Store -> Amount owed</b></v-list-title>
             <v-list-item
-              v-for="(cost, storeId) in targetExpenditure"
+              v-for="(cost, storeId) in targetExpenditure.expenses"
               :key="storeId"
             >
-              {{ getStoreName(storeId) }} ({{ storeId }}) - ${{ cost }}
+              {{ getStoreName(storeId) }} ({{ storeId }}) -> ${{ cost }}
+            </v-list-item>
+          </v-list>
+          <v-list>
+            <v-list-title>
+              <b>Delivery cost -> Number of orders</b>
+            </v-list-title>
+            <v-list-item
+              v-for="(num, cost) in targetExpenditure.deliveryPricings"
+              :key="num"
+            >
+              ${{ cost }} -> {{ num }} orders 
             </v-list-item>
           </v-list>
         </v-container>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="handleViewDetailsClose()">close</v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
 	</div>
@@ -72,7 +88,12 @@ export default {
 					text: 'Date', 
 					align: 'left', 
 					value: 'created_at' 
-				},
+        },
+        { 
+					text: "Number of orders", 
+					align: 'left', 
+					value: 'numberOfOrdersCompleted' 
+        },
 				{ 
 					text: "Details", 
 					align: 'left', 
@@ -97,6 +118,10 @@ export default {
     },
     formatDate(date) {
       return formatDateShort(date);
+    },
+    handleViewDetailsClose() {
+      this.targetExpenditure = null;
+      this.showExpenditure = null;
     }
   }
 }
