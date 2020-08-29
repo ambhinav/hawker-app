@@ -76,7 +76,7 @@
               By sharing your data with us you are protected by <a href="https://sso.agc.gov.sg/SL-Supp/S398-2020/Published/20200528?DocDate=20200528">PDPA</a>
             </v-list-item-title>
             <v-list-item-title class="terms-service">
-              <a>Halale's Terms of Service</a>
+              <a href="https://foodboys.sg/privacy">Foodboys's Terms of Service</a>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item> 
