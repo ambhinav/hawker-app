@@ -9,12 +9,12 @@ export default new Vuetify({
   theme: {
     themes: {
       light: {
-        primary: colors.orange.lighten1,
+        // primary: colors.orange.lighten1,
+        primary: `#f15a24`,
         secondary: colors.green,
         accent: colors.shades.black,
         error: colors.red.accent3
       }
     }
-    
   }
 });

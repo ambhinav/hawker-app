@@ -99,34 +99,34 @@
       7.8 Disclaimer of Content: Every effort has been made to ensure that the information contained in this Site / App is accurate and true. The content of the Site / App is believed to be correct at the time of compilation. However, the Company makes no representations or warranties about the content and suitability of the information contained herein for any purpose. The Company, its servants, agents and employees disclaim all liability for the accuracy, completeness, or usefulness of any information, apparatus, products or process disclosed and for any error or omission therein.
       <br>
       <br>
-      9. Restrictions
+      8. Restrictions
       <br>
-      9.1  You may view, download and copy information and materials available on this Website solely for your personal, non-commercial use. Even though the Company does everything in its hand to protect both your information and financial transaction details, the Site is not liable for any fraud, theft or financial misdemeanour that may occur as a result of your financial transactions on out Site.
-      <br>
-      <br>
-      10. PAYMENT SECURITY
-      <br>
-      10.1 The Site has taken strong measures to protect the security of your personal information and to ensure that your choices for its intended use are honoured. We take strong precautions to protect your data from loss, misuse, unauthorized access or disclosure, alteration, or destruction. You also have a significant role in protecting your information. No one can see or edit your personal information.
-      <br>
-      10.2 Since this is an intermediary and an ‘information only site’, we do not guarantee your e-commerce transactions to be entirely safe and secure. When you place orders through our website or online payment gateway service providers (“OPGSPs”), listed on the Site, you must ensure that you agree to the terms and conditions of the said OPGSPs agreement. The Company shall not be liable should there be a discrepancy in refund, loss or misuse of credit card details, hacking of sensitive monetary information.
-      <br>
-      10.3 Resolution of all payment related complaints shall remain the responsibility of OPGSPs concerned. Users must read and agree to privacy policy and online security framework of respective OPGSPs listed on the Site before transacting. We do not take responsibility for any security lapse, should infringement or violation happen as a result of you accessing an OPGSP listed on the Site.
+      8.1  You may view, download and copy information and materials available on this Website solely for your personal, non-commercial use. Even though the Company does everything in its hand to protect both your information and financial transaction details, the Site is not liable for any fraud, theft or financial misdemeanour that may occur as a result of your financial transactions on out Site.
       <br>
       <br>
-      11. Feedback
+      9. PAYMENT SECURITY
       <br>
-      11.1  All comments, feedback, information or materials submitted to the Company through or in association with our Website shall be considered non-confidential and Company’s property. By submitting such comments, information, feedback, or materials to us, you agree to a no-charge assignment to the Company of worldwide rights to use, copy, modify, display and distribute the submissions. The Company may use such comments, information or materials in any way it chooses in an unrestricted basis. Users are welcome to provide candid feedback to us.
+      9.1 The Site has taken strong measures to protect the security of your personal information and to ensure that your choices for its intended use are honoured. We take strong precautions to protect your data from loss, misuse, unauthorized access or disclosure, alteration, or destruction. You also have a significant role in protecting your information. No one can see or edit your personal information.
+      <br>
+      9.2 Since this is an intermediary and an ‘information only site’, we do not guarantee your e-commerce transactions to be entirely safe and secure. When you place orders through our website or online payment gateway service providers (“OPGSPs”), listed on the Site, you must ensure that you agree to the terms and conditions of the said OPGSPs agreement. The Company shall not be liable should there be a discrepancy in refund, loss or misuse of credit card details, hacking of sensitive monetary information.
+      <br>
+      9.3 Resolution of all payment related complaints shall remain the responsibility of OPGSPs concerned. Users must read and agree to privacy policy and online security framework of respective OPGSPs listed on the Site before transacting. We do not take responsibility for any security lapse, should infringement or violation happen as a result of you accessing an OPGSP listed on the Site.
       <br>
       <br>
-      12. Cookie Policy
+      10. Feedback
+      <br>
+      10.1  All comments, feedback, information or materials submitted to the Company through or in association with our Website shall be considered non-confidential and Company’s property. By submitting such comments, information, feedback, or materials to us, you agree to a no-charge assignment to the Company of worldwide rights to use, copy, modify, display and distribute the submissions. The Company may use such comments, information or materials in any way it chooses in an unrestricted basis. Users are welcome to provide candid feedback to us.
+      <br>
+      <br>
+      11. Cookie Policy
       When you visit our Site, we may place “cookies” on your computer to recognize you. We do this to store your preferences, collect statistical data and track your use of our Service. Cookies are widely used, and most web browsers are configured initially to accept cookies automatically. If you prefer not to accept cookies, you may adjust and configure your browser settings accordingly. However, if you turn off cookies, or refuse to accept a request to place a cookie, some features and services on the Site may not function properly. Ad companies (including but not limited to Google and Facebook) may also place cookies on your computer to track your activities across various sites so that they can display targeted advertisements.
       <br>
       <br>
-      13. General Provisions and termination
+      12. General Provisions and termination
       <br>
-      13.1 If any provision of this Agreement is deemed void, unlawful or otherwise unenforceable for any reason, that provision shall be severed from this Agreement and the remaining provisions of this Agreement shall remain in force. This contains the entire agreement between you and the Company concerning your use of the Site.
+      12.1 If any provision of this Agreement is deemed void, unlawful or otherwise unenforceable for any reason, that provision shall be severed from this Agreement and the remaining provisions of this Agreement shall remain in force. This contains the entire agreement between you and the Company concerning your use of the Site.
       <br>
-      13.2 You agree that we may, at our sole discretion, permanently or temporarily suspend or terminate your access to all or parts of the Site and Services with or without notice and for any reason, including, without limitation, breach of this User Agreement, and/or any suspected illegal and/or fraudulent or abusive and/or competitive activity may be grounds for terminating your access and may be referred to appropriate law enforcement authorities. Upon suspension or termination, your right to use the Site will immediately cease.
+      12.2 You agree that we may, at our sole discretion, permanently or temporarily suspend or terminate your access to all or parts of the Site and Services with or without notice and for any reason, including, without limitation, breach of this User Agreement, and/or any suspected illegal and/or fraudulent or abusive and/or competitive activity may be grounds for terminating your access and may be referred to appropriate law enforcement authorities. Upon suspension or termination, your right to use the Site will immediately cease.
       <br>
       <br>
       IN WITNESS WHEREOF, all users, visitors and service provide agree that they have read this document and agrees to be bound by them for as long as they continue to either use the Site or avail Services of the Company.

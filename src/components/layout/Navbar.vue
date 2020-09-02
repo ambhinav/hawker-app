@@ -8,14 +8,14 @@
       <!-- <v-avatar :tile="true" size="96" >
         <v-img :src="require('@/assets/logo.svg')"></v-img>
       </v-avatar> -->
-      <v-btn to="/" text>
-        <v-img 
-          :src="require('@/assets/logo.svg')"
-          max-height="60"
-          max-width="120"
-          >
-        </v-img>
-      </v-btn>
+      <v-img 
+        :src="require('@/assets/White word.png')"
+        max-height="500"
+        max-width="280"
+        contain
+        @click="goHome()"
+        >
+      </v-img>
       <!-- <v-toolbar-title>
         <v-btn to="/">
           <v-img :src="require("@/assets/logo.svg")"></v-img>
@@ -79,6 +79,9 @@ export default {
     changeRoute(link) {
       this.$router.push(link);
     },
+    goHome() {
+      this.$router.push("/");
+    }
   }
 };
 </script>
