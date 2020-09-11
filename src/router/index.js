@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+// user routes
 import Home from "../views/Home.vue";
 import SignIn from "@/views/SignIn";
 import ClientContact from "@/views/Contact";
@@ -7,6 +8,8 @@ import ClientContactSuccess from "@/views/ContactSuccess";
 import StoreUser from "@/views/StoreUser";
 import OrderDetails from "@/views/OrderDetails";
 import Invoice from "@/views/Invoice";
+import Privacy from '@/views/Privacy';
+// admin routes
 import Orders from "@/views/admin/Orders";
 import Stores from "@/views/admin/Stores";
 import Onboarding from "@/views/admin/Onboarding";
@@ -14,6 +17,7 @@ import EditMenu from '@/components/admin/EditMenu';
 import AdminContact from '@/views/admin/AdminContact';
 import Promos from '@/views/admin/Promos';
 import Expenses from '@/views/admin/Expenses';
+
 import { auth } from "@/firebase/init";
 
 Vue.use(VueRouter);
@@ -66,7 +70,13 @@ const routes = [
     path: "/contact/success",
     name: "ClientContactSuccess",
     component: ClientContactSuccess,
-    meta: { title: "Thank you" }
+    meta: { title: "Success - Foodboys" }
+  },
+  {
+    path: "/privacy",
+    name: "Privacy",
+    component: Privacy,
+    meta: { title: "Privacy Policy - Foodboys" }
   },
   {
     path: "/login",

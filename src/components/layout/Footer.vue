@@ -26,15 +26,28 @@
       </v-row>
       <v-divider></v-divider>
       <v-row>
-        <v-col cols="12">
+        <v-col cols="6">
           <v-row justify="center">
-            <div class="copyright"><strong>FoodBoys</strong> <v-icon>mdi-copyright</v-icon> {{ new Date().getFullYear() }} - All rights reserved. </div> 
+            <div class="copyright"><strong>Foodboys</strong> <v-icon>mdi-copyright</v-icon> {{ new Date().getFullYear() }} - All rights reserved. </div> 
           </v-row>
+        </v-col>
+        <v-col cols="6">
+          <v-btn text @click="changeRoute()" class="primary--text">Terms and conditions</v-btn>
         </v-col>
       </v-row>
     </v-container>
   </v-footer>
 </template>
+
+<script>
+export default {
+  methods: {
+    changeRoute() {
+      this.$router.push("privacy");
+    }
+  }
+}
+</script>
 
 <style>
 .copyright {

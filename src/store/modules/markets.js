@@ -68,7 +68,11 @@ export default {
     }
   },
   getters: {
+    // sort markets by their enabled status
     getMarkets: state => {
+      state.markets.sort((x, y) => {
+        return (x.enabled == y.enabled) ? 0 : x.enabled? -1 : 1;
+      });
       return state.markets;
     }
   },

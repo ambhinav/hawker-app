@@ -1,11 +1,21 @@
 <template>
   <div class="home">
     <v-img
-      src="https://images.unsplash.com/photo-1577303935007-0d306ee638cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1325&q=80"
-      lazy-src="https://picsum.photos/id/11/100/60"
-      max-height="500"
-      class="align-center"
+      :src="require('@/assets/home.jpg')"
+      lazy-src="https://images.unsplash.com/photo-1577303935007-0d306ee638cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1325&q=80"
+      class="align-center hidden-sm-and-down"
+      contain
+      aspect-ratio="4:3"
+      style="transform: rotate(-90deg)"
     >
+    </v-img> 
+    <v-img
+      :src="require('@/assets/home.jpg')"
+      aspect-ratio="0.47"
+      lazy-src="https://images.unsplash.com/photo-1577303935007-0d306ee638cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1325&q=80"
+      class="align-center hidden-md-and-up"
+    >
+    </v-img>
       <!-- <v-container fluid>
         <v-row class="white--text font-weight-bold" align="center">
           <v-spacer></v-spacer>
@@ -16,7 +26,6 @@
           <v-spacer></v-spacer>
         </v-row>
       </v-container> -->
-    </v-img> 
     <InfoBanner v-if="isSiteClosed" info="Sorry, we are closed after 5pm. Please check our menu and come back tomorrow to order!" />
     <v-timeline
       :align-top="alignTop"
@@ -77,7 +86,7 @@ export default {
         {
           name: "Choose your food and checkout",
           title: "Menu and Checkout",
-          text: "Add the food you want to the cart and checkout. Payment can be made via Paynow, Stripe or Cash on delivery."
+          text: "Add the food you want to the cart and checkout. Payment can be made via Paynow or Cash on delivery."
         },
       ],
       isBannerShown: false,  
