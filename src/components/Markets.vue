@@ -35,19 +35,17 @@
                 <v-list-item-subtitle v-if="isMarketDisabled(market)">Coming Soon!</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-
             <v-img
-              v-if="market.image"
-              :src="market.image"
+              v-if="market.imageUrl"
               max-height="300"
-            ></v-img>
+              :src="market.imageUrl"
+            >
+            </v-img>
             <v-img
-              v-else
-              max-height="300"
+              v-else 
               src="https://image.shutterstock.com/image-photo/singapore-january-14-2020-inside-600w-1626451243.jpg"
             >
             </v-img>
-
             <v-card-text v-if="market.stores">
               {{ market.stores.length }} shops available to choose from!
             </v-card-text>
