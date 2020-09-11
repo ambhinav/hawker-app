@@ -244,14 +244,7 @@ export default {
       return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 3000));
     },
     isMarketDisabled(market) {
-      // if (isClosed() || !market.stores) { // there are stores
-      //   return true;
-      // }
-      // return market.stores.length < 1;
-      if (!market.stores) {
-        return true;
-      }
-      return market.stores.length < 1;
+      return !market.enabled;
     },
     getDeliveryCost(distance) {
       return distance <= 8 ? 6 : 9;
