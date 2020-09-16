@@ -1,14 +1,16 @@
 <template>
   <div class="home">
+    <!-- 10 x 2 banner -->
     <v-img
-      src="https://uc544737ab21c88526fd3563a570.previews.dropboxusercontent.com/p/thumb/AA6IxzoVtzTL_dUKob3ZXuTOHwupuoskqvmGp23AuL3cvbCz_dopn2v0a5DMg0iE1hOghF05YYeMoSI5SvAHiq18Qe260td-hcS2yE4pcCc9d13rMeeMJmTnyDRGPGVLxhDVmAH3kGvWP7gz80CnAuEObbe9rjQKimjPPwTbFREfCfxAUVg3SfdkMKnkg5IJco0fLWoGqbiOUf7XxoxHIBTJizCqxvAQBvf1MfnWl81geJYeBDYNKbAYZh3p357_3lfyHEcAoY34Z353Vu_LZOWMd287ykzq70elLsLc6E8S-4sAGLN2_Z3dBPdp6QUMek3juJ67TsEFFS68SkCQVDOov7D4GpZibb3y2CK-qeUysB3hXsDW1-hdx1tHAXKrFhINRewPFLCiDg4CPNu3gc-8zqbjf6a0OwejN36YwaKXXQ/p.jpeg?fv_content=true&size_mode=5"
+      src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2F10x2_Banner.jpg?alt=media&token=ddb79c44-680b-4f41-a467-d67186b70109"
       lazy-src="https://images.unsplash.com/photo-1577303935007-0d306ee638cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1325&q=80"
       class="align-center hidden-sm-and-down"
       contain
     >
     </v-img> 
+    <!-- 3 x 2 banner -->
     <v-img
-      src="https://uc8d5934d20b2e30f9c5deeb9d1b.previews.dropboxusercontent.com/p/thumb/AA6S5He8EKIVnfT4mm3dGIB6hcU_IfiBMa3p7SKV1FKfg4m7ZBmvZ3q6ln5jm_g4vNg_eo_IxwoO2dbgypv1C6pNr2xlceJgjHnyRf7PdCNaH-_EBzRST1tLAWnOdoVnLs61_nncYwFioRdKT3a6179dgx9PNqjprtHY8bv9JeCffmUWV2bX9PHfyZil_cKEkbtdDYoVgMjgNiqRCCNi8zoDHqM70IHP-WU0dzhxum38vre9aJ3KgM_vDuQojYinJvpWfrCmKGIipAfgaFsHwnOi0roLIVgY8Cg0bUDHcWcwmxaE0PCSSMCfD5kh74jIGIfsHls0lG0Ml6XEEC1brj0tiqfB2rF_OEFEPESq1D7VDDknD86YofxVvOF5BB0S7MOLcuDpYOHF0b5E30SUfr-PTXHjBIBt7cJbSMXU1s2FryXg0xn-jpXvhCZZPGFARnO6xm62shKY07DNP62AyN76p3UdmaBENy69mU05N-S2mg/p.jpeg?fv_content=true&size_mode=5"
+      src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2F3x2_banner.jpg?alt=media&token=3e69a2e0-465c-4c33-a2a8-62b9d9a09762"
       lazy-src="https://images.unsplash.com/photo-1577303935007-0d306ee638cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1325&q=80"
       class="align-center hidden-md-and-up"
       contain

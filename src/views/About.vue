@@ -21,10 +21,10 @@
     <v-row align="center">
       <v-col cols="4" md="2">
         <v-avatar class="profile hidden-sm-and-down" size="164">
-          <v-img src="https://uc836666244f6fc8ff92041537ad.previews.dropboxusercontent.com/p/thumb/AA4lbB2jyQa4RLZNUv96vbMJR8QGb-sa0sVdkrCTzRDqK8Mv3zmrgC3JJc-spXnTZy3gMp4Ak2Cgs2lhxVqblJZNWCuBvJlsPD3-nAKkYIMM755u_Z6JrqM8BTezeoLpLulrAm7bZp0n0kyCn5XBv43fCkWyuYgWSxw5HTdLFcIC6bzZq2gwxZBn0dGDtgDzHOyjpvMxwYYR5rSrj5JWIlayWMu5l02TOOUF7DybVl724wWKo-pVme9Rogd6BtmRJ6psIg3nKoZK4gE5V0pPa6Q51pyBhczoaPmUNXVcmT_2Lvp2iL3fDDZtjcP5vqYXX_RmZ3SHtuKvji6x7-fo8nBRyHBn1TJvFBC4_Iupezx8LpfZy2aFPH-tfttsFaxqsZsZoH5j3wfWBHTm9WGg6UEuEdErlumzDvtU1f8Dlg815faJf0iFmJOpYd2MY2XIs1CdN4ckvoGE3IBjU_Wm1MGW1JB0EvmHsHI3lAeaWy1uWkUwSPBdTY8K_wSHyzVrNIQGexPNuyA3axgz5bYtlB0Qu5D4smq1G7SPxtZibiIwRuv0GMDnO1xE6MdUzzIKbFxVfKbhU4AvbfBapnQ5YUYK/p.jpeg?size=178x178&size_mode=1"></v-img>
+          <v-img src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FIbrahim_Headshot.jpg?alt=media&token=e82f0d8d-1cc6-49c4-8012-5067dfa96fd8"></v-img>
         </v-avatar>
         <v-avatar class="profile hidden-md-and-up" size="102">
-          <v-img src="https://uc836666244f6fc8ff92041537ad.previews.dropboxusercontent.com/p/thumb/AA4lbB2jyQa4RLZNUv96vbMJR8QGb-sa0sVdkrCTzRDqK8Mv3zmrgC3JJc-spXnTZy3gMp4Ak2Cgs2lhxVqblJZNWCuBvJlsPD3-nAKkYIMM755u_Z6JrqM8BTezeoLpLulrAm7bZp0n0kyCn5XBv43fCkWyuYgWSxw5HTdLFcIC6bzZq2gwxZBn0dGDtgDzHOyjpvMxwYYR5rSrj5JWIlayWMu5l02TOOUF7DybVl724wWKo-pVme9Rogd6BtmRJ6psIg3nKoZK4gE5V0pPa6Q51pyBhczoaPmUNXVcmT_2Lvp2iL3fDDZtjcP5vqYXX_RmZ3SHtuKvji6x7-fo8nBRyHBn1TJvFBC4_Iupezx8LpfZy2aFPH-tfttsFaxqsZsZoH5j3wfWBHTm9WGg6UEuEdErlumzDvtU1f8Dlg815faJf0iFmJOpYd2MY2XIs1CdN4ckvoGE3IBjU_Wm1MGW1JB0EvmHsHI3lAeaWy1uWkUwSPBdTY8K_wSHyzVrNIQGexPNuyA3axgz5bYtlB0Qu5D4smq1G7SPxtZibiIwRuv0GMDnO1xE6MdUzzIKbFxVfKbhU4AvbfBapnQ5YUYK/p.jpeg?size=178x178&size_mode=1"></v-img>
+          <v-img src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FIbrahim_Headshot.jpg?alt=media&token=e82f0d8d-1cc6-49c4-8012-5067dfa96fd8"></v-img>
         </v-avatar>
       </v-col>
       <v-col cols="8" md="10">
@@ -46,10 +46,10 @@
       </v-col>
       <v-col cols="4" md="4" class="pt-5">
         <v-avatar class="profile hidden-sm-and-down" size="164">
-          <v-img src="https://uc5305cfc9662fa48cb1d9d112a2.previews.dropboxusercontent.com/p/thumb/AA7MYYlomdnDRFujx0LdS-ELE2BTvbBvboHlaX-_N-E65-udEQyEx9xQtLsHYASXvaHXnNJWjrhbCxsd4uNdx7QGO1mftkNq2zYtuZlH4gNqWhQkjhPHssWlsMRwP6G9aG4iVIrrqc4uY7q7D-sio3iS64UNEjm1eOBJk43N8cwqq-5HZLPGJKdLro8T9VkhK07vIm8bbbWDv1am88y890amtU145jnkZ-J4RjwqhLvFNNOndj0wDFV8ymmOelZ4n7HbdYIBCmOipcYMOj5ryKiLm06V7Vq9aTp1GOgNNFYfQAOV8c7wQXwwIPRBo6VMtpLdmqpNJ4mR-uAeVlrE4ZUCplA2CgJ3vNksKb4pKVXSthpD9owCQn-LnUjTEY7WrCMhTo1SceM2iy2w1WIW_LAjTrHVxWovioLhGrGRMl2zQsbOVhVy1sTOQ3nlIROdI6ohksDvb3M9CLuRQ-fqotSC3FBDizPeeoKsZ6m5UL_-RIy-Dq33p1jXvK-xjaUUBXIGJ-U1QX_IKkgJT1ba7Gf6QnVaBro0biOZ_aUvdHxrA_nkGzk4roHUK0fkXzB6wluhcDGI6wOt9B9XhYkbxxwO/p.jpeg?size=178x178&size_mode=1"></v-img>
+          <v-img src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FKiran_Headshot.jpg?alt=media&token=4976991f-2af5-48a8-aefb-bd25774ee3da"></v-img>
         </v-avatar>
         <v-avatar class="profile hidden-md-and-up" size="102">
-          <v-img src="https://uc5305cfc9662fa48cb1d9d112a2.previews.dropboxusercontent.com/p/thumb/AA7MYYlomdnDRFujx0LdS-ELE2BTvbBvboHlaX-_N-E65-udEQyEx9xQtLsHYASXvaHXnNJWjrhbCxsd4uNdx7QGO1mftkNq2zYtuZlH4gNqWhQkjhPHssWlsMRwP6G9aG4iVIrrqc4uY7q7D-sio3iS64UNEjm1eOBJk43N8cwqq-5HZLPGJKdLro8T9VkhK07vIm8bbbWDv1am88y890amtU145jnkZ-J4RjwqhLvFNNOndj0wDFV8ymmOelZ4n7HbdYIBCmOipcYMOj5ryKiLm06V7Vq9aTp1GOgNNFYfQAOV8c7wQXwwIPRBo6VMtpLdmqpNJ4mR-uAeVlrE4ZUCplA2CgJ3vNksKb4pKVXSthpD9owCQn-LnUjTEY7WrCMhTo1SceM2iy2w1WIW_LAjTrHVxWovioLhGrGRMl2zQsbOVhVy1sTOQ3nlIROdI6ohksDvb3M9CLuRQ-fqotSC3FBDizPeeoKsZ6m5UL_-RIy-Dq33p1jXvK-xjaUUBXIGJ-U1QX_IKkgJT1ba7Gf6QnVaBro0biOZ_aUvdHxrA_nkGzk4roHUK0fkXzB6wluhcDGI6wOt9B9XhYkbxxwO/p.jpeg?size=178x178&size_mode=1"></v-img>
+          <v-img src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FKiran_Headshot.jpg?alt=media&token=4976991f-2af5-48a8-aefb-bd25774ee3da"></v-img>
         </v-avatar>
       </v-col>
     </v-row>

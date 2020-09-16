@@ -8,7 +8,7 @@
           max-width="500px"
         > -->
         <v-img
-          src="https://uccd945c220a81a21805befec652.previews.dropboxusercontent.com/p/thumb/AA6Vqa27sDT5oIvpEfNTbYuW2EJ8xOdF2p9NmGINiuuij5GLEjhwb-wENnqKs8D17ncUfqoKq4dMiAipw3MInowF2EZKkAuTmXHFjb-P_amnde7wUNjzM9O2HF-oB9bWkoO9HlOnCX1zlmjRrTfbw3cSQ0UAnQQ-v1VM6FWeYRUEcGSn18tPGTdiXkiOuqBDnrajUQoS_mduyGn8pwQdoZW6e1BEeu4-iSrj5zxeFLXvdf2E77OqnHO01uXLYIj_GnPnWCDwjQvhRY2VWsoloXq5eE49LAwt4i9hMJIURont2FdHUGDpnv8PK4WRwM8Xr9jmXWElSh33PmzbynVpgZmFLhdz0GTs0bo2fslNJ6r1Dfwug4wrAm6vItCt-irffOQ9Sd1YIOmEsuIUHp_n7tgdvjbgD_QtFXcgT_CfQoQY_BJRJtdMV8G4fnIG3Qar_fuNgMe0N_dzYqNCfhPj-tDAYGIC675JDCwWUyu7mVQCmnvdtejDTcmE6Y10SwDYI9WxZ7Z3S_YaDX_c8kx_Zm7nETKk8oTbGrSBIKdyU6wgotOkfYuw6xVYlRxrI6S1k76WUzpQx2eEGMGT9MRikqCbg--qcm6f1qw1gez_TEJjEg/p.jpeg?fv_content=true&size_mode=5"
+          src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FIbrahim_Tea.jpg?alt=media&token=0e06ee47-daea-427e-8ef2-d8482580d944"
         >
         </v-img>
       </v-col>
