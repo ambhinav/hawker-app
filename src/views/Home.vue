@@ -1,19 +1,19 @@
 <template>
   <div class="home">
+    <!-- 10 x 2 banner -->
     <v-img
-      :src="require('@/assets/home.jpg')"
+      src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2F10x2_Banner.jpg?alt=media&token=ddb79c44-680b-4f41-a467-d67186b70109"
       lazy-src="https://images.unsplash.com/photo-1577303935007-0d306ee638cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1325&q=80"
       class="align-center hidden-sm-and-down"
       contain
-      aspect-ratio="4:3"
-      style="transform: rotate(-90deg)"
     >
     </v-img> 
+    <!-- 3 x 2 banner -->
     <v-img
-      :src="require('@/assets/home.jpg')"
-      aspect-ratio="0.47"
+      src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2F3x2_banner.jpg?alt=media&token=3e69a2e0-465c-4c33-a2a8-62b9d9a09762"
       lazy-src="https://images.unsplash.com/photo-1577303935007-0d306ee638cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1325&q=80"
       class="align-center hidden-md-and-up"
+      contain
     >
     </v-img>
       <!-- <v-container fluid>
@@ -31,6 +31,7 @@
       :align-top="alignTop"
       :dense="dense"
       :reverse="reverse"
+      class="pa-5"
     >
       <v-timeline-item
         v-for="(step, i) in timeline"
