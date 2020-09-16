@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <v-img
-      src="https://uc1bf508601f7266dc3861dcdf09.previews.dropboxusercontent.com/p/thumb/AA4S5xd16AcXJoeq6eCDSjcvI2s1g0hRw8kSiRRlmRjwovwNizHX2dpP5kSFhyBbtlEytG6GwbhwTtK7sgh7ZVc7He88U7zq-FoItcr_VZYauXXQ8WnJO1O1ZzumiNpm4KAQcxw6t2HR74-TwJGIhB-oq3xBS2uYz_PWBLVQ9vCLxLA2HvD5io2t-PJn3WE5U_xQ_rVtorX-zJu4lrcg-TqdqUWRRL7neRAuSygAfPfsUggFrKsx6DRFguZBG3vUqyKGGhT9D2ZXCWYYG_IgqWgGNzBZJrNlFSE7xf7UMIBXiCySXh5EII3lFinSOigCLYzDFaPJcfwlr8slVaO9gC2qAwnejHHucbATuRXd0lQv8YWsAi-3fCTmBvSH1F0K6CMC40TsMMCNy5HeNvpN8DDgQlGph6tu6VFZHssGU8Sx1g/p.jpeg?fv_content=true&size_mode=5"
+      src="https://uc544737ab21c88526fd3563a570.previews.dropboxusercontent.com/p/thumb/AA6IxzoVtzTL_dUKob3ZXuTOHwupuoskqvmGp23AuL3cvbCz_dopn2v0a5DMg0iE1hOghF05YYeMoSI5SvAHiq18Qe260td-hcS2yE4pcCc9d13rMeeMJmTnyDRGPGVLxhDVmAH3kGvWP7gz80CnAuEObbe9rjQKimjPPwTbFREfCfxAUVg3SfdkMKnkg5IJco0fLWoGqbiOUf7XxoxHIBTJizCqxvAQBvf1MfnWl81geJYeBDYNKbAYZh3p357_3lfyHEcAoY34Z353Vu_LZOWMd287ykzq70elLsLc6E8S-4sAGLN2_Z3dBPdp6QUMek3juJ67TsEFFS68SkCQVDOov7D4GpZibb3y2CK-qeUysB3hXsDW1-hdx1tHAXKrFhINRewPFLCiDg4CPNu3gc-8zqbjf6a0OwejN36YwaKXXQ/p.jpeg?fv_content=true&size_mode=5"
       lazy-src="https://images.unsplash.com/photo-1577303935007-0d306ee638cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1325&q=80"
       class="align-center hidden-sm-and-down"
       contain
@@ -29,6 +29,7 @@
       :align-top="alignTop"
       :dense="dense"
       :reverse="reverse"
+      class="pa-5"
     >
       <v-timeline-item
         v-for="(step, i) in timeline"
