@@ -6,13 +6,13 @@
     <v-main>
       <router-view />
     </v-main>
-    <Footer />
+    <FooterWrapper />
   </v-app>
 </template>
 
 <script>
 import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import FooterWrapper from "@/components/layout/FooterWrapper";
 import { mixinDetectingMobile } from "@/components/layout/MobileMixin.js";
 import SnackbarSuccess from '@/components/feedback/SnackbarSuccess';
 import SnackbarFailure from '@/components/feedback/SnackbarFailure';
@@ -21,7 +21,7 @@ export default {
   name: "App",
   components: {
     Navbar,
-    Footer,
+    FooterWrapper,
     SnackbarSuccess,
     SnackbarFailure
   },
