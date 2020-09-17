@@ -10,26 +10,37 @@ const { stringify, parse } = require("zipson");
 admin.initializeApp();
 
 /**
- * Triggered when a new order is created. 
+ * Triggered when a new order is created 
  * Processes the order to send a message to admin through telegram.
  * Side effects: None
  */
 exports.onOrderCreated = functions.firestore
-  .document('Orders/{orders}')
+  .document("Orders/{orders}")
   .onCreate(async (snap, context) => {
     var { cart, cartStoreMappings } = snap.data();
     var storeOrders = await botHelpers.processCart(cart, cartStoreMappings, snap.id);
     var message = await botHelpers.createAdminMessage(snap.data(), storeOrders);
-    return Promise.all([
-      bot.telegram.sendMessage(TELEGRAM.ADMIN_CONTACT, message, {
+    return bot.telegram.sendMessage(TELEGRAM.ADMIN_CONTACT, message, {
       reply_markup:
         Markup.inlineKeyboard([
           Markup.callbackButton("Paid", stringify({ s: StatesEnum.PAID, id: snap.id, c: 0 })),
           Markup.callbackButton("Cancelled", stringify({ s: StatesEnum.CANCELLED, id: snap.id, c: 0 }))
         ])
-      }),
-      botHelpers.sendHawkerGroupMessage(snap.data(), storeOrders, bot)  
-    ])
+    })
+  });
+
+/**
+ * Trigger when order is updated
+ * Main function is to send the hawker group the telegram message once the order is confirmed!
+ */
+exports.onOrderConfirmed = functions.firestore
+  .document("Orders/{orders}")
+  .onUpdate(async (change, context) => {
+    const newStatus = change.after.data().orderStatus;
+    const oldStatus = change.before.data().orderStatus;
+    if (oldStatus == "pending" && newStatus == "paid") {
+      return botHelpers.sendHawkerGroupMessage(change.after.data(), bot);
+    }
   });
 
 /** Job that runs at the end of every week to reset the Order numbers. */

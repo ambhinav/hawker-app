@@ -4,10 +4,42 @@ export var deliverySlots = [
   "17:00"
 ]
 
+export var deliveryTimingsUI = [
+  { 
+    orderBy: "11:30 AM",
+    period: "12:30 - 2:30"
+  },
+  { 
+    orderBy: "2:00 PM",
+    period: "3 - 5"
+  },
+  { 
+    orderBy: "5:00  PM",
+    period: "6 - 8"
+  }
+]
+
+export var deliveryTimingsData = [
+  { 
+    slot: "11:30",
+    period: "12:30 - 2:30"
+  },
+  { 
+    slot: "14:00",
+    period: "3 - 5"
+  },
+  { 
+    slot: "17:00",
+    period: "6 - 8"
+  }
+];
+
+export var deliveryTimingsOnly = ["12 - 2", "3 - 5", "6 - 8"];
+
 export var lastOrderTimings = [
   { 
     slot: "11:25",
-    period: "12 - 2",
+    period: "12:30 - 2:30",
   },
   { 
     slot: "13:55",

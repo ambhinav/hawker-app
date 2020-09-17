@@ -135,7 +135,6 @@ export default {
       paymentMethods: [
         "Cash",
         "Paynow",
-        "Stripe",
       ],
       showAddressDialog: false,
       deliveryAddress: null,
