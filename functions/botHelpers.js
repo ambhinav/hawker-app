@@ -11,17 +11,18 @@ const StatesEnum = {
 };
 
 // creates and sends each store's orders to the relevant hawker telegram group
-const sendHawkerGroupMessage = async (orderData, storeOrders, bot) => {
+const sendHawkerGroupMessage = async (orderData, bot) => {
   const {
     created_at,
     orderNumber,
     deliverySlot,
-    marketId
+    marketId,
+    hawkerGroupMessageData
   } = orderData;
   var formattedDate = dateTimeHelpers.formatCreateDate(created_at);
   var header = `Order Number: ${orderNumber}(${formattedDate})` + SINGLE_SPACED
     + `Delivery slot: ${deliverySlot}`;
-  return Promise.all(storeOrders.map(storeOrder => {
+  return Promise.all(hawkerGroupMessageData.map(storeOrder => {
     var message = `${header}${DOUBLE_SPACED}${storeOrder}`;
     return bot.telegram.sendMessage(HAWKER_GROUPS[marketId], message);
   }))
@@ -81,20 +82,21 @@ const processCart = async (cart, cartStoreMappings, orderId) => {
     })
 
     return storeOrder;
-  }))
+  }));
 
   // update the order to include how many of each item was bought and from which store
   await admin.firestore()
     .collection("Orders")
     .doc(orderId)
     .update({
-      cartStoreMappings: sales
-    })
+      cartStoreMappings: sales,
+      hawkerGroupMessageData: result
+    });
 
-  return result
+  return result;
 }
 
-const updateOrderStatus = (newStatus, orderId) => {
+const updateOrderStatus = async (newStatus, orderId) => {
   return admin.firestore().collection("Orders")
   .doc(orderId)
   .update({
