@@ -8,6 +8,7 @@
       <v-img
         :src="store.image"
         height="200px"
+        @click="toggleMenu"
       ></v-img>
 
       <v-card-title>

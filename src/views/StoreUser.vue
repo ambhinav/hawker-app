@@ -13,24 +13,16 @@
     </div>
     <div v-else>
       <v-img
-        v-if="getMarket.image"
-        :src="getMarket.image"
+        v-if="getMarket.imageUrl"
+        :src="getMarket.imageUrl"
         max-height="400"
-        class="align-content-end"
       >
-        <v-row align="end" class="lightbox green--text pa-2 fill-height">
-          <v-col>
-            <h1>
-              {{ getMarket.name }}
-            </h1>
-          </v-col>
-        </v-row> 
       </v-img>
       <v-container>
         <v-row class="text-center" justify="center">
           <v-col cols="12" class="mb-4">
             <h2 class="font-weight-bold">
-              {{ getMarket.name }} shops
+              {{ getMarket.name }}
             </h2>
           </v-col>
         </v-row>
