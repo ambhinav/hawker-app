@@ -89,7 +89,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="(timing, i) in deliveryTimings1" :key="i">
+                        <tr v-for="(timing, i) in deliveryTimingsUI" :key="i">
                           <td>{{ timing.period }}</td>
                           <td><b>{{ timing.orderBy }}</b></td>
                         </tr>
@@ -127,7 +127,7 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import rules from '@/utils/validation';
 import { isBefore, isClosed } from '@/utils/dateTimeUtil';
-import { lastOrderTimings } from '@/utils/deliveryData';
+import { lastOrderTimings, deliveryTimingsUI, deliveryTimingsData, deliveryTimingsOnly } from '@/utils/deliveryData';
 export default {
   name: "Markets",
   created () {
@@ -150,39 +150,10 @@ export default {
   data: () => ({
     deliveryDialog: false,
     deliveryTime: null,
-    deliveryTimings2: ["12 - 2", "3 - 5", "6 - 8"], 
-    deliveryTimings1: [
-      { 
-        orderBy: "11:30 AM",
-        period: "12 - 2",
-      },
-      { 
-        orderBy: "2:00 PM",
-        period: "3 - 5",
-      },
-      { 
-        orderBy: "5:00  PM",
-        period: "6 - 8",
-      }
-    ], 
-    slots: [
-      { 
-        slot: "11:30",
-        period: "12 - 2",
-      },
-      { 
-        slot: "14:00",
-        period: "3 - 5",
-      },
-      { 
-        slot: "17:00",
-        period: "6 - 8",
-      }
-    ],
     meals: ["Breakfast", "Lunch", "Dinner"],
     targetMarket: null,
     distances: [],
-    loading: true,
+    loading: true
   }),
   computed: {
     ...mapGetters({
@@ -192,7 +163,7 @@ export default {
       return [rules.required];
     },
     getDeliverySlot() {
-      var timing = this.slots.find(timing => timing.period == this.deliveryTime);
+      var timing = deliveryTimingsData.find(timing => timing.period == this.deliveryTime);
       return timing.slot;
     },
     getDeliveryTimings() {
@@ -205,7 +176,10 @@ export default {
         })
         return res;
       }
-      return this.deliveryTimings2;
+      return deliveryTimingsOnly;
+    },
+    deliveryTimingsUI() {
+      return deliveryTimingsUI;
     }
   },
   methods: {
