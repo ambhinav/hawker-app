@@ -75,9 +75,9 @@ export default {
     return {
       timeline: [
         {
-          name: "Choose a market",
-          title: "Markets",
-          text: "Choose your favourite hawker food from all the available shops in the market!"
+          name: "Choose a food centre",
+          title: "Food Centres",
+          text: "Choose your favourite halal hawker food from all the available shops in the food centre!"
         },
         {
           name: "Tell us when you want your food",
@@ -85,7 +85,7 @@ export default {
           text: "Choose when you want your food delivered and we will show you the available shops!"
         },
         {
-          name: "Choose your food and checkout",
+          name: "Select your food and checkout",
           title: "Menu and Checkout",
           text: "Add the food you want to the cart and checkout. Payment can be made via Paynow or Cash on delivery."
         },

@@ -258,7 +258,7 @@ export default {
       }
     },
     setUpComponent() {
-      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 3000));
+      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 1000));
     }
   },
 }

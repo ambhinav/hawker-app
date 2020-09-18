@@ -4,15 +4,11 @@
       <v-row class="text-center">
         <v-col cols="12" class="mb-4">
           <h1 class="font-weight-bold mb-3">
-            Choose from our Partner Hawker Centers!
+            Select 100% halal food from our Partner Hawker Centers!
           </h1>
-
-          <p class="subheading font-weight-regular">
-            All the stores listed on the website offer 100% halal food.
-          </p>
         </v-col>
         <v-col
-            v-for="(market, i) in getMarkets"
+            v-for="(market, i) in getSortedMarkets()"
             :key="i"
             cols="12"
             md="6"
@@ -39,11 +35,14 @@
               v-if="market.imageUrl"
               max-height="300"
               :src="market.imageUrl"
+              @click="showDeliveryDialog(market.id)"
             >
             </v-img>
             <v-img
               v-else 
               src="https://image.shutterstock.com/image-photo/singapore-january-14-2020-inside-600w-1626451243.jpg"
+              max-height="300"
+              @click="showDeliveryDialog(market.id)"
             >
             </v-img>
             <v-card-text v-if="market.stores">
@@ -213,13 +212,23 @@ export default {
     //   return this.getDistance({ lat: market.location.latitude, lng: market.location.longitude })
     // }
     setUpComponent() {
-      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 3000));
+      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 1000));
     },
     isMarketDisabled(market) {
       return !market.enabled;
     },
     getDeliveryCost(distance) {
       return distance <= 8 ? 6 : 9;
+    },
+    getSortedMarkets() {
+      // remove disabled markets
+      var filteredMarkets = this.getMarkets.filter(market => market.enabled == true);
+      // sort by number of available shops
+      filteredMarkets.sort((m1, m2) => {
+        return m2.stores.length - m1.stores.length;
+      });
+      console.log(filteredMarkets);
+      return filteredMarkets;
     }
   }
 };
