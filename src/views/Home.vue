@@ -2,10 +2,11 @@
   <div class="home">
     <!-- 10 x 2 banner -->
     <v-img
-      src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2F10x2_Banner.jpg?alt=media&token=ddb79c44-680b-4f41-a467-d67186b70109"
+      src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2F10x4_banner.jpg?alt=media&token=051cfbfb-a6b5-421c-be7e-87b6122d6128"
       lazy-src="https://images.unsplash.com/photo-1577303935007-0d306ee638cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1325&q=80"
       class="align-center hidden-sm-and-down"
       contain
+      max-height="450"
     >
     </v-img> 
     <!-- 3 x 2 banner -->
