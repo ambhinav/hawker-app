@@ -21,10 +21,16 @@
     <v-row align="center">
       <v-col cols="4" md="2">
         <v-avatar class="profile hidden-sm-and-down" size="164">
-          <v-img src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FIbrahim_Headshot.jpg?alt=media&token=e82f0d8d-1cc6-49c4-8012-5067dfa96fd8"></v-img>
+          <v-img 
+            src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FIbrahim_Headshot.jpg?alt=media&token=e82f0d8d-1cc6-49c4-8012-5067dfa96fd8"
+            lazy-src="https://images.unsplash.com/photo-1557682260-96773eb01377"
+          ></v-img>
         </v-avatar>
         <v-avatar class="profile hidden-md-and-up" size="102">
-          <v-img src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FIbrahim_Headshot.jpg?alt=media&token=e82f0d8d-1cc6-49c4-8012-5067dfa96fd8"></v-img>
+          <v-img 
+            src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FIbrahim_Headshot.jpg?alt=media&token=e82f0d8d-1cc6-49c4-8012-5067dfa96fd8"
+            lazy-src="https://images.unsplash.com/photo-1557682260-96773eb01377"
+          ></v-img>
         </v-avatar>
       </v-col>
       <v-col cols="8" md="10">
@@ -46,10 +52,16 @@
       </v-col>
       <v-col cols="4" md="4" class="pt-5">
         <v-avatar class="profile hidden-sm-and-down" size="164">
-          <v-img src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FKiran_Headshot.jpg?alt=media&token=4976991f-2af5-48a8-aefb-bd25774ee3da"></v-img>
+          <v-img 
+            src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FKiran_Headshot.jpg?alt=media&token=4976991f-2af5-48a8-aefb-bd25774ee3da"
+            lazy-src="https://images.unsplash.com/photo-1557682233-43e671455dfa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=543&q=80"
+            ></v-img>
         </v-avatar>
         <v-avatar class="profile hidden-md-and-up" size="102">
-          <v-img src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FKiran_Headshot.jpg?alt=media&token=4976991f-2af5-48a8-aefb-bd25774ee3da"></v-img>
+          <v-img 
+            src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FKiran_Headshot.jpg?alt=media&token=4976991f-2af5-48a8-aefb-bd25774ee3da"
+            lazy-src="https://images.unsplash.com/photo-1557682233-43e671455dfa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=543&q=80"
+          ></v-img>
         </v-avatar>
       </v-col>
     </v-row>

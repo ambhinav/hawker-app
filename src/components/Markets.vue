@@ -35,14 +35,16 @@
               v-if="market.imageUrl"
               max-height="300"
               :src="market.imageUrl"
+              lazy-src="https://images.unsplash.com/photo-1557682260-96773eb01377"
               @click="showDeliveryDialog(market.id)"
             >
             </v-img>
             <v-img
               v-else 
               src="https://image.shutterstock.com/image-photo/singapore-january-14-2020-inside-600w-1626451243.jpg"
-              max-height="300"
+              lazy-src="https://images.unsplash.com/photo-1557682260-96773eb01377"
               @click="showDeliveryDialog(market.id)"
+              max-height="300"
             >
             </v-img>
             <v-card-text v-if="market.stores">

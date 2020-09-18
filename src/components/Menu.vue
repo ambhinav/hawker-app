@@ -7,6 +7,7 @@
     >
       <v-img
         :src="store.image"
+        lazy-src="https://images.unsplash.com/photo-1557682260-96773eb01377"
         height="200px"
         @click="toggleMenu"
       ></v-img>

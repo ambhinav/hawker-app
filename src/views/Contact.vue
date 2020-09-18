@@ -9,6 +9,7 @@
         > -->
         <v-img
           src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FIbrahim_Tea.jpg?alt=media&token=0e06ee47-daea-427e-8ef2-d8482580d944"
+          lazy-src="https://images.unsplash.com/photo-1557682260-96773eb01377?ixlib=rb-1.2.1&auto=format&fit=crop&w=1315&q=80"
         >
         </v-img>
       </v-col>
