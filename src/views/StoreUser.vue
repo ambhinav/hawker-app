@@ -15,7 +15,8 @@
       <v-img
         v-if="getMarket.imageUrl"
         :src="getMarket.imageUrl"
-        max-height="400"
+        lazy-src="https://images.unsplash.com/photo-1557682260-96773eb01377?ixlib=rb-1.2.1&auto=format&fit=crop&w=1315&q=80"
+        max-height="500"
       >
       </v-img>
       <v-container>
@@ -41,7 +42,7 @@
         </v-row>
       </v-container>
       <v-bottom-sheet 
-        v-model="show"
+        v-model="isCheckoutButtonShown"
         hide-overlay
         inset
         persistent
@@ -258,7 +259,7 @@ export default {
       }
     },
     setUpComponent() {
-      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 3000));
+      return new Promise(resolve => setTimeout(() => resolve(this.loading = false), 1000));
     }
   },
 }

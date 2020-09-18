@@ -34,6 +34,13 @@ export default {
   },
   getters: {
     getDeliveryDetails: (state) => state.deliveryDetails,
+    getDeliveryCost: (state) => {
+      if (!Object.prototype.hasOwnProperty.call(state.deliveryDetails, "deliveryCost")) {
+        return 6.0;
+      } else {
+        return state.deliveryDetails.deliveryCost;
+      } 
+    },
     getCart: (state) => state.cart,
     isCartFilled: (state) => {
       if (state.cart.length < 0 || isEmpty(state.order)) {
@@ -42,9 +49,9 @@ export default {
       return isMinimumPurchaseAmount(state.cart, state.order);
     },
     getTotalPrice: (state) => {
-      let total = state.cart.reduce((acc, currItem) => { 
+      let total = state.cart.reduce((acc, currItem) => {
         return acc + (parseFloat(currItem.price) * parseInt(currItem.qty))
-      }, 0)
+      }, 0);
       if (state.promo.discount) { // check if promo is redeemed
         total -= state.promo.discount;
       }
@@ -52,7 +59,37 @@ export default {
     },
     getCartLength: (state) => state.cart.length,
     getRedeemedPromo: (state) => state.promo,
-    getCartStoreMappings: state => state.order
+    getCartStoreMappings: state => state.order,
+    getTotalCost: (state, getters) => {
+      return parseFloat(getters.getTotalPrice) + parseFloat(getters.getDeliveryCost)  
+    },
+    getCheckoutDetails: (state, getters) => {
+      let details = JSON.parse(JSON.stringify(state.cart));
+      if (Object.keys(state.promo).length > 0) { // promo redeemed
+        details.push({ 
+            name: "Delivery Cost", 
+            price: getters.getDeliveryCost
+          },
+          {
+            name: "Promo Code",
+            price: `- ${state.promo.discount}`
+          },
+          { 
+            name: "Total Cost", 
+            price: getters.getTotalCost 
+        })
+        return details;
+      }
+      details.push({
+        name: "Delivery Cost", 
+          price: getters.getDeliveryCost
+        },
+        { 
+          name: "Total Cost", 
+          price: getters.getTotalCost
+      })
+      return details;
+    }
   },
   mutations: {
     addItemToCart(state, item) {

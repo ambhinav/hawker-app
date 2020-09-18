@@ -2,16 +2,16 @@
   <div class="home">
     <!-- 10 x 2 banner -->
     <v-img
-      src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2F10x2_Banner.jpg?alt=media&token=ddb79c44-680b-4f41-a467-d67186b70109"
-      lazy-src="https://images.unsplash.com/photo-1577303935007-0d306ee638cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1325&q=80"
+      src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2F10x4_banner.jpg?alt=media&token=051cfbfb-a6b5-421c-be7e-87b6122d6128"
+      :lazy-src="require('@/assets/10x4_banner_blur.jpg')"
       class="align-center hidden-sm-and-down"
-      contain
+      max-height="450"
     >
     </v-img> 
     <!-- 3 x 2 banner -->
     <v-img
       src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2F3x2_banner.jpg?alt=media&token=3e69a2e0-465c-4c33-a2a8-62b9d9a09762"
-      lazy-src="https://images.unsplash.com/photo-1577303935007-0d306ee638cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1325&q=80"
+      :lazy-src="require('@/assets/3x2_banner_blur.jpg')"
       class="align-center hidden-md-and-up"
       contain
     >
@@ -75,9 +75,9 @@ export default {
     return {
       timeline: [
         {
-          name: "Choose a market",
-          title: "Markets",
-          text: "Choose your favourite hawker food from all the available shops in the market!"
+          name: "Choose a food centre",
+          title: "Food Centres",
+          text: "Choose your favourite halal hawker food from all the available shops in the food centre!"
         },
         {
           name: "Tell us when you want your food",
@@ -85,7 +85,7 @@ export default {
           text: "Choose when you want your food delivered and we will show you the available shops!"
         },
         {
-          name: "Choose your food and checkout",
+          name: "Select your food and checkout",
           title: "Menu and Checkout",
           text: "Add the food you want to the cart and checkout. Payment can be made via Paynow or Cash on delivery."
         },

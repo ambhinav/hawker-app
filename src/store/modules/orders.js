@@ -71,7 +71,7 @@ export default {
         customerName,
         customerNumber: phoneNumber,
         deliveryCost,
-        totalCost: deliveryCost + parseFloat(getters.getTotalPrice),
+        totalCost: getters.getTotalCost,
         deliveryAddress: deliveryLocation["ADDRESS"],
         deliveryUnitNumber: unitNumber,
         cart: getters.getCart,

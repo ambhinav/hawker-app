@@ -11,7 +11,7 @@
         <v-row justify="center">
           <v-data-table
           :headers="headers"
-          :items="getNewCart()"
+          :items="getCheckoutDetails"
           class="elevation-1"
           hide-default-footer
           show-expand
@@ -120,20 +120,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getCart", "getMarkets", "getDeliveryDetails", "getTotalPrice", "getPromos", "getRedeemedPromo"]),
+    ...mapGetters(["getCart", "getMarkets", "getPromos", "getRedeemedPromo", "getCheckoutDetails"]),
     getMarket() {
       var targetMarket = this.getMarkets.find(market => market.id === this.getDeliveryDetails.marketId); 
       return targetMarket;
-    },
-    getDeliveryCost() {
-      if(!Object.prototype.hasOwnProperty.call(this.getDeliveryDetails, "deliveryCost")) {
-        return 6.0;
-      } else {
-        return parseFloat(this.getDeliveryDetails.deliveryCost).toFixed(1); 
-      }
-    },
-    getTotalCost() {
-      return parseFloat(parseFloat(this.getTotalPrice) + this.getDeliveryCost).toFixed(1);
     },
     showRedeemButton() {
       return this.isPromoValid && !this.isPromoRedeemed;
@@ -143,7 +133,7 @@ export default {
     },
     getFilteredPromos() {
       return this.getPromos.filter(promo => promo.enabled == true);
-    }
+    },
   },
   methods: {
     ...mapMutations(["setRedeemedPromo"]),
@@ -153,28 +143,6 @@ export default {
     },
     editCart() {
       this.$router.push("/store");
-    },
-    getNewCart() {
-      let copy = [];
-      if (this.isPromoRedeemed) {
-        copy = JSON.parse(JSON.stringify(this.getCart));
-        copy.push({ 
-            name: "Delivery Cost", 
-            price: this.getDeliveryCost
-          },
-          {
-            name: "Promo Code",
-            price: `- ${this.getRedeemedPromo.discount}`
-          },
-          { 
-            name: "Total Cost", 
-            price: this.getTotalCost 
-        })
-        return copy;
-      }
-      copy = JSON.parse(JSON.stringify(this.getCart));
-      copy.push({ name: "Delivery Cost", price: this.getDeliveryCost }, { name: "Total Cost", price: this.getTotalCost })
-      return copy
     },
     redeemPromo() {
       if (this.targetPromo.qty < 1) { // just in case they are redeemed by another user in real time

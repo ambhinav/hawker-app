@@ -22,12 +22,12 @@
               </v-col>
             </v-row>
             <v-row justify="center">
-              <v-col cols="4">
+              <v-col cols="12">
                 <v-btn v-if="!getDeliveryLocation" @click="showAddressDialog = true">
-                  add address
+                  click to add address/postal code
                 </v-btn>
                 <v-btn v-else @click="handleEditAddress">
-                  edit address
+                  click to edit address/postal code
                 </v-btn>
               </v-col>
             </v-row>
