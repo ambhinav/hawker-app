@@ -49,7 +49,7 @@
               v-for="(cost, storeId) in targetExpenditure.expenses"
               :key="storeId"
             >
-              {{ getStoreName(storeId) }} ({{ storeId }}) -> ${{ cost }}
+              {{ getStoreName(storeId) }} ({{ storeId }}) -> ${{ parseFloat(cost).toFixed(1) }}
             </v-list-item>
           </v-list>
           <v-list>

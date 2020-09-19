@@ -17,7 +17,7 @@
           width="30"
         />
       </div>
-      <v-toolbar-title id="title">HALALE ADMIN</v-toolbar-title>
+      <v-toolbar-title id="title">Foodboys Admin</v-toolbar-title>
       <v-spacer></v-spacer>
     </v-app-bar>
     <v-navigation-drawer

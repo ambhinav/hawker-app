@@ -74,7 +74,7 @@
                     <v-btn depressed @click="handleShowMenuDetails(item)">show</v-btn>
                   </template>
                   <template v-slot:item.status="{ item }">
-                    <v-btn depressed width="50" color="primary" v-if="item.orderStatus == 'paid'" @click="handleChangeOrderStatus(item)">paid</v-btn>
+                    <v-btn depressed width="50" color="green" v-if="item.orderStatus == 'paid'" @click="handleChangeOrderStatus(item)">paid</v-btn>
                     <v-btn depressed color="yellow" v-if="item.orderStatus == 'pending'" @click="handleChangeOrderStatus(item)">pending</v-btn>
                     <v-btn depressed color="error" v-if="item.orderStatus == 'cancelled'" @click="handleChangeOrderStatus(item)">cancelled</v-btn>
                     
