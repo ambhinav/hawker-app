@@ -1,6 +1,8 @@
+/* eslint-disable prettier/prettier */
 const admin = require("firebase-admin");
 const dateTimeHelpers = require("./utils/dateTime");
-const { HAWKER_GROUPS } = require("./secrets/telegram")
+const { HAWKER_GROUPS, LOGISTICS_CONTACT } = require("./secrets/telegram")
+const { HAWKER_ADDRESS, PICKUP_TIMINGS } = require("./utils/messageHelpers");
 const DOUBLE_SPACED = "\n\n";
 const SINGLE_SPACED = "\n";
 const StatesEnum = {
@@ -21,11 +23,16 @@ const sendHawkerGroupMessage = async (orderData, bot) => {
   } = orderData;
   var formattedDate = dateTimeHelpers.formatCreateDate(created_at);
   var header = `Order Number: ${orderNumber}(${formattedDate})` + SINGLE_SPACED
-    + `Delivery slot: ${deliverySlot}`;
+    + `Delivery slot: ${dateTimeHelpers.convertToTwelveHourFormat(deliverySlot)}` + SINGLE_SPACED
+    + `Pick up timing: ${PICKUP_TIMINGS[deliverySlot]}`; // 12 hr format
   return Promise.all(hawkerGroupMessageData.map(storeOrder => {
     var message = `${header}${DOUBLE_SPACED}${storeOrder}`;
     return bot.telegram.sendMessage(HAWKER_GROUPS[marketId], message);
   }))
+}
+
+const sendLogisticsGroupMessage = async (message, bot) => {
+  return bot.telegram.sendMessage(LOGISTICS_CONTACT, message);
 }
 
 const createAdminMessage = async (orderData, storeOrders) => {
@@ -39,29 +46,33 @@ const createAdminMessage = async (orderData, storeOrders) => {
     totalCost,
     orderNumber,
     paymentMethod,
-    deliverySlot
+    deliverySlot, // 24 HR format
+    marketId,
   } = orderData;
   var cartDetails = storeOrders.reduce((acc, storeOrder) => {
     return acc += storeOrder + "\n";
-  }, "Order Details: \n\n")
+  }, "--ORDER DETAILS-- \n\n")
   var formattedDate = dateTimeHelpers.formatCreateDate(created_at);
   var message = `Order Number: ${orderNumber}(${formattedDate})` + DOUBLE_SPACED
     + cartDetails + DOUBLE_SPACED
-    + `Delivery Cost: ${deliveryCost}` + DOUBLE_SPACED
     + `Total Cost: ${totalCost}` + DOUBLE_SPACED
+    + "--PICKUP DETAILS--" + DOUBLE_SPACED
+    + `Pick up location: ${HAWKER_ADDRESS[marketId]}` + DOUBLE_SPACED
+    + `Pick up at: ${PICKUP_TIMINGS[deliverySlot]}` + DOUBLE_SPACED // 12 hr format
+    + "--DELIVERY DETAILS--" + DOUBLE_SPACED
     + `Payment Method: ${paymentMethod}` + DOUBLE_SPACED
-    + "Delivery Details:" + DOUBLE_SPACED
-    + `Delivery Slot: ${deliverySlot}` + DOUBLE_SPACED
+    + `Delivery Slot: ${dateTimeHelpers.convertToTwelveHourFormat(deliverySlot)}` + DOUBLE_SPACED // converted to 12 hr format
     + `Customer Name: ${customerName}` + DOUBLE_SPACED
-    + `Contact: ${customerNumber}` + DOUBLE_SPACED
-    + `Address: ${deliveryAddress}` + SINGLE_SPACED
+    + `Customer Contact: ${customerNumber}` + DOUBLE_SPACED
+    + `Customer Address: ${deliveryAddress}` + SINGLE_SPACED
     + `Unit No.: ${deliveryUnitNumber}`;
+    + `Delivery Cost: ${deliveryCost}` + DOUBLE_SPACED
   return message;
 }
 
 // Creates a list containing the orders for each store in the target market
-const processCart = async (cart, cartStoreMappings, orderId) => {
-  var sales = {}
+const processCart = async (cart, cartStoreMappings) => {
+  var sales = {};
   var result = await Promise.all(Object.entries(cartStoreMappings).map(async mapping => {
     var storeId = mapping[0];
     sales[storeId] = [] // to store info about items and qty
@@ -79,22 +90,31 @@ const processCart = async (cart, cartStoreMappings, orderId) => {
       if (matchingItem.specialInstructions) {
         storeOrder += `(Special instruction: ${matchingItem.specialInstructions})` + "\n"
       }
-    })
-
+    });
     return storeOrder;
   }));
 
-  // update the order to include how many of each item was bought and from which store
-  await admin.firestore()
+  return [result, sales];
+}
+
+/**
+ * 
+ * Updates the order to include important mappings and messages
+ * @param {*} orderId 
+ * @param {*} cartStoreMappings used to calculate daily expenses
+ * @param {*} hawkerGroupMessageData used to send the hawker group message
+ * @param {*} adminMessage used to send the logistics partner message
+ */
+const updateOrderOnCreated = (orderId, cartStoreMappings, hawkerGroupMessageData, adminMessage) => {
+  return admin.firestore()
     .collection("Orders")
     .doc(orderId)
     .update({
-      cartStoreMappings: sales,
-      hawkerGroupMessageData: result
+      cartStoreMappings,
+      hawkerGroupMessageData,
+      adminMessage
     });
-
-  return result;
-}
+};
 
 const updateOrderStatus = async (newStatus, orderId) => {
   return admin.firestore().collection("Orders")
@@ -165,5 +185,7 @@ module.exports = {
   sendHawkerGroupMessage,
   StatesEnum,
   updateOrderStatus,
-  getDailyExpense
+  getDailyExpense,
+  sendLogisticsGroupMessage,
+  updateOrderOnCreated
 }

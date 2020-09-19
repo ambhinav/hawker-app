@@ -34,7 +34,7 @@ export default {
     /** Initialised when admin logs in {@see Orders.vue} */
     initOrders(context) {
       db.collection("Orders")
-        .orderBy("orderNumber")
+        .orderBy("created_at", "desc")
         .onSnapshot(snapshot => {
           snapshot.docChanges().forEach(change => {
             var doc = change.doc;

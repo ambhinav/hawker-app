@@ -39,7 +39,6 @@ export default {
             var marketData = doc.data();
             marketData.id = doc.id;
             marketData.distance = await context.dispatch("getDistance", { lat: marketData.location.latitude, lng: marketData.location.longitude })
-            console.log("Market: ", marketData.id);
             if (change.type == "added") {
               context.commit("setMarkets", {
                 market: marketData

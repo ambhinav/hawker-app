@@ -18,7 +18,7 @@
                 dark
                 flat
               >
-                <v-toolbar-title>Halale Login</v-toolbar-title>
+                <v-toolbar-title>Foodboys Login</v-toolbar-title>
               </v-toolbar>
               <v-form ref="form" @submit="submit">
                 <v-card-text>
