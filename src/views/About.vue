@@ -22,13 +22,13 @@
       <v-col cols="4" md="2">
         <v-avatar class="profile hidden-sm-and-down" size="164">
           <v-img 
-            src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FIbrahim_Headshot.jpg?alt=media&token=e82f0d8d-1cc6-49c4-8012-5067dfa96fd8"
+            src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2Fthumbs%2FIbrahim_Headshot_test_400x400.jpg?alt=media&token=84ea2a2f-cbbb-49cc-8a62-956a8402c1b3"
             lazy-src="https://images.unsplash.com/photo-1557682260-96773eb01377"
           ></v-img>
         </v-avatar>
         <v-avatar class="profile hidden-md-and-up" size="102">
           <v-img 
-            src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FIbrahim_Headshot.jpg?alt=media&token=e82f0d8d-1cc6-49c4-8012-5067dfa96fd8"
+            src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2Fthumbs%2FIbrahim_Headshot_test_400x400.jpg?alt=media&token=84ea2a2f-cbbb-49cc-8a62-956a8402c1b3"
             lazy-src="https://images.unsplash.com/photo-1557682260-96773eb01377"
           ></v-img>
         </v-avatar>
@@ -53,13 +53,13 @@
       <v-col cols="4" md="4" class="pt-5">
         <v-avatar class="profile hidden-sm-and-down" size="164">
           <v-img 
-            src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FKiran_Headshot.jpg?alt=media&token=4976991f-2af5-48a8-aefb-bd25774ee3da"
+            src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2Fthumbs%2FKiran_Headshot_400x400.jpg?alt=media&token=ef2d3373-29c0-4b9b-87bb-9f634f2c0c1d"
             lazy-src="https://images.unsplash.com/photo-1557682233-43e671455dfa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=543&q=80"
             ></v-img>
         </v-avatar>
         <v-avatar class="profile hidden-md-and-up" size="102">
           <v-img 
-            src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FKiran_Headshot.jpg?alt=media&token=4976991f-2af5-48a8-aefb-bd25774ee3da"
+            src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2Fthumbs%2FKiran_Headshot_400x400.jpg?alt=media&token=ef2d3373-29c0-4b9b-87bb-9f634f2c0c1d"
             lazy-src="https://images.unsplash.com/photo-1557682233-43e671455dfa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=543&q=80"
           ></v-img>
         </v-avatar>

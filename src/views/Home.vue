@@ -2,7 +2,7 @@
   <div class="home">
     <!-- 10 x 2 banner -->
     <v-img
-      src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2F10x4_banner.jpg?alt=media&token=051cfbfb-a6b5-421c-be7e-87b6122d6128"
+      src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2F10x4_banner_comp.jpg?alt=media&token=67dcfef1-4032-46c3-baa5-8bd071ca2f79"
       :lazy-src="require('@/assets/10x4_banner_blur.jpg')"
       class="align-center hidden-sm-and-down"
       max-height="450"
@@ -10,7 +10,7 @@
     </v-img> 
     <!-- 3 x 2 banner -->
     <v-img
-      src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2F3x2_banner.jpg?alt=media&token=3e69a2e0-465c-4c33-a2a8-62b9d9a09762"
+      src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2F3x2_comp.jpg?alt=media&token=d4a176e0-9146-48f7-a976-6f87978c0653"
       :lazy-src="require('@/assets/3x2_banner_blur.jpg')"
       class="align-center hidden-md-and-up"
       contain

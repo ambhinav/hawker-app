@@ -229,7 +229,6 @@ export default {
       filteredMarkets.sort((m1, m2) => {
         return m2.stores.length - m1.stores.length;
       });
-      console.log(filteredMarkets);
       return filteredMarkets;
     }
   }

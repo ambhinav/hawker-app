@@ -8,7 +8,7 @@
           max-width="500px"
         > -->
         <v-img
-          src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FIbrahim_Tea.jpg?alt=media&token=0e06ee47-daea-427e-8ef2-d8482580d944"
+          src="https://firebasestorage.googleapis.com/v0/b/halale-56586.appspot.com/o/websitePics%2FIbrahim_Tea_comp.jpg?alt=media&token=d0a6a3d7-59a5-4559-912f-8ae73472394d"
           lazy-src="https://images.unsplash.com/photo-1557682260-96773eb01377?ixlib=rb-1.2.1&auto=format&fit=crop&w=1315&q=80"
         >
         </v-img>
