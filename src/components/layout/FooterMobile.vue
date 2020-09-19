@@ -13,7 +13,7 @@
         </v-col>
         <v-col cols="12" class="pl-2">
           <v-row justify="center">
-            <a href="https://www.facebook.com/FoodBoys"><v-icon large>mdi-facebook</v-icon></a>
+            <a href="https://www.facebook.com/foodboys.sg/"><v-icon large>mdi-facebook</v-icon></a>
             <a href="https://www.instagram.com/foodboys.sg/"><v-icon large class="pl-4">mdi-instagram</v-icon></a>
           </v-row>
         </v-col>
