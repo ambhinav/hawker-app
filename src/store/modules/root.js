@@ -19,7 +19,6 @@ export default {
     },
     init({ dispatch }) {
       // initialise firestore listeners in markets, stores and orders modules
-      console.log("Init");
       dispatch("getLocation")
       dispatch("initStores");
       dispatch("initMarkets");

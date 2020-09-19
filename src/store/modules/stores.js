@@ -38,7 +38,6 @@ export default {
             var doc = change.doc;
             var storeData = doc.data();
             storeData.id = doc.id;
-            console.log("Store: ", storeData.id);
             if (change.type == "added") {
               context.commit("setStores", {
                 store: storeData

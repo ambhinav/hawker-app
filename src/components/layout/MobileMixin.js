@@ -14,7 +14,6 @@ export var mixinDetectingMobile = {
       //   )
       //     check = true;
       // })(navigator.userAgent || navigator.vendor || window.opera);
-      console.log(window.innerWidth)
       if (window.innerWidth < 600)
         return true;
       return false;
