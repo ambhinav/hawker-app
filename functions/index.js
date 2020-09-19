@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const functions = require('firebase-functions');
 const Telegraf = require("telegraf");
 const Markup = require('telegraf/markup')
@@ -18,8 +19,12 @@ exports.onOrderCreated = functions.firestore
   .document("Orders/{orders}")
   .onCreate(async (snap, context) => {
     var { cart, cartStoreMappings } = snap.data();
-    var storeOrders = await botHelpers.processCart(cart, cartStoreMappings, snap.id);
-    var message = await botHelpers.createAdminMessage(snap.data(), storeOrders);
+    var [
+      storeOrderMapping,
+      salesData // needed for calculating daily expenses
+    ] = await botHelpers.processCart(cart, cartStoreMappings);
+    var message = await botHelpers.createAdminMessage(snap.data(), storeOrderMapping);
+    await botHelpers.updateOrderOnCreated(snap.id, salesData, storeOrderMapping, message);
     return bot.telegram.sendMessage(TELEGRAM.ADMIN_CONTACT, message, {
       reply_markup:
         Markup.inlineKeyboard([
@@ -31,7 +36,8 @@ exports.onOrderCreated = functions.firestore
 
 /**
  * Trigger when order is updated
- * Main function is to send the hawker group the telegram message once the order is confirmed!
+ * 1. Sends the hawker group the telegram messages once the order is confirmed
+ * 2. Sends the logistics group the admin message once the order is confirmed
  */
 exports.onOrderConfirmed = functions.firestore
   .document("Orders/{orders}")
@@ -39,7 +45,13 @@ exports.onOrderConfirmed = functions.firestore
     const newStatus = change.after.data().orderStatus;
     const oldStatus = change.before.data().orderStatus;
     if (oldStatus == "pending" && newStatus == "paid") {
-      return botHelpers.sendHawkerGroupMessage(change.after.data(), bot);
+      return Promise.all([
+        botHelpers.sendHawkerGroupMessage(change.after.data(), bot),
+        botHelpers.sendLogisticsGroupMessage(
+          change.after.data().adminMessage,
+          bot
+        )
+      ]);
     }
   });
 
