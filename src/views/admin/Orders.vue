@@ -117,7 +117,7 @@
       </v-card>
     </v-dialog>
     <v-dialog v-model="menuItemDialog" persistent max-width="400">
-      <v-card>
+      <v-card v-if="targetOrder">
         <v-card-title>
           Cart details
         </v-card-title>
@@ -134,7 +134,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="item in getNewCart" :key="item.name">
+                    <tr v-for="(item, i) in targetOrder.cart" :key="i">
                       <td>{{ item.name }}</td>
                       <td>{{ item.name == "Delivery Cost" || item.name == "Total Cost" ? "" : item.qty }}</td>
                       <td>{{ item.price }}</td>
@@ -142,6 +142,14 @@
                   </tbody>
                 </template>
               </v-simple-table>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                Delivery cost: {{ targetOrder.deliveryCost }}
+              </v-col>
+              <v-col cols="12">
+                Total cost:    {{ targetOrder.totalCost }}
+              </v-col>
             </v-row>
           </v-container>
         </v-card-text>
@@ -263,11 +271,7 @@ export default {
       }
       return this.getOrders.filter(order => order.marketId == this.targetMarket.id);
     },
-    getNewCart() {
-      var copy = JSON.parse(JSON.stringify(this.targetOrder.cart));
-      copy.push({ name: "Delivery Cost", price: this.targetOrder.deliveryCost }, { name: "Total Cost", price: this.targetOrder.totalCost })
-      return copy
-    },
+    
 	},
 	methods: {
 		...mapActions({
