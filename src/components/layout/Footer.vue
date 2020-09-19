@@ -19,7 +19,7 @@
             Social Media
           </v-row>
           <v-row class="pt-2">
-            <a href="https://www.facebook.com/FoodBoys"><v-icon>mdi-facebook</v-icon></a>
+            <a href="https://www.facebook.com/foodboys.sg/"><v-icon>mdi-facebook</v-icon></a>
             <a href="https://www.instagram.com/foodboys.sg/"><v-icon class="pl-4">mdi-instagram</v-icon></a>
           </v-row>
         </v-col>
