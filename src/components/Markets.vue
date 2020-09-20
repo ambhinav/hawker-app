@@ -132,20 +132,21 @@ import { lastOrderTimings, deliveryTimingsUI, deliveryTimingsData, deliveryTimin
 export default {
   name: "Markets",
   created () {
-    var yo = () => {
-      this.initMarkets()
-      this.$forceUpdate()
-    }
-    if (!(navigator.userAgent.indexOf("Safari") > -1)) { // runs code if user is NOT on IOS or Safari
-      navigator.permissions.query({name:'geolocation'}).then(function(result) {
-        result.onchange = () => {
-          if (result.state == "granted") {
-            console.log("updating...")
-            yo();
-          }
-        }
-      })
-    }
+    // var yo = () => {
+    //   this.initMarkets()
+    //   this.$forceUpdate()
+    //   location.reload();
+    // }
+    // if (!(navigator.userAgent.indexOf("Safari") > -1)) { // runs code if user is NOT on IOS or Safari
+    //   navigator.permissions.query({name:'geolocation'}).then(function(result) {
+    //     result.onchange = () => {
+    //       if (result.state == "granted") {
+    //         console.log("updating...")
+    //         yo();
+    //       }
+    //     }
+    //   })
+    // }
     this.setUpComponent();
   },
   data: () => ({
