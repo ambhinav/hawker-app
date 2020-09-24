@@ -167,7 +167,6 @@ export default {
   },
   created () {
     this.$store.cache.dispatch("initStores");
-    this.$store.cache.dispatch("initMenu");
     this.deliveryDetails = this.getDeliveryDetails;
     if (!this.deliveryDetails) {
       this.error = true;

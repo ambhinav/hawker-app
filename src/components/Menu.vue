@@ -38,7 +38,7 @@
         </v-btn>
       </v-card-actions>
 
-      <v-expand-transition v-if="store.menu">
+      <v-expand-transition v-if="store.menu && show">
         <div v-show="show">
           <v-divider></v-divider>
           <v-container fluid>
@@ -172,7 +172,9 @@ export default {
       'addItemToCart'
     ]),
     toggleMenu() {
-      return this.show = !this.show
+      return this.$store.cache.dispatch("fetchMenuItems", this.store)
+        .then(() => this.show = !this.show)
+        .catch(err => console.log(err))
     },
     isDisabled(item) {
       var targetItem = this.getCart.find(cartItem => cartItem.id === item.id);
@@ -207,14 +209,8 @@ export default {
   computed: {
     ...mapGetters({ getMenu: 'getMenu', getCart: 'getCart', getDeliveryDetails: 'getDeliveryDetails' }),
     getMenuItems() {
-      var filteredItems = this.getMenu.filter(item => {
-        // check if store includes the item
-        var targetItemId = this.store.menu.find(itemId => itemId === item.id); 
-        // check if that items slots match the user's requested timing
-        if (targetItemId) {
+      var filteredItems = this.getMenu[this.store.id].filter(item => {
           return item.deliverySlots.includes(this.getDeliveryDetails.deliveryTime); 
-        }
-        return false;
       });
       return filteredItems;
     },

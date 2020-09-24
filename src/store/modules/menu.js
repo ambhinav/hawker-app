@@ -1,13 +1,23 @@
 import { db, storage } from '@/firebase/init';
+import Vue from 'vue';
+
+/*
+ Menu schema:
+menu = {
+  "storeID" [item1, item2,...],
+  "storeID2" ...
+}
+*/ 
 
 export default {
   state: {
-    menu: []
+    menu: {}
   },
   getters: {
     getMenu: (state) => state.menu
   },
   mutations: {
+    /*
     setMenu(state, payload) {
       if (!state.menu.find(menuItem => menuItem.id == payload.menuItem.id)) {
         state.menu.push(payload.menuItem);
@@ -26,6 +36,10 @@ export default {
             return menuItem.id != payload.menuItem.id;
         });
     },
+    */
+    setMenu(state, payload) {
+      Vue.set(state.menu, payload.storeId, payload.items)
+    }
   },
   actions: {
     initMenu(context) {
@@ -52,6 +66,18 @@ export default {
             }
           });
         });
+    },
+    // cached action: receives the store object
+    async fetchMenuItems({ commit }, payload) {
+      const { menu, id } = payload;
+      var items = await Promise.all(menu.map(itemId => {
+        return db.collection("Menu")
+          .doc(itemId)
+          .get()
+          .then(doc => doc.data())
+          .catch(err => console.log(err))
+      }))
+      return commit("setMenu", { storeId: id, items });
     },
     addMenuItem(context, item) {
       return db.collection("Menu")
