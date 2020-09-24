@@ -107,11 +107,14 @@ export default {
     },
     async addMenuItemToStore({ dispatch }, menuItem) {
       var menuItemRef = await dispatch("addMenuItem", {
-        name: menuItem.name,
-        price: menuItem.price,
-        deliverySlots: menuItem.deliverySlots,
-        image: null,
-        nm: menuItem.nm
+        item: {
+          name: menuItem.name,
+          price: menuItem.price,
+          deliverySlots: menuItem.deliverySlots,
+          image: null,
+          nm: menuItem.nm,
+        },
+        storeId: menuItem.storeId  
       })
       if (menuItem.image) {
         await dispatch("uploadItemPic", { ref: menuItemRef, image: menuItem.image })

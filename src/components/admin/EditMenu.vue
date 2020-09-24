@@ -143,6 +143,8 @@ export default {
   name: "EditMenu",
   created () {
     this.storeId = this.$route.params.id;
+    this.targetStore = this.getStores.find(store => store.id == this.storeId);
+    this.$store.cache.dispatch("fetchMenuItems", this.targetStore);
   },
   data () {
     return {
@@ -197,15 +199,10 @@ export default {
   computed: {
     ...mapGetters(['getMenu', 'getStores']),
     getSelectedMenu() {
-      var targetStore = this.getStores.find(store => store.id == this.storeId);
-      var selectedMenu = this.getMenu.filter(menuItem => targetStore.menu.includes(menuItem.id));
-      return selectedMenu;
-    },
-    getStore() {
-      return this.getStores.find(store => store.id == this.storeId);
+      return this.getMenu[this.storeId];
     },
     getDeliverySlots() {
-      return this.getStore.deliveryTimings;
+      return this.targetStore.deliveryTimings;
     },
     getNumberRules() {
       return [isNumber, required];
@@ -270,7 +267,8 @@ export default {
               deliverySlots: this.itemDeliverySlots,
               price: this.itemPrice,
               id: this.itemId,
-              nm: this.nm
+              nm: this.nm,
+              storeId: this.storeId
             }) 
             this.successToast("Menu item updated!")
           } catch (e) {
