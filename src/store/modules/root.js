@@ -17,13 +17,6 @@ export default {
     logOut() {
       return auth.signOut()
     },
-    init({ dispatch }) {
-      // initialise firestore listeners in markets, stores and orders modules
-      dispatch("getLocation")
-      dispatch("initStores");
-      dispatch("initMarkets");
-      dispatch("initMenu");
-    },
     async getLocation({ commit }) {
       try {
         var location = await getCurrentLocation();

@@ -66,6 +66,7 @@ import { isClosed } from '@/utils/dateTimeUtil';
 export default {
   name: "Home",
   created () {
+    this.$store.cache.dispatch("initMarkets");
     var self = this; 
     setInterval(() => {
       self.isBannerShown = isClosed();

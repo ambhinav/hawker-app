@@ -28,7 +28,7 @@ export default {
   },
   actions: {
     resetMarkets(context){
-      context.commit('resetMarkets')
+      context.commit('resetMarkets');
     },
     initMarkets(context) {
       context.commit("resetMarkets");

@@ -10,10 +10,12 @@ import orders from './modules/orders';
 import contact from './modules/contact';
 import promos from './modules/promos';
 import expenses from './modules/expenses';
+import createCache from 'vuex-cache';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store =  new Vuex.Store({
+  plugins: [createCache()],
   modules: {
     menu,
     root,
@@ -27,3 +29,5 @@ export default new Vuex.Store({
     expenses
   }
 });
+
+export default store;

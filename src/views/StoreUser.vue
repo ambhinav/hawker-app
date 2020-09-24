@@ -166,6 +166,8 @@ export default {
     window.addEventListener("beforeunload", this.handlePageReload);
   },
   created () {
+    this.$store.cache.dispatch("initStores");
+    this.$store.cache.dispatch("initMenu");
     this.deliveryDetails = this.getDeliveryDetails;
     if (!this.deliveryDetails) {
       this.error = true;

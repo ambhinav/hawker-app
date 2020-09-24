@@ -74,12 +74,12 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 import { formatDateShort } from '@/utils/dateTimeUtil';
 export default {
   name: "Expenses",
   created () {
-    this.initExpenses();
+    this.$store.cache.dispatch("initExpenses");
   },
   data () {
     return {
@@ -108,7 +108,6 @@ export default {
     ...mapGetters(["getExpenses", "getStores"])
   },
   methods: {
-    ...mapActions(["initExpenses"]),
     viewExpenditure(expenditure) {
       this.targetExpenditure = expenditure;
       this.showExpenditure = true;
