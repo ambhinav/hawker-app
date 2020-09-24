@@ -5,12 +5,13 @@
 </template>
 
 <script>
+// import store from '@/store';
 import VueExtendLayouts from "vue-extend-layout";
 export default {
   name: "App",
   components: { VueExtendLayouts },
   created () {
-    this.$store.dispatch('init')
+    this.$store.cache.dispatch("initMarkets");
   }
 };
 </script>

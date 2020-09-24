@@ -141,6 +141,9 @@ import { deliverySlots } from '@/utils/deliveryData.js';
 
 export default {
 	name: 'Stores',
+	created() {
+		this.$store.cache.dispatch("initStores");
+	},
 	data () {
 		return {
       targetMarket: null,

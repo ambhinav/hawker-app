@@ -34,7 +34,7 @@ export var deliveryTimingsData = [
   }
 ];
 
-export var deliveryTimingsOnly = ["12 - 2", "3 - 5", "6 - 8"];
+export var deliveryTimingsOnly = ["12:30 - 2:30", "3 - 5", "6 - 8"];
 
 export var lastOrderTimings = [
   { 

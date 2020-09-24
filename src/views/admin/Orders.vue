@@ -193,7 +193,7 @@ const { required } = rules;
 export default {
   name: 'Orders',
   created() {
-    this.initOrders();
+    this.$store.cache.dispatch("initOrders");
   },
 	data () {
 		return {
@@ -275,7 +275,6 @@ export default {
 	},
 	methods: {
 		...mapActions({
-      initOrders: "initOrders",
       toggleOrderStatus: "toggleOrderStatus",
       successToast: "successToast",
       errorToast: "errorToast" 
