@@ -41,28 +41,41 @@
 		</v-card>
     <v-dialog v-model="showExpenditure" max-width="600">
       <v-card v-if="targetExpenditure">
-        <v-card-title>Daily expenditure</v-card-title>
         <v-container>
-          <v-list>
-            <v-list-title><b>Store -> Amount owed</b></v-list-title>
-            <v-list-item
-              v-for="(cost, storeId) in targetExpenditure.expenses"
-              :key="storeId"
-            >
-              {{ getStoreName(storeId) }} ({{ storeId }}) -> ${{ parseFloat(cost).toFixed(1) }}
-            </v-list-item>
-          </v-list>
-          <v-list>
-            <v-list-title>
-              <b>Delivery cost -> Number of orders</b>
-            </v-list-title>
-            <v-list-item
-              v-for="(num, cost) in targetExpenditure.deliveryPricings"
-              :key="num"
-            >
-              ${{ cost }} -> {{ num }} orders 
-            </v-list-item>
-          </v-list>
+          <v-simple-table>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left text-h5">Store Name</th>
+                  <th class="text-left text-h5">Store ID</th>
+                  <th class="text-left text-h5">Amount due ($)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(cost, storeId) in targetExpenditure.expenses" :key="storeId">
+                  <td>{{ getStoreName(storeId) }}</td>
+                  <td>{{ storeId }}</td>
+                  <td class="text-center">{{ parseFloat(cost).toFixed(1) }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+          <v-simple-table class="pt-5">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left text-md-h5">Delivery Cost ($)</th>
+                  <th class="text-left text-md-h5">Number of Orders</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(num, cost) in targetExpenditure.deliveryPricings" :key="num">
+                  <td class="text-center">{{ cost }}</td>
+                  <td class="text-center">{{ num }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
         </v-container>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -80,6 +93,7 @@ export default {
   name: "Expenses",
   created () {
     this.$store.cache.dispatch("initExpenses");
+    this.$store.cache.dispatch("initStores");
   },
   data () {
     return {
