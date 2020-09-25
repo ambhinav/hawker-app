@@ -80,6 +80,7 @@ export default {
   name: "Expenses",
   created () {
     this.$store.cache.dispatch("initExpenses");
+    this.$store.cache.dispatch("initStores");
   },
   data () {
     return {
