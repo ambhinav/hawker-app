@@ -168,11 +168,11 @@ export default {
           geoAddress["LONGITUDE"]
         )
         let cost = 6;
-        if (distance > 8) {
-          cost = 9;
+        if (distance >= 8) {
+          cost = 12;
         }
         commit("setDeliveryCost", cost);
-        resolve()
+        resolve();
       })
     },
   }
