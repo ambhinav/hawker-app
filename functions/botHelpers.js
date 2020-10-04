@@ -132,11 +132,7 @@ const getDailyExpense = async () => {
   m1.startOf('day');
   m2.endOf('day');
   var data = {}
-<<<<<<< HEAD
   var ordersByCost = { "6": 0, "9": 0, "12": 0 };
-=======
-  var ordersByCost = { "6": 0, "12": 0 };
->>>>>>> 6c79d98e0e22061c51256e831582f34d223f020e
   var completedOrders = await admin.firestore()
     .collection("Orders")
     .orderBy('created_at', "desc")
