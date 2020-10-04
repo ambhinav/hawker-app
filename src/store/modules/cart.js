@@ -168,7 +168,9 @@ export default {
           geoAddress["LONGITUDE"]
         )
         let cost = 6;
-        if (distance >= 8) {
+        if (distance >= 6 && distance < 13) {
+          cost = 9;
+        } else if (distance >= 13) {
           cost = 12;
         }
         commit("setDeliveryCost", cost);
