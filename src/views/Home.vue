@@ -26,7 +26,7 @@
           <v-spacer></v-spacer>
         </v-row>
       </v-container> -->
-    <InfoBanner v-if="isSiteClosed" info="Sorry, we are closed after 5pm. Please check our menu and come back tomorrow to order!" />
+    <InfoBanner v-if="isSiteClosed" :info="message" typography="display-1" />
     <v-timeline
       :align-top="alignTop"
       :dense="dense"
@@ -90,7 +90,8 @@ export default {
           text: "Add the food you want to the cart and checkout. Payment can be made via Paynow or Cash on delivery."
         },
       ],
-      isBannerShown: false,  
+      isBannerShown: false, 
+      message: "Sorry! We have stopped taking orders after 5PM. Please place your orders when the platform reopens daily at 6AM."
     }
   },
   components: {
