@@ -41,7 +41,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <InfoBanner info="Note: Delivery fee is $6 if within 8km, else is $9." />
+          <InfoBanner info="Delivery fee is $6 if within 6km, $9 if between 6km to 13km and $12 if more than 13km away." />
         </v-row>
       </v-container>
     </v-card-text>
