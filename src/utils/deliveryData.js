@@ -74,3 +74,5 @@ export function isMinimumPurchaseAmount(cart, order) {
   }
   return isValid;
 }
+
+export const DELIVERY_ALERT = `Delivery fee:\nWithin 8km - $6.\nBetween 8km to 20km - $9.\nAbove 20km - $12.`;

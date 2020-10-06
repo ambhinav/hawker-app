@@ -41,7 +41,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <InfoBanner info="Delivery fee is $6 if within 6km, $9 if between 6km to 13km and $12 if more than 13km away." />
+          <InfoBanner :info="getDeliveryAlert"/>
         </v-row>
       </v-container>
     </v-card-text>
@@ -57,6 +57,7 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import InfoBanner from '@/components/feedback/InfoBanner';
+import { DELIVERY_ALERT } from '@/utils/deliveryData';
 export default {
   name: "OrderTable",
   components: {
@@ -116,6 +117,9 @@ export default {
     },
     getFilteredPromos() {
       return this.getPromos.filter(promo => promo.enabled == true);
+    },
+    getDeliveryAlert() {
+      return DELIVERY_ALERT;
     }
   },
   methods: {

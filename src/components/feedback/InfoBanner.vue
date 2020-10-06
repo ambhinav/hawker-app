@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row class='pa-4 text-center hidden-sm-and-down secondary'>
+    <v-row class='pa-4 hidden-sm-and-down secondary'>
       <v-col cols="12">
         <v-row justify="center">
           <v-icon large class="pr-2">mdi-alert-circle</v-icon>
@@ -8,7 +8,7 @@
       </v-col>
       <v-spacer></v-spacer>
       <v-col cols="12">
-        <v-row :class="typography">
+        <v-row :class="typography" justify="center">
           <div>{{ info }}</div>
         </v-row>
       </v-col>
@@ -30,6 +30,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
