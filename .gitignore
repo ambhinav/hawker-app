@@ -5,6 +5,9 @@ node_modules
 # firebase keys
 secrets
 
+# firebase hosting cache
+.firebase
+
 # local env files
 .env.local
 .env.*.local
