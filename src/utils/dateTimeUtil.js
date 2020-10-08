@@ -57,8 +57,8 @@ const isSameDay = v => {
  * @returns the filtered list
  */
 const getValidTimings = timing => {
-  return moment(timing, TIME).isAfter(moment().format(TIME))
-}
+  return moment(timing, TIME).isAfter(moment().format(TIME));
+};
 
 /**
  * Checks if two moments are equal
@@ -66,9 +66,11 @@ const getValidTimings = timing => {
  * @param {Moment} v1 Unix timestamp in ms
  * @param {Moment} v2 Other Unix timestamp in ms
  */
-const isEqual = (v1, v2) => moment(v1).isSame(v2)
+const isEqual = (v1, v2) => moment(v1).isSame(v2);
 
-const isBefore = timing => moment(new Date()).isBefore(moment(timing, "HH:mm"));
+const isBefore = timing => {
+  moment(new Date()).isBefore(moment(timing, "HH:mm").add(5, "minutes"));
+};
 
 const isClosed = () => moment(new Date()).isAfter(moment("17:00", "HH:mm"));
 
