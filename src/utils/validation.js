@@ -10,10 +10,13 @@ const isNumber = v => !isNaN(v) || "Please enter numbers only"
 
 const isPostalCode = v => String(v).length == 6 || "Please enter a valid postal code"
 
+const isPhoneNumber = v => String(v).length == 8 || "Please enter a valid phone number"
+
 export default {
   required,
   email,
   isInt,
   isNumber,
-  isPostalCode
-}
+  isPostalCode,
+  isPhoneNumber
+};
