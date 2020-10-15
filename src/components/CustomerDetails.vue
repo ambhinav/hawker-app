@@ -52,7 +52,7 @@
                   label="Phone Number" 
                   type="number"
                   v-model.number="phoneNumber"
-                  :rules="getIntRules"
+                  :rules="getPhoneNumberRules"
                   required
                   ></v-text-field>
               </v-col>
@@ -120,7 +120,7 @@
 
 <script>
 import rules from "@/utils/validation";
-const { required, isInt, isPostalCode, isNumber } = rules;
+const { required, isInt, isPostalCode, isNumber, isPhoneNumber } = rules;
 import { mapActions, mapGetters } from 'vuex';
 export default {
   name: "CustomerDetails",
@@ -166,6 +166,9 @@ export default {
     },
     getPostalCodeRules() {
       return [isPostalCode, isInt, required];
+    },
+    getPhoneNumberRules() {
+      return [isPhoneNumber, isInt, required];
     },
     getIntRules() {
       return [isNumber, required]
