@@ -23,7 +23,6 @@ const sendHawkerGroupMessage = async (orderData, bot) => {
   } = orderData;
   var formattedDate = dateTimeHelpers.formatCreateDate(created_at);
   var header = `Order Number: ${orderNumber}(${formattedDate})` + SINGLE_SPACED
-    + `Delivery slot: ${dateTimeHelpers.convertToTwelveHourFormat(deliverySlot)}` + SINGLE_SPACED
     + `Pick up timing: ${PICKUP_TIMINGS[deliverySlot]}`; // 12 hr format
   return Promise.all(hawkerGroupMessageData.map(storeOrder => {
     var message = `${header}${DOUBLE_SPACED}${storeOrder}`;
