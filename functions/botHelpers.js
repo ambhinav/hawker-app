@@ -23,7 +23,6 @@ const sendHawkerGroupMessage = async (orderData, bot) => {
   } = orderData;
   var formattedDate = dateTimeHelpers.formatCreateDate(created_at);
   var header = `Order Number: ${orderNumber}(${formattedDate})` + SINGLE_SPACED
-    + `Delivery slot: ${dateTimeHelpers.convertToTwelveHourFormat(deliverySlot)}` + SINGLE_SPACED
     + `Pick up timing: ${PICKUP_TIMINGS[deliverySlot]}`; // 12 hr format
   return Promise.all(hawkerGroupMessageData.map(storeOrder => {
     var message = `${header}${DOUBLE_SPACED}${storeOrder}`;
@@ -56,11 +55,11 @@ const createAdminMessage = async (orderData, storeOrders) => {
   var message = `Order Number: ${orderNumber}(${formattedDate})` + DOUBLE_SPACED
     + cartDetails + DOUBLE_SPACED
     + `Total Cost: ${totalCost}` + DOUBLE_SPACED
+    + `Payment Method: ${paymentMethod}` + DOUBLE_SPACED
     + "--PICKUP DETAILS--" + DOUBLE_SPACED
     + `Pick up location: ${HAWKER_ADDRESS[marketId]}` + DOUBLE_SPACED
     + `Pick up at: ${PICKUP_TIMINGS[deliverySlot]}` + DOUBLE_SPACED // 12 hr format
     + "--DELIVERY DETAILS--" + DOUBLE_SPACED
-    + `Payment Method: ${paymentMethod}` + DOUBLE_SPACED
     + `Delivery Slot: ${dateTimeHelpers.convertToTwelveHourFormat(deliverySlot)}` + DOUBLE_SPACED // converted to 12 hr format
     + `Customer Name: ${customerName}` + DOUBLE_SPACED
     + `Customer Contact: ${customerNumber}` + DOUBLE_SPACED
@@ -79,8 +78,7 @@ const processCart = async (cart, cartStoreMappings) => {
     var storeData = await admin.firestore().collection("Stores").doc(storeId).get().then(ref => ref.data());
     var { name, stallNumber } = storeData;
     var items = mapping[1];
-    var storeOrder = `${name}` + "\n"
-      + `${stallNumber}` + "\n";
+    var storeOrder = `${stallNumber}${SINGLE_SPACED}${name}${SINGLE_SPACED}`
     items.forEach((itemId, index) => {
       var matchingItem = cart.find(cartItem => cartItem.id == itemId);
       var currItems = sales[storeId]
@@ -158,15 +156,15 @@ const getDailyExpense = async () => {
       const itemData = val[1];
       var totalCostForStoreFromThatOrder = itemData.reduce((acc, cost) => acc + cost, 0);
       // update the store data
-      currItems = data[storeId];
+      var currItems = data[storeId];
       currItems.push(totalCostForStoreFromThatOrder);
       data[storeId] = currItems;
     })
   })
-  result = {};
+  var result = {};
   Object.entries(data).forEach(val => {
-    storeId = val[0];
-    costs = val[1];
+    var storeId = val[0];
+    var costs = val[1];
     result[storeId] = costs.reduce((acc, val) => acc + val, 0);
   })
   return admin.firestore()
