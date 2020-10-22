@@ -7,15 +7,15 @@ export var deliverySlots = [
 export var deliveryTimingsUI = [
   { 
     orderBy: "11:30 AM",
-    period: "12:30 - 2:30"
+    period: "12:30 PM - 2:30 PM"
   },
   { 
-    orderBy: "2:00 PM",
-    period: "3 - 5"
+    orderBy: "2 PM",
+    period: "3 PM - 5 PM"
   },
   { 
-    orderBy: "5:00  PM",
-    period: "6 - 8"
+    orderBy: "5 PM",
+    period: "6 PM - 8 PM"
   }
 ]
 
