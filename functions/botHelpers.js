@@ -78,8 +78,7 @@ const processCart = async (cart, cartStoreMappings) => {
     var storeData = await admin.firestore().collection("Stores").doc(storeId).get().then(ref => ref.data());
     var { name, stallNumber } = storeData;
     var items = mapping[1];
-    var storeOrder = `${name}` + "\n"
-      + `${stallNumber}` + "\n";
+    var storeOrder = `${stallNumber}${SINGLE_SPACED}${name}${SINGLE_SPACED}`
     items.forEach((itemId, index) => {
       var matchingItem = cart.find(cartItem => cartItem.id == itemId);
       var currItems = sales[storeId]
