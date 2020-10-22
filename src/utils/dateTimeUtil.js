@@ -68,8 +68,12 @@ const getValidTimings = timing => {
  */
 const isEqual = (v1, v2) => moment(v1).isSame(v2);
 
+/**
+ * Checks if current time not more than 10 mins after order by timing.
+ * @param {Time} timing order by time for a delivery slot
+ */
 const isBefore = timing => {
-  return moment(new Date()).isBefore(moment(timing, "HH:mm").add(5, "minutes"));
+  return moment(new Date()).isBefore(moment(timing, "HH:mm").add(10, "minutes"));
 };
 
 const isClosed = () => moment(new Date()).isAfter(moment("17:00", "HH:mm"));
