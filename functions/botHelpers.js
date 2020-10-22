@@ -156,15 +156,15 @@ const getDailyExpense = async () => {
       const itemData = val[1];
       var totalCostForStoreFromThatOrder = itemData.reduce((acc, cost) => acc + cost, 0);
       // update the store data
-      currItems = data[storeId];
+      var currItems = data[storeId];
       currItems.push(totalCostForStoreFromThatOrder);
       data[storeId] = currItems;
     })
   })
-  result = {};
+  var result = {};
   Object.entries(data).forEach(val => {
-    storeId = val[0];
-    costs = val[1];
+    var storeId = val[0];
+    var costs = val[1];
     result[storeId] = costs.reduce((acc, val) => acc + val, 0);
   })
   return admin.firestore()
