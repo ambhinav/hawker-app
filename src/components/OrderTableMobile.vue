@@ -18,7 +18,7 @@
           show-expand
           >
             <template v-slot:item.cost="{ item }">
-              {{ item.name == "Delivery Cost" || item.name == "Total Cost" || item.name == "Promo Code" ? item.price : getCost(item) }}
+              {{ item.name == "Delivery Cost" || item.name == "Total Cost" || item.name == "Promo Code" || item.name == "Small Order Fee" ? item.price : getCost(item) }}
             </template>
             <template v-slot:expanded-item="{ headers, item }">
               <td :colspan="headers.length" v-if="item.specialInstructions">Instruction: {{ item.specialInstructions }}</td>

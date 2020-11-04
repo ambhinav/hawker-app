@@ -78,4 +78,6 @@ export function isMinimumPurchaseAmount(cart, order) {
 export const SMALL_ORDER_FEE_ONE = 4.00;
 export const SMALL_ORDER_FEE_TWO = 3.00;
 
-export const DELIVERY_ALERT = `Delivery fee:\nWithin 8km - $6.\nBetween 8km to 20km - $9.\nAbove 20km - $12.`;
+export const DELIVERY_ALERT = `Delivery fee:\nWithin 8km - $6.\nBetween 8km to 20km - $9.\nAbove 20km - $12.\nPlease note that a small order fee may be applied if applicable.`;
+
+export const STORE_ALERT = `Please note that there is a minimum spend of $4 for each shop that you buy from.\nThere is a small order fee of $4 imposed for orders less than $10 and a fee of $3 for orders between $10 and $30. There is no small order fee if your purchase is $30 and above.\nPlease check out by 5pm.`

@@ -28,7 +28,8 @@
           </v-col>
         </v-row>
         <v-row>
-          <InfoBanner info="Please note that there is a minimum spend of $4 for each shop that you buy from, and $30 overall. Please check out by 5pm." />
+          <!-- <InfoBanner info='Please note that there is a minimum spend of $4 for each shop that you buy from. There is a small order fee of $4 imposed for orders less than $10 and a fee of $3 for orders between $10 and $30. There is no small order fee if your purchase is $30 and above. Please check out by 5pm.' /> -->
+          <InfoBanner :info='getInfoAlert' />
         </v-row>
         <v-row>
           <v-col cols="12" :md="getStoresInMarket.length === 1 ? 12 : 6" v-for="(store, i) in getStoresInMarket" :key="i">
@@ -156,6 +157,7 @@ import Menu from '@/components/Menu';
 import InfoBanner from '@/components/feedback/InfoBanner';
 import { isSameDay } from '@/utils/dateTimeUtil';
 import { isClosed } from '@/utils/dateTimeUtil';
+import { STORE_ALERT } from '@/utils/deliveryData';
 export default {
   name: "StoreUser",
   data () {
@@ -236,6 +238,9 @@ export default {
     isCartOpen() {
       return this.getCart.length > 0;
     },
+    getInfoAlert() {
+      return STORE_ALERT;
+    }
   },
   methods: {
     ...mapMutations({
