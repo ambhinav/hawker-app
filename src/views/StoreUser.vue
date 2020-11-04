@@ -42,7 +42,7 @@
         </v-row>
       </v-container>
       <v-bottom-sheet 
-        v-model="isCheckoutButtonShown"
+        v-model="show"
         hide-overlay
         inset
         persistent
@@ -56,6 +56,9 @@
             class="d-flex justify-space-between"
             >
             {{getCartLength}} Items in cart 
+            <v-spacer></v-spacer>
+            {{ !getSmallOrderFee ? "" : getSmallOrderFee.isSmallOrder ? `Small Order Fee: $${getSmallOrderFee.fee}` : "" }}
+            <v-spacer></v-spacer>
             <v-btn v-if="isCartOpen" @click="toggleCartState" depressed>Open Cart</v-btn>
           </v-card-title>
           <v-card-title 
@@ -63,6 +66,9 @@
             v-else class="d-flex justify-space-between"
             >
             {{getCartLength}} Items in cart 
+            <v-spacer></v-spacer>
+            {{ !getSmallOrderFee ? "" : getSmallOrderFee.isSmallOrder ? `Small Order Fee: $${getSmallOrderFee.fee}` : "" }}
+            <v-spacer></v-spacer>
             <v-btn color="error" v-if="isCartOpen" @click="toggleCartState" depressed>Close Cart</v-btn>
           </v-card-title>
           <v-divider></v-divider>
@@ -204,7 +210,8 @@ export default {
       getCartLength: 'getCartLength',
       getTotalPrice: 'getTotalPrice',
       isCartFilled: 'isCartFilled',
-      getDeliveryDetails: 'getDeliveryDetails'
+      getDeliveryDetails: 'getDeliveryDetails',
+      getSmallOrderFee: 'getSmallOrderFee'
     }),
     getMarket() {
       return this.getMarkets.find(market => market.id === this.deliveryDetails.marketId)
@@ -224,11 +231,11 @@ export default {
       return allStores;
     },
     isValidPurchase() {
-      return this.isCartFilled && (this.getTotalPrice >= 30.00)
+      return this.isCartFilled
     },
     isCartOpen() {
       return this.getCart.length > 0;
-    }
+    },
   },
   methods: {
     ...mapMutations({
@@ -237,7 +244,8 @@ export default {
       incrementQty: 'incrementQty',
       toggleCartState: 'toggleCartState',
       setDeliveryDetails: 'setDeliveryDetails',
-      resetCartState: "resetCartState"
+      resetCartState: "resetCartState",
+      setSmallOrderFee: "setSmallOrderFee"
     }),
     ...mapActions(["successToast", "errorToast"]),
     handlePageReload() {
@@ -248,8 +256,18 @@ export default {
     },
     checkOut() {
       if (this.isValidPurchase) {
+        /*
+        if (this.getTotalPrice < 30.00) {
+          if (this.getTotalPrice < 10.00) {
+            this.setSmallOrderFee({ isSmallOrder: true, fee: SMALL_ORDER_FEE_ONE });
+          } else {
+            this.setSmallOrderFee({ isSmallOrder: true, fee: SMALL_ORDER_FEE_TWO });
+          }
+        }
+        */
         this.$router.push({ name: "OrderDetails" })
       } else {
+        /*
         if (!this.isCartFilled && this.getTotalPrice < 30.0) {
           return this.errorToast("Please add at least $30 worth of items to cart");
         } else if (!this.isCartFilled) {
@@ -257,6 +275,8 @@ export default {
         } else {
           return this.errorToast("Please add at least $30 worth of items to cart");
         }
+        */
+        return this.errorToast("Please add at least $4 worth of items from each store you purchased from");
       }
     },
     setUpComponent() {
