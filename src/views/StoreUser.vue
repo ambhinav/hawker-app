@@ -29,7 +29,7 @@
         </v-row>
         <v-row>
           <!-- <InfoBanner info='Please note that there is a minimum spend of $4 for each shop that you buy from. There is a small order fee of $4 imposed for orders less than $10 and a fee of $3 for orders between $10 and $30. There is no small order fee if your purchase is $30 and above. Please check out by 5pm.' /> -->
-          <InfoBanner :info='getInfoAlert' />
+          <InfoBanner typography='headline' :info='getInfoAlert' />
         </v-row>
         <v-row>
           <v-col cols="12" :md="getStoresInMarket.length === 1 ? 12 : 6" v-for="(store, i) in getStoresInMarket" :key="i">
@@ -43,7 +43,7 @@
         </v-row>
       </v-container>
       <v-bottom-sheet 
-        v-model="show"
+        v-model="isCheckoutButtonShown"
         hide-overlay
         inset
         persistent

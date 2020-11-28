@@ -9,6 +9,7 @@
     <v-card-text>
       <v-container>
         <v-row justify="center">
+          <InfoBanner v-if="getSmallOrderFee.isSmallOrder" info="To remove small order fee, please spend at least $30" />
           <v-data-table
           :headers="headers"
           :items="getCheckoutDetails"
@@ -121,7 +122,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getCart", "getMarkets", "getPromos", "getRedeemedPromo", "getCheckoutDetails"]),
+    ...mapGetters(["getCart", "getMarkets", "getPromos", "getRedeemedPromo", "getCheckoutDetails", "getSmallOrderFee"]),
     getMarket() {
       var targetMarket = this.getMarkets.find(market => market.id === this.getDeliveryDetails.marketId); 
       return targetMarket;
