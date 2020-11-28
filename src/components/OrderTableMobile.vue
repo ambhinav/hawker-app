@@ -8,6 +8,7 @@
     </v-card-title>
     <v-card-text>
       <v-container>
+        <InfoBanner v-if="getSmallOrderFee.isSmallOrder" info="To remove small order fee, please spend at least $30" />
         <v-row justify="center">
           <v-data-table
           :headers="headers"
@@ -18,7 +19,7 @@
           show-expand
           >
             <template v-slot:item.cost="{ item }">
-              {{ item.name == "Delivery Cost" || item.name == "Total Cost" || item.name == "Promo Code" ? item.price : getCost(item) }}
+              {{ item.name == "Delivery Cost" || item.name == "Total Cost" || item.name == "Promo Code" || item.name == "Small Order Fee" ? item.price : getCost(item) }}
             </template>
             <template v-slot:expanded-item="{ headers, item }">
               <td :colspan="headers.length" v-if="item.specialInstructions">Instruction: {{ item.specialInstructions }}</td>
@@ -104,7 +105,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getCart", "getMarkets", "getPromos", "getRedeemedPromo", "getCheckoutDetails"]),
+    ...mapGetters(["getCart", "getMarkets", "getPromos", "getRedeemedPromo", "getCheckoutDetails", "getSmallOrderFee"]),
     getMarket() {
       var targetMarket = this.getMarkets.find(market => market.id === this.getDeliveryDetails.marketId); 
       return targetMarket;

@@ -38,10 +38,10 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="item in getNewCart" :key="item.name">
+                      <tr v-for="item in getCheckoutDetails" :key="item.name">
                         <td>{{ item.name }}</td>
-                        <td>{{ item.name == "Delivery Cost" || item.name == "Total Cost" ? "" : item.qty }}</td>
-                        <td>{{ item.name == "Delivery Cost" || item.name == "Total Cost" ? item.price : getPrice(item) }}</td>
+                        <td>{{ item.name == "Delivery Cost" || item.name == "Total Cost" || item.name == "Small Order Fee" ? "" : item.qty }}</td>
+                        <td>{{ item.name == "Delivery Cost" || item.name == "Total Cost" || item.name == "Small Order Fee" ? item.price : getPrice(item) }}</td>
                       </tr>
                     </tbody>
                   </template>
@@ -122,7 +122,7 @@ export default {
     next();  
   },
   computed: {
-    ...mapGetters(["getDeliveryDetails", "getCart", "getTotalPrice"]),
+    ...mapGetters(["getDeliveryDetails", "getCart", "getTotalPrice", "getCheckoutDetails"]),
     getDeliveryCost() {
       if(!Object.prototype.hasOwnProperty.call(this.getDeliveryDetails, "deliveryCost")) {
         return 6;
@@ -132,11 +132,6 @@ export default {
     },
     getTotalCost() {
       return parseFloat(this.getTotalPrice) + this.getDeliveryCost;
-    },
-    getNewCart() {
-      var copy = JSON.parse(JSON.stringify(this.getCart));
-      copy.push({ name: "Delivery Cost", price: this.getDeliveryCost }, { name: "Total Cost", price: this.getTotalCost })
-      return copy
     },
     getOrderId() {
       return this.getDeliveryDetails.orderNumber;

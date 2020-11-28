@@ -1,5 +1,6 @@
 import { getDistanceFromLatLonInKm } from '@/utils/distanceCalculator';
 import { isEmpty, isMinimumPurchaseAmount } from "@/utils/deliveryData";
+import { SMALL_ORDER_FEE_ONE, SMALL_ORDER_FEE_TWO } from '@/utils/deliveryData';
 import Vue from "vue";
 
 // order data model
@@ -21,7 +22,8 @@ const getDefaultState = () => {
     order: {},
     cart: [],
     deliveryDetails: {},
-    promo: {}
+    promo: {},
+    smallOrderFee: {}
   }
 }
 
@@ -30,13 +32,14 @@ export default {
     order: {},
     deliveryDetails: {},
     cart: [],
-    promo: {}
+    promo: {},
+    smallOrderFee: {}
   },
   getters: {
     getDeliveryDetails: (state) => state.deliveryDetails,
     getDeliveryCost: (state) => {
       if (!Object.prototype.hasOwnProperty.call(state.deliveryDetails, "deliveryCost")) {
-        return 6.0;
+        return 0.0;
       } else {
         return state.deliveryDetails.deliveryCost;
       } 
@@ -48,12 +51,28 @@ export default {
       }
       return isMinimumPurchaseAmount(state.cart, state.order);
     },
+    getSmallOrderFee: (state) => state.smallOrderFee,
     getTotalPrice: (state) => {
       let total = state.cart.reduce((acc, currItem) => {
         return acc + (parseFloat(currItem.price) * parseInt(currItem.qty))
       }, 0);
-      if (state.promo.discount) { // check if promo is redeemed
-        total -= state.promo.discount;
+      if (total > 0) { // don't show small order fee or promo if cart is empty
+        if (total < 30.00) {
+          Vue.set(state.smallOrderFee, "isSmallOrder", true);
+          if (total < 10.00) {
+            Vue.set(state.smallOrderFee, "fee", SMALL_ORDER_FEE_ONE);
+            total += SMALL_ORDER_FEE_ONE;
+          } else {
+            Vue.set(state.smallOrderFee, "fee", SMALL_ORDER_FEE_TWO);
+            total += SMALL_ORDER_FEE_TWO;
+          }
+        } else {
+          Vue.set(state.smallOrderFee, "isSmallOrder", false);
+          Vue.set(state.smallOrderFee, "fee", 0);
+        }
+        if (state.promo.discount) { // check if promo is redeemed
+          total -= state.promo.discount;
+        }
       }
       return total.toFixed(2);
     },
@@ -65,30 +84,31 @@ export default {
     },
     getCheckoutDetails: (state, getters) => {
       let details = JSON.parse(JSON.stringify(state.cart));
-      if (Object.keys(state.promo).length > 0) { // promo redeemed
-        details.push({ 
-            name: "Delivery Cost", 
-            price: getters.getDeliveryCost
-          },
-          {
-            name: "Promo Code",
-            price: `- ${state.promo.discount}`
-          },
-          { 
-            name: "Total Cost", 
-            price: getters.getTotalCost 
-        })
-        return details;
-      }
-      details.push({
-        name: "Delivery Cost", 
+      let otherData = []
+      if (getters.getDeliveryCost !== 0.0) {
+        otherData.push({
+          name: "Delivery Cost",
           price: getters.getDeliveryCost
-        },
-        { 
-          name: "Total Cost", 
-          price: getters.getTotalCost
+        });
+      };
+      if (Object.keys(state.promo).length > 0) { // promo redeemed
+        otherData.push({
+          name: "Promo Code",
+          price: state.promo.discount ? `- ${state.promo.discount}` : 0
+        });
+        // return details;
+      }
+      if (getters.getSmallOrderFee.isSmallOrder) {
+        otherData.push({
+          name: "Small Order Fee",
+          price: getters.getSmallOrderFee.isSmallOrder ? getters.getSmallOrderFee.fee : 0
+        });
+      }
+      otherData.push({
+        name: "Total Cost",
+        price: getters.getTotalCost
       })
-      return details;
+      return details.concat(otherData);
     }
   },
   mutations: {
@@ -135,7 +155,8 @@ export default {
     setCustomerDetails: (state, customerDetails) => state.deliveryDetails = { ...state.deliveryDetails, ...customerDetails },
     setDeliveryLocation: (state, deliveryLocation) => state.deliveryDetails = { ...state.deliveryDetails, deliveryLocation },
     setDeliveryCost: (state, deliveryCost) => state.deliveryDetails = { ...state.deliveryDetails, deliveryCost },
-    setRedeemedPromo: (state, promo) => state.promo = { ...promo }
+    setRedeemedPromo: (state, promo) => state.promo = { ...promo },
+    setSmallOrderFee: (state, smallOrderFee) => state.smallOrderFee = { ...smallOrderFee }
   },
   actions: {
     getSearchResults(context, searchTerm) {

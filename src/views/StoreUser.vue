@@ -28,7 +28,8 @@
           </v-col>
         </v-row>
         <v-row>
-          <InfoBanner info="Please note that there is a minimum spend of $4 for each shop that you buy from, and $30 overall. Please check out by 5pm." />
+          <!-- <InfoBanner info='Please note that there is a minimum spend of $4 for each shop that you buy from. There is a small order fee of $4 imposed for orders less than $10 and a fee of $3 for orders between $10 and $30. There is no small order fee if your purchase is $30 and above. Please check out by 5pm.' /> -->
+          <InfoBanner typography='headline' :info='getInfoAlert' />
         </v-row>
         <v-row>
           <v-col cols="12" :md="getStoresInMarket.length === 1 ? 12 : 6" v-for="(store, i) in getStoresInMarket" :key="i">
@@ -56,6 +57,9 @@
             class="d-flex justify-space-between"
             >
             {{getCartLength}} Items in cart 
+            <v-spacer></v-spacer>
+            {{ !getSmallOrderFee ? "" : getSmallOrderFee.isSmallOrder ? `Small Order Fee: $${getSmallOrderFee.fee}` : "" }}
+            <v-spacer></v-spacer>
             <v-btn v-if="isCartOpen" @click="toggleCartState" depressed>Open Cart</v-btn>
           </v-card-title>
           <v-card-title 
@@ -63,6 +67,9 @@
             v-else class="d-flex justify-space-between"
             >
             {{getCartLength}} Items in cart 
+            <v-spacer></v-spacer>
+            {{ !getSmallOrderFee ? "" : getSmallOrderFee.isSmallOrder ? `Small Order Fee: $${getSmallOrderFee.fee}` : "" }}
+            <v-spacer></v-spacer>
             <v-btn color="error" v-if="isCartOpen" @click="toggleCartState" depressed>Close Cart</v-btn>
           </v-card-title>
           <v-divider></v-divider>
@@ -150,6 +157,7 @@ import Menu from '@/components/Menu';
 import InfoBanner from '@/components/feedback/InfoBanner';
 import { isSameDay } from '@/utils/dateTimeUtil';
 import { isClosed } from '@/utils/dateTimeUtil';
+import { STORE_ALERT } from '@/utils/deliveryData';
 export default {
   name: "StoreUser",
   data () {
@@ -204,7 +212,8 @@ export default {
       getCartLength: 'getCartLength',
       getTotalPrice: 'getTotalPrice',
       isCartFilled: 'isCartFilled',
-      getDeliveryDetails: 'getDeliveryDetails'
+      getDeliveryDetails: 'getDeliveryDetails',
+      getSmallOrderFee: 'getSmallOrderFee'
     }),
     getMarket() {
       return this.getMarkets.find(market => market.id === this.deliveryDetails.marketId)
@@ -224,10 +233,13 @@ export default {
       return allStores;
     },
     isValidPurchase() {
-      return this.isCartFilled && (this.getTotalPrice >= 30.00)
+      return this.isCartFilled
     },
     isCartOpen() {
       return this.getCart.length > 0;
+    },
+    getInfoAlert() {
+      return STORE_ALERT;
     }
   },
   methods: {
@@ -237,7 +249,8 @@ export default {
       incrementQty: 'incrementQty',
       toggleCartState: 'toggleCartState',
       setDeliveryDetails: 'setDeliveryDetails',
-      resetCartState: "resetCartState"
+      resetCartState: "resetCartState",
+      setSmallOrderFee: "setSmallOrderFee"
     }),
     ...mapActions(["successToast", "errorToast"]),
     handlePageReload() {
@@ -248,8 +261,18 @@ export default {
     },
     checkOut() {
       if (this.isValidPurchase) {
+        /*
+        if (this.getTotalPrice < 30.00) {
+          if (this.getTotalPrice < 10.00) {
+            this.setSmallOrderFee({ isSmallOrder: true, fee: SMALL_ORDER_FEE_ONE });
+          } else {
+            this.setSmallOrderFee({ isSmallOrder: true, fee: SMALL_ORDER_FEE_TWO });
+          }
+        }
+        */
         this.$router.push({ name: "OrderDetails" })
       } else {
+        /*
         if (!this.isCartFilled && this.getTotalPrice < 30.0) {
           return this.errorToast("Please add at least $30 worth of items to cart");
         } else if (!this.isCartFilled) {
@@ -257,6 +280,8 @@ export default {
         } else {
           return this.errorToast("Please add at least $30 worth of items to cart");
         }
+        */
+        return this.errorToast("Please add at least $4 worth of items from each store you purchased from");
       }
     },
     setUpComponent() {
