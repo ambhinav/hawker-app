@@ -39,7 +39,7 @@ export default {
     getDeliveryDetails: (state) => state.deliveryDetails,
     getDeliveryCost: (state) => {
       if (!Object.prototype.hasOwnProperty.call(state.deliveryDetails, "deliveryCost")) {
-        return 6.0;
+        return 0.0;
       } else {
         return state.deliveryDetails.deliveryCost;
       } 
@@ -84,27 +84,28 @@ export default {
     },
     getCheckoutDetails: (state, getters) => {
       let details = JSON.parse(JSON.stringify(state.cart));
-      let otherData = [
-        { 
-            name: "Delivery Cost", 
-            price: getters.getDeliveryCost
-        }
-      ];
+      let otherData = []
+      if (getters.getDeliveryCost !== 0.0) {
+        otherData.push({
+          name: "Delivery Cost",
+          price: getters.getDeliveryCost
+        });
+      };
       if (Object.keys(state.promo).length > 0) { // promo redeemed
         otherData.push({
-            name: "Promo Code",
-            price: state.promo.discount ? `- ${state.promo.discount}` : 0
-        })
+          name: "Promo Code",
+          price: state.promo.discount ? `- ${state.promo.discount}` : 0
+        });
         // return details;
       }
       if (getters.getSmallOrderFee.isSmallOrder) {
         otherData.push({
           name: "Small Order Fee",
           price: getters.getSmallOrderFee.isSmallOrder ? getters.getSmallOrderFee.fee : 0
-        })
+        });
       }
       otherData.push({
-        name: "Total Cost", 
+        name: "Total Cost",
         price: getters.getTotalCost
       })
       return details.concat(otherData);

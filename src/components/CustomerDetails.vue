@@ -190,11 +190,12 @@ export default {
     ...mapActions([
       'getSearchResults',
       'propogateDeliveryLocationAndCost',
-      "addPaynowAndCashOrder"
+      "addPaynowAndCashOrder",
+      'errorToast'
       ]),
     handleSubmit() {
       if (this.$refs.form.validate()) {
-        if (this.paymentMethod == "Paynow" || this.paymentMethod == "Cash") {
+        if ((this.paymentMethod == "Paynow" || this.paymentMethod == "Cash") && !!this.getDeliveryLocation) {
           var callAddOrder = async () => {
             try {
               await this.addPaynowAndCashOrder({
@@ -211,6 +212,8 @@ export default {
             }
           } 
           callAddOrder();
+        } else {
+          this.errorToast('Please add your delivery address');
         }
       }
     },
