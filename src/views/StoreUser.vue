@@ -42,7 +42,7 @@
         </v-row>
       </v-container>
       <v-bottom-sheet 
-        v-model="isCheckoutButtonShown"
+        v-model="show"
         hide-overlay
         inset
         persistent
