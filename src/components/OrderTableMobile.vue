@@ -8,7 +8,7 @@
     </v-card-title>
     <v-card-text>
       <v-container>
-        <InfoBanner v-if="getSmallOrderFee.isSmallOrder" info="To remove small order fee, please spend at least $30" />
+        <MsgBanner v-if="getSmallOrderFee.isSmallOrder" :items="getSmallOrderMessage" />
         <v-row justify="center">
           <v-data-table
           :headers="headers"
@@ -42,7 +42,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <InfoBanner :info="getDeliveryAlert"/>
+          <MsgBanner :items="getDeliveryFeeDetails" />
         </v-row>
       </v-container>
     </v-card-text>
@@ -57,12 +57,12 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
-import InfoBanner from '@/components/feedback/InfoBanner';
-import { DELIVERY_ALERT } from '@/utils/deliveryData';
+import messages from '@/utils/messages';
+import MsgBanner from './feedback/MsgBanner.vue';
 export default {
   name: "OrderTable",
   components: {
-    InfoBanner
+    MsgBanner
   },
   data () {
     return {
@@ -119,8 +119,11 @@ export default {
     getFilteredPromos() {
       return this.getPromos.filter(promo => promo.enabled == true);
     },
-    getDeliveryAlert() {
-      return DELIVERY_ALERT;
+    getDeliveryFeeDetails() {
+      return messages.DELIVERY_FEE;
+    },
+    getSmallOrderMessage() {
+      return messages.SMALL_ORDER_FEE;
     }
   },
   methods: {

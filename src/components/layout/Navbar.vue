@@ -32,7 +32,7 @@
       </v-toolbar-items>
     </v-app-bar>
     <!-- Start of mobile side menu -->
-    <v-navigation-drawer absolute v-model="drawer" left temporary>
+    <v-navigation-drawer app v-model="drawer" left temporary>
       <v-list nav dense>
         <v-list-item-group
           v-model="group"
@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       drawer: false,
-      group: null,
+      group: true,
       items: [
         {
           icon: "mdi-home", title: "Home", link: "/"

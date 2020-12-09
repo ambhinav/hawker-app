@@ -42,7 +42,7 @@ export default {
         return 0.0;
       } else {
         return state.deliveryDetails.deliveryCost;
-      } 
+      }
     },
     getCart: (state) => state.cart,
     isCartFilled: (state) => {
@@ -61,10 +61,8 @@ export default {
           Vue.set(state.smallOrderFee, "isSmallOrder", true);
           if (total < 10.00) {
             Vue.set(state.smallOrderFee, "fee", SMALL_ORDER_FEE_ONE);
-            total += SMALL_ORDER_FEE_ONE;
           } else {
             Vue.set(state.smallOrderFee, "fee", SMALL_ORDER_FEE_TWO);
-            total += SMALL_ORDER_FEE_TWO;
           }
         } else {
           Vue.set(state.smallOrderFee, "isSmallOrder", false);
@@ -80,7 +78,11 @@ export default {
     getRedeemedPromo: (state) => state.promo,
     getCartStoreMappings: state => state.order,
     getTotalCost: (state, getters) => {
-      return parseFloat(getters.getTotalPrice) + parseFloat(getters.getDeliveryCost)  
+      let cartCost = parseFloat(getters.getTotalPrice);
+      if (getters.getSmallOrderFee.isSmallOrder) {
+        cartCost += getters.getSmallOrderFee.fee;
+      }
+      return cartCost + parseFloat(getters.getDeliveryCost);
     },
     getCheckoutDetails: (state, getters) => {
       let details = JSON.parse(JSON.stringify(state.cart));
