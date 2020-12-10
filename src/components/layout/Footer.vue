@@ -8,10 +8,12 @@
           </v-row>
           <v-row class="hidden-sm-and-down pt-2">
             <v-icon>mdi-email</v-icon>
-            <div class="pl-1 subtitle">foodboysg@gmail.com</div>
+            <!-- <div class="pl-1 subtitle">foodboysg@gmail.com</div> -->
+            <a href="mailto:foodboysg@gmail.com">foodboysg@gmail.com</a> 
           </v-row>
           <v-row class="hidden-md-and-up pt-2">
-            <div class="subtitle">foodboysg@gmail.com</div>
+            <!-- <div class="subtitle">foodboysg@gmail.com</div> -->
+            <a href="mailto:foodboysg@gmail.com">foodboysg@gmail.com</a> 
           </v-row>
         </v-col>
         <v-col cols="6" class="pl-5">
@@ -52,5 +54,8 @@ export default {
 <style>
 .copyright {
   font-size: 12px;
+}
+a, u {
+  text-decoration: none;
 }
 </style>
