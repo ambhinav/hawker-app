@@ -8,7 +8,8 @@
           </v-row>
           <v-row class="hidden-md-and-up pt-5" justify="center">
             <v-icon class="pr-2">mdi-email</v-icon>
-            <div class="subtitle">foodboysg@gmail.com</div>
+            <!-- <div class="subtitle">foodboysg@gmail.com</div> -->
+            <a href="mailto:foodboysg@gmail.com">foodboysg@gmail.com</a> 
           </v-row>
         </v-col>
         <v-col cols="12" class="pl-2">
