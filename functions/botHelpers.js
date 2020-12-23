@@ -2,7 +2,7 @@
 const admin = require("firebase-admin");
 const dateTimeHelpers = require("./utils/dateTime");
 const { HAWKER_GROUPS, LOGISTICS_CONTACT } = require("./secrets/telegram")
-const { HAWKER_ADDRESS, PICKUP_TIMINGS } = require("./utils/messageHelpers");
+const { HAWKER_ADDRESS, PICKUP_TIMINGS, getRiderEarnings} = require("./utils/messageHelpers");
 const DOUBLE_SPACED = "\n\n";
 const SINGLE_SPACED = "\n";
 const StatesEnum = {
@@ -30,8 +30,16 @@ const sendHawkerGroupMessage = async (orderData, bot) => {
   }))
 }
 
-const sendLogisticsGroupMessage = async (message, bot) => {
-  return bot.telegram.sendMessage(LOGISTICS_CONTACT, message);
+/**
+ * Updates the message sent to the admins with the earnings earned by the rider for this job.
+ * @param {*} message admin message that was previously sent
+ * @param {*} distance between hawker market and customer's location
+ * @param {*} bot instance of tele bot
+ */
+const sendLogisticsGroupMessage = async (message, distance, bot) => {
+  var newMessage = message + DOUBLE_SPACED
+  + `Earnings: ${getRiderEarnings(distance)}`
+  return bot.telegram.sendMessage(LOGISTICS_CONTACT, newMessage);
 }
 
 const createAdminMessage = async (orderData, storeOrders) => {
@@ -52,7 +60,8 @@ const createAdminMessage = async (orderData, storeOrders) => {
     return acc += storeOrder + "\n";
   }, "--ORDER DETAILS-- \n\n")
   var formattedDate = dateTimeHelpers.formatCreateDate(created_at);
-  var message = `Order Number: ${orderNumber}(${formattedDate})` + DOUBLE_SPACED
+  var message = `Order Number: ${orderNumber}` + SINGLE_SPACED
+    + formattedDate + DOUBLE_SPACED
     + cartDetails + DOUBLE_SPACED
     + `Total Cost: ${totalCost}` + DOUBLE_SPACED
     + `Payment Method: ${paymentMethod}` + DOUBLE_SPACED
