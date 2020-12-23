@@ -47,6 +47,7 @@ exports.onOrderConfirmed = functions.firestore
     if (oldStatus == "pending" && newStatus == "paid") {
       return Promise.all([
         botHelpers.sendHawkerGroupMessage(change.after.data(), bot),
+        botHelpers.sendLogisticsGroupMessage(change.after.data().adminMessage, change.after.data().distance, bot)
       ]);
     }
   });
