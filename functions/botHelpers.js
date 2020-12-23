@@ -38,7 +38,7 @@ const sendHawkerGroupMessage = async (orderData, bot) => {
  */
 const sendLogisticsGroupMessage = async (message, distance, bot) => {
   var newMessage = message + DOUBLE_SPACED
-  + `Earnings: ${getRiderEarnings(distance)}`
+  + `Earnings: $${getRiderEarnings(distance)}`
   return bot.telegram.sendMessage(LOGISTICS_CONTACT, newMessage);
 }
 
@@ -61,7 +61,7 @@ const createAdminMessage = async (orderData, storeOrders) => {
   }, "--ORDER DETAILS-- \n\n")
   var formattedDate = dateTimeHelpers.formatCreateDate(created_at);
   var message = `Order Number: ${orderNumber}` + SINGLE_SPACED
-    + formattedDate + DOUBLE_SPACED
+    + `Date: ${formattedDate}` + DOUBLE_SPACED
     + cartDetails + DOUBLE_SPACED
     + `Total Cost: ${totalCost}` + DOUBLE_SPACED
     + `Payment Method: ${paymentMethod}` + DOUBLE_SPACED
@@ -69,7 +69,6 @@ const createAdminMessage = async (orderData, storeOrders) => {
     + `Pick up location: ${HAWKER_ADDRESS[marketId]}` + DOUBLE_SPACED
     + `Pick up at: ${PICKUP_TIMINGS[deliverySlot]}` + DOUBLE_SPACED // 12 hr format
     + "--DELIVERY DETAILS--" + DOUBLE_SPACED
-    + `Delivery Slot: ${dateTimeHelpers.convertToTwelveHourFormat(deliverySlot)}` + DOUBLE_SPACED // converted to 12 hr format
     + `Customer Name: ${customerName}` + DOUBLE_SPACED
     + `Customer Contact: ${customerNumber}` + DOUBLE_SPACED
     + `Customer Address: ${deliveryAddress}` + SINGLE_SPACED
