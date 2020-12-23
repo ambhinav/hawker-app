@@ -157,6 +157,7 @@ export default {
     setCustomerDetails: (state, customerDetails) => state.deliveryDetails = { ...state.deliveryDetails, ...customerDetails },
     setDeliveryLocation: (state, deliveryLocation) => state.deliveryDetails = { ...state.deliveryDetails, deliveryLocation },
     setDeliveryCost: (state, deliveryCost) => state.deliveryDetails = { ...state.deliveryDetails, deliveryCost },
+    setDeliveryDistance: (state, deliveryDistance) => state.deliveryDetails = { ...state.deliveryDetails, deliveryDistance },
     setRedeemedPromo: (state, promo) => state.promo = { ...promo },
     setSmallOrderFee: (state, smallOrderFee) => state.smallOrderFee = { ...smallOrderFee }
   },
@@ -196,6 +197,7 @@ export default {
         } else if (distance >= 13) {
           cost = 12;
         }
+        commit("setDeliveryDistance", distance);
         commit("setDeliveryCost", cost);
         resolve();
       })

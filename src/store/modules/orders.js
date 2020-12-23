@@ -64,7 +64,7 @@ export default {
      */
     async addPaynowAndCashOrder({ commit, getters, dispatch }, customerDetails) {
       var { paymentMethod, customerName, phoneNumber, unitNumber } = customerDetails;
-      var { deliveryLocation, marketId, deliveryCost, deliveryTime } = getters.getDeliveryDetails;
+      var { deliveryLocation, marketId, deliveryCost, deliveryTime, deliveryDistance } = getters.getDeliveryDetails;
       var orderDetails = {
         marketId,
         paymentMethod,
@@ -74,6 +74,7 @@ export default {
         totalCost: getters.getTotalCost,
         deliveryAddress: deliveryLocation["ADDRESS"],
         deliveryUnitNumber: unitNumber,
+        distance: deliveryDistance,
         cart: getters.getCart,
         created_at: getTimeStamp(),
         orderStatus: "pending", // three main statuses: pending, cancelled, paid
