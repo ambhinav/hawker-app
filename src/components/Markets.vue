@@ -72,7 +72,7 @@
       <v-card>
 				<v-form ref="deliveryDetailsForm">
 					<v-card-title>
-						<span class="headline">Choose your delivery period</span>
+						<span class="headline">Choose your delivery slot</span>
 					</v-card-title>
 					<v-card-text>
 						<v-container>
@@ -81,34 +81,14 @@
                   <span class="subtitle red--text">Please note that delivery is not on-demand.</span>
                   <br>
                   <span class="subtitle">If you would like your food to be delivered between a certain period, please choose the relevant slot and place your order by that time</span> 
-                  <v-simple-table>
-                    <template>
-                      <thead>
-                        <tr>
-                          <th class="text-left">Delivery Period (PM)</th>
-                          <th class="text-left">Order By</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="(timing, i) in deliveryTimingsUI" :key="i">
-                          <td>{{ timing.period }}</td>
-                          <td><b>{{ timing.orderBy }}</b></td>
-                        </tr>
-                      </tbody>
-                    </template>
-                  </v-simple-table>
-                </v-col>
-              </v-row>
-							<v-row>
-								<v-col cols="12">
-                  <v-autocomplete
-                    :items="getDeliveryTimings"
-                    v-model="deliveryTime"
-                    label="Delivery Period (PM)"
-                    required
-                    :rules="getTextRules"
-                  >
-                  </v-autocomplete>
+                  <v-radio-group v-model="deliveryTime" :rules="[v => !!v || 'Item is required']" required>
+                    <v-radio
+                      v-for="(data, i) in getDeliveryTimings"
+                      :key="i"
+                      :label="data[1]"
+                      :value="data[0]"
+                    ></v-radio>
+                  </v-radio-group>
 								</v-col>
 							</v-row>
 						</v-container>
@@ -128,7 +108,7 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import rules from '@/utils/validation';
 import { isBefore, isClosed } from '@/utils/dateTimeUtil';
-import { lastOrderTimings, deliveryTimingsUI, deliveryTimingsData, deliveryTimingsOnly } from '@/utils/deliveryData';
+import { deliveryTimingsData, deliveryTimingsMapping } from '@/utils/deliveryData';
 export default {
   name: "Markets",
   created () {
@@ -168,6 +148,7 @@ export default {
       var timing = deliveryTimingsData.find(timing => timing.period == this.deliveryTime);
       return timing.slot;
     },
+    /*
     getDeliveryTimings() {
       if (!isClosed()) {
         var res = [];
@@ -183,6 +164,13 @@ export default {
     deliveryTimingsUI() {
       return deliveryTimingsUI;
     }
+    */
+    getDeliveryTimings() {
+      if(!isClosed()) {
+        return Object.entries(deliveryTimingsMapping).filter(data => isBefore(data[1]));
+      }
+      return Object.entries(deliveryTimingsMapping);
+    }
   },
   methods: {
     ...mapMutations({
@@ -196,7 +184,7 @@ export default {
     onSubmit() {
       if (this.$refs.deliveryDetailsForm.validate()) {
         this.setDeliveryDetails({
-          deliveryTime: this.getDeliverySlot,
+          deliveryTime: this.deliveryTime,
           marketId: this.targetMarket
         })
         this.$router.push({
