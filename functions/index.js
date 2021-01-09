@@ -8,6 +8,7 @@ const botHelpers = require("./botHelpers");
 const admin = require("firebase-admin");
 const { StatesEnum } = require('./botHelpers');
 const { stringify, parse } = require("zipson");
+const { pickupTimingsMapping } = require('./utils/messageHelpers');
 admin.initializeApp();
 
 /**
@@ -68,6 +69,23 @@ exports.calculateDailyExpenses = functions.pubsub.schedule("every day 18:00")
   .onRun(((data, context) => {
     return botHelpers.getDailyExpense();
   }))
+
+exports.updateStoreAndMenuDeliverySlots = functions.https.onCall(async (data, context) => {
+  await admin.firestore().collection("Stores").get().then(querySnapshot => {
+    querySnapshot.forEach(doc => {
+      doc.ref.update({
+        deliveryTimings: Object.keys(pickupTimingsMapping) 
+      })
+    })
+  });
+  return admin.firestore().collection("Menu").get().then(querySnapshot => {
+    querySnapshot.forEach(doc => {
+      doc.ref.update({
+        deliverySlots: Object.keys(pickupTimingsMapping) 
+      })
+    })
+  });
+});
 
 /** Bot-related scripts */
 exports.botWebhook = functions.https.onRequest(

@@ -25,6 +25,20 @@ const getRiderEarnings = distance => {
   }
 };
 
+export var pickupTimingsMapping = {
+  "A": "10:15 AM",
+  "B": "11:15 PM",
+  "C": "12:15 PM",
+  "D": "1:15 PM",
+  "E": "2:15 PM",
+  "F": "3:15 PM",
+  "G": "4:15 PM",
+  "H": "5:15 PM",
+  "I": "6:15 PM",
+  "J": "7:15 PM",
+  "K": "8:15 PM",
+}
+
 module.exports = {
     HAWKER_ADDRESS,
     PICKUP_TIMINGS,
