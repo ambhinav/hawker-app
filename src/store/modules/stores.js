@@ -140,6 +140,13 @@ export default {
           stores: firebase.firestore.FieldValue.arrayRemove(store.id)
         })
       return db.collection("Stores").doc(store.id).delete();
+    },
+    updateStoreDeliverySlots(context, payload) {
+      return db.collection("Stores")
+        .doc(payload.storeId)
+        .update({
+          deliveryTimings: payload.deliveryTimings
+        })
     }
   },
   getters: {

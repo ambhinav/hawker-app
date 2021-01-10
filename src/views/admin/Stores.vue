@@ -54,6 +54,9 @@
 									:items="getSelectedStores"
 									class="elevation-1"
 								>
+									<template v-slot:item.deliverySlotButton="{ item }">
+										<v-btn depressed @click="updateDeliverySlots(item)">edit</v-btn>
+									</template>
 									<template v-slot:item.menuButton="{ item }">
 										<v-btn depressed @click="addMenuItem(item.id)">add</v-btn>
 									</template>
@@ -129,6 +132,40 @@
 				</v-form>
 			</v-card>
 		</v-dialog>
+		<v-dialog v-model="storeDeliverySlotDialog" persistent max-width="600px">
+			<v-card v-if="targetStoreId">
+				<v-form ref="updateStoreDeliverySlotsForm">
+					<v-card-title>
+						<span class="headline">Edit Store Delivery Slots</span>
+					</v-card-title>
+					<v-card-text>
+						<v-container>
+							<v-row>
+								<v-col cols="12">
+									<v-autocomplete
+										v-model="storeDeliverySlots"
+										:items="getDeliverySlots"
+										outlined
+										dense
+										chips
+										small-chips
+										label="Delivery Timings"
+										multiple
+										required
+										:rules="deliverySlotRules"
+									></v-autocomplete>
+								</v-col>
+							</v-row>
+						</v-container>
+					</v-card-text>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn color="blue darken-1" text @click="handleStoreDeliverySlotClose">Close</v-btn>
+						<v-btn :loading="loading" color="blue darken-1" text @click="updateDeliverySlotConfirm">Edit</v-btn>
+					</v-card-actions>
+				</v-form>
+			</v-card>
+		</v-dialog>
 	</div>
 </template>
 
@@ -137,7 +174,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import rules from '@/utils/validation';
 const { isNumber, required } = rules;
-import { deliverySlots } from '@/utils/deliveryData.js';
+import { deliveryTimingsMapping } from '@/utils/deliveryData.js';
 
 export default {
 	name: 'Stores',
@@ -157,6 +194,11 @@ export default {
 					text: 'Name', 
 					align: 'left', 
 					value: 'name' 
+				},
+				{
+					text: 'Edit delivery slots',
+					align: 'left',
+					value: 'deliverySlotButton'
 				},
 				{ 
 					text: 'Add menu item', 
@@ -190,7 +232,9 @@ export default {
 			nm: null, // price (nm)
       fileImgPath: null,
 			loading: false,
-			deliverySlotRules: [v => v.length > 0 || "At least one slot required"]
+			deliverySlotRules: [v => v.length > 0 || "At least one slot required"],
+			storeDeliverySlotDialog: false,
+			storeDeliverySlots: null
     }
 	},
 	computed: {
@@ -221,7 +265,7 @@ export default {
       return [required];
 		},
 		getDeliverySlots() {
-			return deliverySlots;
+			return Object.keys(deliveryTimingsMapping);
 		},
 		getStoreDeliverySlots() {
 			var targetStore = this.getStores.find(store => store.id == this.targetStoreId);
@@ -234,7 +278,8 @@ export default {
       toggleStoreStatus: "toggleStoreStatus",
       successToast: "successToast",
 			errorToast: "errorToast",
-			removeStoreAndMenuItems: "removeStoreAndMenuItems"
+			removeStoreAndMenuItems: "removeStoreAndMenuItems",
+			updateStoreDeliverySlots: "updateStoreDeliverySlots"	
     }),
     onMarketSelect(market) {
       this.targetMarket = market;
@@ -318,6 +363,38 @@ export default {
 				}
 			}
 			return callRemoveStore();
+		},
+		updateDeliverySlots(store){
+			this.targetStoreId = store.id;
+			this.storeDeliverySlots = store.deliveryTimings;
+			this.storeDeliverySlotDialog = true;
+		},
+		handleStoreDeliverySlotClose() {
+			this.targetStoreId = null;
+			this.storeDeliverySlots = null;
+			this.storeDeliverySlotDialog = false;
+			this.$refs.updateStoreDeliverySlotsForm.resetValidation()	
+			this.loading = false;
+		},
+		updateDeliverySlotConfirm() {
+			if (this.$refs.updateStoreDeliverySlotsForm.validate()) {
+				this.loading = true;
+        const callUpdateStoreDeliverySlots = async () => {
+          try {
+            await this.updateStoreDeliverySlots({
+              deliveryTimings: this.storeDeliverySlots,
+							storeId: this.targetStoreId,
+            }) 
+            this.successToast("Store's delivery slots updated!")
+          } catch (e) {
+            console.log(e)
+            this.errorToast("Error editing store's delivery slots")
+          } finally {
+            this.handleStoreDeliverySlotClose()
+          }
+        }
+        callUpdateStoreDeliverySlots()
+      }	
 		}
 	}
 }
