@@ -25,7 +25,7 @@ const getRiderEarnings = distance => {
   }
 };
 
-export var pickupTimingsMapping = {
+const pickupTimingsMapping = {
   "A": "10:15 AM",
   "B": "11:15 PM",
   "C": "12:15 PM",
@@ -42,5 +42,6 @@ export var pickupTimingsMapping = {
 module.exports = {
     HAWKER_ADDRESS,
     PICKUP_TIMINGS,
-    getRiderEarnings
+    getRiderEarnings,
+    pickupTimingsMapping
 };
