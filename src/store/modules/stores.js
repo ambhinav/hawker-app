@@ -147,6 +147,14 @@ export default {
         .update({
           deliveryTimings: payload.deliveryTimings
         })
+    },
+    updateStoreOperatingTimes(context, payload) {
+      console.log("here")
+      return db.collection("Stores")
+        .doc(payload.storeId)
+        .update({
+          operatingTimes: payload.operatingTimes
+        })
     }
   },
   getters: {

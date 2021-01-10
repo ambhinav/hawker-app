@@ -54,6 +54,9 @@
 									:items="getSelectedStores"
 									class="elevation-1"
 								>
+									<template v-slot:item.storeOperatingTimesButton="{ item }">
+										<v-btn depressed @click="updateOperatingTimes(item)">edit</v-btn>
+									</template>	
 									<template v-slot:item.deliverySlotButton="{ item }">
 										<v-btn depressed @click="updateDeliverySlots(item)">edit</v-btn>
 									</template>
@@ -166,6 +169,40 @@
 				</v-form>
 			</v-card>
 		</v-dialog>
+		<v-dialog v-model="storeOperatingTimesDialog" persistent max-width="600px">
+			<v-card v-if="targetStoreId">
+				<v-form ref="storeOperatingTimesForm">
+					<v-card-title>
+						<span class="headline">Edit Store Operating Times</span>
+					</v-card-title>
+					<v-card-text>
+						<v-container>
+							<v-row>
+								<v-col cols="12">
+									<v-autocomplete
+										v-model="storeOperatingTimes"
+										:items="daysOfWeek"
+										outlined
+										dense
+										chips
+										small-chips
+										label="Operating Times"
+										multiple
+										required
+										:rules="deliverySlotRules"
+									></v-autocomplete>
+								</v-col>
+							</v-row>
+						</v-container>
+					</v-card-text>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn color="blue darken-1" text @click="handleStoreOperatingTimesDialogClose">Close</v-btn>
+						<v-btn :loading="loading" color="blue darken-1" text @click="updateStoreOperatingTimesConfirm">Edit</v-btn>
+					</v-card-actions>
+				</v-form>
+			</v-card>
+		</v-dialog>
 	</div>
 </template>
 
@@ -199,6 +236,11 @@ export default {
 					text: 'Edit delivery slots',
 					align: 'left',
 					value: 'deliverySlotButton'
+				},
+				{
+					text: 'Edit operating times',
+					align: 'left',
+					value: 'storeOperatingTimesButton'
 				},
 				{ 
 					text: 'Add menu item', 
@@ -234,7 +276,18 @@ export default {
 			loading: false,
 			deliverySlotRules: [v => v.length > 0 || "At least one slot required"],
 			storeDeliverySlotDialog: false,
-			storeDeliverySlots: null
+			storeDeliverySlots: null,
+			storeOperatingTimesDialog: null,
+			storeOperatingTimes: null,
+			daysOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],	
     }
 	},
 	computed: {
@@ -279,7 +332,8 @@ export default {
       successToast: "successToast",
 			errorToast: "errorToast",
 			removeStoreAndMenuItems: "removeStoreAndMenuItems",
-			updateStoreDeliverySlots: "updateStoreDeliverySlots"	
+			updateStoreDeliverySlots: "updateStoreDeliverySlots",
+			updateStoreOperatingTimes: "updateStoreOperatingTimes"
     }),
     onMarketSelect(market) {
       this.targetMarket = market;
@@ -394,6 +448,38 @@ export default {
           }
         }
         callUpdateStoreDeliverySlots()
+      }	
+		},
+		updateOperatingTimes(store){
+			this.targetStoreId = store.id;
+			this.storeOperatingTimes = store.operatingTimes;
+			this.storeOperatingTimesDialog = true;
+		},
+		handleStoreOperatingTimesDialogClose() {
+			this.targetStoreId = null;
+			this.storeOperatingTimes = null;
+			this.storeOperatingTimesDialog = false;
+			this.loading = false;
+		},
+		updateStoreOperatingTimesConfirm() {
+			if (this.$refs.storeOperatingTimesForm.validate()) {
+				this.loading = true;
+        const callUpdateStoreOperatingTimes = async () => {
+          try {
+            await this.updateStoreOperatingTimes({
+              operatingTimes: this.storeOperatingTimes,
+							storeId: this.targetStoreId,
+						}) 
+						console.log("updated")
+            this.successToast("Store's operating times updated!")
+          } catch (e) {
+            console.log(e)
+            this.errorToast("Error editing store's operating times")
+          } finally {
+            this.handleStoreOperatingTimesDialogClose();
+          }
+        }
+        callUpdateStoreOperatingTimes() 
       }	
 		}
 	}
