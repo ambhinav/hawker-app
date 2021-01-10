@@ -17,6 +17,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+ui-debug.log*
+firebase-debug.log*
+firestore-debug.log*
 
 # Editor directories and files
 .idea
@@ -26,3 +29,6 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# seed data for dev environment
+seed-data
