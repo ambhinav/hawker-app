@@ -18,12 +18,12 @@
       <v-card-subtitle>
         <b>Operating days</b>: {{ formatInfo(store.operatingTimes) }}
         <br>
-        <b>Operating delivery slots</b>: {{ formatInfo(store.deliveryTimings) }}
+        <b>Operating delivery slots</b>: {{ formatStoreInfo(store.deliveryTimings) }}
         <br>
         <div class="error--text">Minimum order is $4.</div>
       </v-card-subtitle>
       <v-card-text v-if="!store.enabled" class="red--text">
-        Sorry, this store is unavailable for the slot you chose.
+        Sorry, this store is unavailable for the slot/day chosen.
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -144,6 +144,7 @@
 <script>
 import rules from '@/utils/validation';
 import { mapGetters, mapMutations } from 'vuex';
+import { deliveryTimingsMapping } from '@/utils/deliveryData';
 export default {
   name: "Menu",
   data() {
@@ -182,6 +183,9 @@ export default {
     },
     formatInfo(info) {
       return info.reduce((acc, curr) => acc += ` ${curr},`, "");
+    },
+    formatStoreInfo(info) {
+      return info.reduce((acc, curr) => acc += ` ${deliveryTimingsMapping[curr]},`, "");
     },
     handleAddItemDialog(item) {
       this.targetItem = item;

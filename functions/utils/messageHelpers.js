@@ -7,12 +7,6 @@ const HAWKER_ADDRESS = {
   "AR": "Blk 503, West Coast Drive. Ayer Rajah Food Centre, Singapore 120503"
 };
 
-const PICKUP_TIMINGS = {
-  "11:30": "12:00 PM",
-  "14:00": "2:30 PM",
-  "17:00": "5:30 PM"
-};
-
 const getRiderEarnings = distance => {
   if (distance <= 3) {
     return 8;
@@ -25,9 +19,9 @@ const getRiderEarnings = distance => {
   }
 };
 
-const pickupTimingsMapping = {
+const PICKUP_TIMINGS = {
   "A": "10:15 AM",
-  "B": "11:15 PM",
+  "B": "11:15 AM",
   "C": "12:15 PM",
   "D": "1:15 PM",
   "E": "2:15 PM",
@@ -43,5 +37,4 @@ module.exports = {
     HAWKER_ADDRESS,
     PICKUP_TIMINGS,
     getRiderEarnings,
-    pickupTimingsMapping
 };
