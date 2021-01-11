@@ -71,10 +71,18 @@ const isEqual = (v1, v2) => moment(v1).isSame(v2);
 /**
  * Checks if current time not more than 10 mins after order by timing.
  * @param {Time} timing order by time for a delivery slot
- */
 const isBefore = timing => {
   return moment(new Date()).isBefore(moment(timing, "HH:mm").add(10, "minutes"));
 };
+ */
+
+ /**
+  * Checks if current time is at least 85 mins (10 min buffer) before the delivery slot
+  * @param {String} timing delivery slot in hh A format (e.g. 10 AM)
+  */
+ const isBefore = timing => {
+	return moment().add(85, "minutes").isBefore(moment(timing, "hh A"));
+ }
 
 const isClosed = () => moment(new Date()).isAfter(moment("17:00", "HH:mm"));
 

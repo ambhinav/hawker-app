@@ -51,6 +51,20 @@ export var lastOrderTimings = [
   }
 ]
 
+export var deliveryTimingsMapping = {
+  "A": "11 AM",
+  "B": "12 PM",
+  "C": "1 PM",
+  "D": "2 PM",
+  "E": "3 PM",
+  "F": "4 PM",
+  "G": "5 PM",
+  "H": "6 PM",
+  "I": "7 PM",
+  "J": "8 PM",
+  "K": "9 PM",
+}
+
 export function isEmpty(obj) {
     for(var key in obj) {
         if(Object.prototype.hasOwnProperty.call(obj, key))

@@ -16,13 +16,24 @@ service cloud.firestore {
     }
 
     match /Orders/{docId} {
-      allow read: if true;
-      allow write: if isAuthenticated();
+      allow read, write: if true;
     }
 
     match /Stores/{docId} {
       allow read: if true;
       allow write: if isAuthenticated();
+    }
+    
+    match /ContactRequests/{docId} {
+    	allow read, write: if true;
+    }
+    
+    match /Promotions/{docId} {
+    	allow read, write: if true;
+    }
+    
+    match /Expenses/{docId} {
+    	allow read,write: if isAuthenticated();
     }
   }
 }

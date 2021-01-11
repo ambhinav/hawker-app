@@ -8,9 +8,17 @@ const HAWKER_ADDRESS = {
 };
 
 const PICKUP_TIMINGS = {
-  "11:30": "12:00 PM",
-  "14:00": "2:30 PM",
-  "17:00": "5:30 PM"
+  "A": "10:15 AM",
+  "B": "11:15 AM",
+  "C": "12:15 PM",
+  "D": "1:15 PM",
+  "E": "2:15 PM",
+  "F": "3:15 PM",
+  "G": "4:15 PM",
+  "H": "5:15 PM",
+  "I": "6:15 PM",
+  "J": "7:15 PM",
+  "K": "8:15 PM",
 };
 
 const getRiderEarnings = distance => {

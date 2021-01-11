@@ -78,7 +78,7 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col cols="6">
+            <v-col cols="3">
               <v-autocomplete
                 v-model="operatingTimes"
                 :items="daysOfWeek"
@@ -92,7 +92,10 @@
                 :rules="getTextRules"
               ></v-autocomplete>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="3">
+              <v-btn @click="selectAllOperatingTimes">select all</v-btn>
+            </v-col> 
+            <v-col cols="3">
               <v-autocomplete
                 v-model="deliveryTimings"
                 :items="getDeliverySlots"
@@ -105,6 +108,9 @@
                 required
                 :rules="getTextRules"
               ></v-autocomplete>
+            </v-col>
+            <v-col cols="3">
+              <v-btn @click="selectAllDeliverySlots">select all</v-btn>
             </v-col>
           </v-row>
         </v-container>
@@ -121,7 +127,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import rules from '@/utils/validation';
 const { required } = rules;
-import { deliverySlots } from '@/utils/deliveryData.js';
+import { deliveryTimingsMapping } from '@/utils/deliveryData.js';
 export default {
   name: "Onboarding",
   data () {
@@ -158,7 +164,7 @@ export default {
       return this.getMarkets.map(market => market.name)
     },
     getDeliverySlots() {
-			return deliverySlots;
+			return Object.keys(deliveryTimingsMapping);
 		}
   },
   methods: {
@@ -221,6 +227,12 @@ export default {
     getTargetMarketId(marketName) {
       var target = this.getMarkets.find(market => market.name === marketName);
       return target.id;
+    },
+    selectAllDeliverySlots() {
+      this.deliveryTimings = Object.keys(deliveryTimingsMapping)
+    },
+    selectAllOperatingTimes() {
+      this.operatingTimes = this.daysOfWeek
     }
   }
 }
