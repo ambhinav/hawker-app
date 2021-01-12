@@ -1,13 +1,13 @@
 <template>
-  <v-card>
-    <v-card-title
-      class="headline grey lighten-3 justify-center"
-      primary-title
-    >
-      <h2>Onboard new stores</h2>
-    </v-card-title>
-
-    <v-card-text class="px3">
+  <div>
+    <onboard-market />
+    <v-card>
+      <v-card-title
+        class="headline grey lighten-3 justify-center"
+        primary-title
+      >
+        <h2>Onboard new Store</h2>
+      </v-card-title>
       <v-form ref="form">
         <v-container>
           <v-row>
@@ -115,12 +115,12 @@
           </v-row>
         </v-container>
       </v-form>
-    </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn :loading="loading" class="primary mx-0 mt-3 mr-3" text @click="handleSubmit">Add store</v-btn>
-    </v-card-actions>
-  </v-card>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn :loading="loading" class="primary mx-0 mt-3 mr-3" text @click="handleSubmit">Add store</v-btn>
+      </v-card-actions>
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -128,6 +128,7 @@ import { mapGetters, mapActions } from 'vuex';
 import rules from '@/utils/validation';
 const { required } = rules;
 import { deliveryTimingsMapping } from '@/utils/deliveryData.js';
+import OnboardMarket from './OnboardMarket.vue';
 export default {
   name: "Onboarding",
   data () {
@@ -152,6 +153,9 @@ export default {
       storeId: null,
       loading: false
     }
+  },
+  components: {
+    OnboardMarket
   },
   computed: {
     getTextRules() {

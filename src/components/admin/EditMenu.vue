@@ -89,12 +89,12 @@
 									<v-text-field type="number" v-model.number="itemPrice" label="Price" required :rules="getNumberRules"></v-text-field>
 								</v-col>
 							</v-row>
-							<!-- <v-row>
+							<v-row>
                 <v-col cols="6">
                   <v-img contain height="120" width="120" v-if="fileImgPath" :src="fileImgPath" class="grey lighten-2"></v-img>
                 </v-col>
 								<v-col cols="6">
-                  <v-btn  @click="onPickFile()">Pick Item Image</v-btn>
+                  <v-btn  @click="onPickFile()">Update Item Image</v-btn>
                   <input type="file" 
                   style="display: none" 
                   name="" id="" 
@@ -102,7 +102,7 @@
                   accept="image/*"
                   @change="onFilePicked">
 								</v-col>
-							</v-row> -->
+							</v-row>
 						</v-container>
 					</v-card-text>
 					<v-card-actions>
@@ -193,7 +193,10 @@ export default {
       itemPrice: null,
       itemId: null,
       nm: null,
-      addNmDialog: false
+      addNmDialog: false,
+      file: null,
+      fileImgPath: null,
+      itemImage: null
     }
   },
   computed: {
@@ -247,7 +250,10 @@ export default {
       this.loading = false;
       this.menuItemDialog = false;
       this.itemId = null;
-			this.$refs.editMenuItemForm.resetValidation();
+      this.$refs.editMenuItemForm.resetValidation();
+      this.itemImage = null;
+      this.file = null;
+      this.fileImgPath = null;
     },
     handleEditMenuItem(item) {
       this.itemName = item.name;
@@ -256,10 +262,13 @@ export default {
       this.itemId = item.id;
       this.nm = item.nm;
       this.menuItemDialog = true;
+      this.itemImage = item.image;
+      this.fileImgPath = item.image;
     },
     editMenuItemConfirm() {
       if (this.$refs.editMenuItemForm.validate()) {
-				this.loading = true;
+        this.loading = true;
+        var isImageExisting = !!this.itemImage;
         const callEditMenuItem = async () => {
           try {
             await this.editMenuItem({
@@ -268,7 +277,9 @@ export default {
               price: this.itemPrice,
               id: this.itemId,
               nm: this.nm,
-              storeId: this.storeId
+              storeId: this.storeId,
+              image: this.file,
+              isImageExisting
             }) 
             this.successToast("Menu item updated!")
           } catch (e) {
@@ -281,6 +292,17 @@ export default {
         callEditMenuItem()
       }
     },
+    onPickFile() {
+			this.$refs.fileInput.click()
+		},
+		onFilePicked(event) {
+			this.file = event.target.files[0]
+			var reader = new FileReader()
+			reader.onload = (e) => {
+				this.fileImgPath = e.target.result
+			}
+			reader.readAsDataURL(this.file);
+		},
     addNm(itemId) {
       this.itemId = itemId;
       this.addNmDialog = true;

@@ -91,7 +91,7 @@ export default {
         },
       ],
       isBannerShown: false, 
-      message: "Sorry! We have stopped taking orders after 5PM. Please place your orders when the platform reopens daily at 6AM."
+      message: "Sorry! We have stopped taking orders after 7:45PM. Please place your orders when the platform reopens daily at 6AM. If you would like to place an advance order, please call +65 97581994"
     }
   },
   components: {

@@ -81,10 +81,10 @@ const isBefore = timing => {
   * @param {String} timing delivery slot in hh A format (e.g. 10 AM)
   */
  const isBefore = timing => {
-	return moment().add(85, "minutes").isBefore(moment(timing, "hh A"));
+	return moment().add(80, "minutes").isBefore(moment(timing, "hh A"));
  }
 
-const isClosed = () => moment(new Date()).isAfter(moment("17:00", "HH:mm"));
+const isClosed = () => moment(new Date()).isAfter(moment("19:45", "HH:mm"));
 
 export {
   formatDate,

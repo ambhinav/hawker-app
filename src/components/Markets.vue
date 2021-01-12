@@ -78,16 +78,23 @@
 						<v-container>
               <v-row justify="center">
                 <v-col cols="12">
-                  <span class="subtitle red--text">Please note that delivery is not on-demand.</span>
+                  <span class="subtitle red--text">Please note stall are available according to their operating hours. Some slots may not have all stalls operating.</span>
                   <br>
-                  <span class="subtitle">If you would like your food to be delivered between a certain period, please choose the relevant slot and place your order by that time</span> 
+                  <span class="subtitle">If you would like your food to be delivered at a certain time, please choose the relevant slot and place your order by that time</span> 
                   <v-radio-group v-model="deliveryTime" :rules="[v => !!v || 'Item is required']" required>
+                    <template v-slot:label>
+                      <div>Available slots</div>
+                    </template>
                     <v-radio
                       v-for="(data, i) in getDeliveryTimings"
                       :key="i"
                       :label="data[1]"
                       :value="data[0]"
-                    ></v-radio>
+                    >
+                      <template v-slot:label>
+                        <div><b>{{data[1]}}</b></div>
+                      </template>
+                    </v-radio>
                   </v-radio-group>
 								</v-col>
 							</v-row>

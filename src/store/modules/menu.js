@@ -85,8 +85,14 @@ export default {
       });
     },
     async editMenuItem(context, item) {
-      const { name, price, id, deliverySlots, nm, storeId } = item;
-      await db
+      // 3 cases
+      // a: Image is not updated
+      // b: Image is updated, and there is no prev image
+      // c: Image is updated, and old img needs to be deleted
+      const { name, price, id, deliverySlots, nm, storeId, image, isImageExisting } = item;
+      // case a
+      if(!image) {
+        await db
         .collection("Menu")
         .doc(id)
         .update({
@@ -95,6 +101,27 @@ export default {
           name,
           nm,
         });
+      } else {
+        var storageRef = storage.ref();
+        var itemPic = storageRef.child("/itemPics/"+id+".jpg")
+        // case b 
+        if(isImageExisting) {
+          await itemPic.delete()
+          console.log('Pic deleted')
+        }
+        // case c
+        await itemPic.put(image).then(snapshot => {
+          snapshot.ref.getDownloadURL().then((downloadURL) => {
+            return db.collection('Menu').doc(id).update({
+              price,
+              deliverySlots,
+              name,
+              nm,
+              image: downloadURL
+            })
+          })
+        })
+      }
       return context.commit("replaceMenuItem", {
         item: {
           name,

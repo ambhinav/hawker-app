@@ -185,6 +185,7 @@ export default {
       return info.reduce((acc, curr) => acc += ` ${curr},`, "");
     },
     formatStoreInfo(info) {
+      info.sort();
       return info.reduce((acc, curr) => acc += ` ${deliveryTimingsMapping[curr]},`, "");
     },
     handleAddItemDialog(item) {
