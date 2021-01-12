@@ -264,7 +264,6 @@ export default {
       this.menuItemDialog = true;
       this.itemImage = item.image;
       this.fileImgPath = item.image;
-      console.log(this.fileImgPath);
     },
     editMenuItemConfirm() {
       if (this.$refs.editMenuItemForm.validate()) {

@@ -57,6 +57,9 @@
 									<template v-slot:item.storeOperatingTimesButton="{ item }">
 										<v-btn depressed @click="updateOperatingTimes(item)">edit</v-btn>
 									</template>	
+                  <template v-slot:item.editImage="{ item }">
+                    <v-icon @click="handleEditStoreImage(item)">mdi-pencil</v-icon>
+									</template>
 									<template v-slot:item.deliverySlotButton="{ item }">
 										<v-btn depressed @click="updateDeliverySlots(item)">edit</v-btn>
 									</template>
@@ -203,6 +206,34 @@
 				</v-form>
 			</v-card>
 		</v-dialog>
+		<v-dialog v-model="editStoreImageDialog" persistent max-width="900px">
+			<v-card v-if="targetStoreId">
+				<v-card-title>
+					<span class="headline">Edit Store {{ targetStoreId }} Image</span>
+				</v-card-title>
+					<v-row>
+						<v-col cols="6">
+							<v-img contain height="120" width="200" v-if="fileImgPath" :src="fileImgPath" class="grey lighten-2"></v-img>
+						</v-col>
+						<v-col cols="6">
+							<v-btn  @click="onPickFile()">Pick Store Image</v-btn>
+							<input type="file" 
+							style="display: none" 
+							name="" id="" 
+							ref="fileInput" 
+							accept="image/*"
+							@change="onFilePicked">
+						</v-col>
+					</v-row>
+				<v-card-text>
+				</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn color="blue darken-1" text @click="handleStoreImageDialogClose">Close</v-btn>
+					<v-btn :loading="loading" color="blue darken-1" text @click="updateStoreImageConfirm">Edit</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
 	</div>
 </template>
 
@@ -233,19 +264,28 @@ export default {
 					value: 'name' 
 				},
 				{
+					text: 'Edit image',
+					align: 'left',
+          sortable: false,
+					value: 'editImage'
+				},
+				{
 					text: 'Edit delivery slots',
 					align: 'left',
-					value: 'deliverySlotButton'
+					value: 'deliverySlotButton',
+          sortable: false
 				},
 				{
 					text: 'Edit operating times',
 					align: 'left',
-					value: 'storeOperatingTimesButton'
+					value: 'storeOperatingTimesButton',
+          sortable: false
 				},
 				{ 
 					text: 'Add menu item', 
 					align: 'left', 
-					value: 'menuButton' 
+					value: 'menuButton',
+          sortable: false
 				},
 				{
 					text: 'Status',
@@ -287,7 +327,8 @@ export default {
         "Friday",
         "Saturday",
         "Sunday"
-      ],	
+			],	
+			editStoreImageDialog: false,
     }
 	},
 	computed: {
@@ -333,7 +374,8 @@ export default {
 			errorToast: "errorToast",
 			removeStoreAndMenuItems: "removeStoreAndMenuItems",
 			updateStoreDeliverySlots: "updateStoreDeliverySlots",
-			updateStoreOperatingTimes: "updateStoreOperatingTimes"
+			updateStoreOperatingTimes: "updateStoreOperatingTimes",
+			updateStoreImage: "updateStoreImage"
     }),
     onMarketSelect(market) {
       this.targetMarket = market;
@@ -481,6 +523,41 @@ export default {
         }
         callUpdateStoreOperatingTimes() 
       }	
+		},
+		handleEditStoreImage(store) {
+			this.targetStoreId = store.id
+			this.fileImgPath = store.image;
+			this.editStoreImageDialog = true;
+		},
+		handleStoreImageDialogClose() {
+			this.loading = false;
+			this.targetStoreId = null;
+			this.fileImgPath = null;
+			this.editStoreImageDialog = false;
+		},
+		updateStoreImageConfirm() {
+			// validate input
+			if(!this.file){
+				this.errorToast('Please choose a new image to upload!');
+				this.handleStoreImageDialogClose();
+			}else{
+				this.loading = true;
+				const callUpdateStoreImage = async () => {
+					try {
+						await this.updateStoreImage({
+							newImage: this.file,
+							id: this.targetStoreId
+						});
+						this.successToast('Store image updated successfully!');
+					} catch(err) {
+						console.log(err);
+						this.errorToast('Error updating store image!');
+					} finally {
+						this.handleStoreImageDialogClose();
+					}
+				}
+				callUpdateStoreImage();
+			}
 		}
 	}
 }

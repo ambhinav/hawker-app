@@ -149,12 +149,22 @@ export default {
         })
     },
     updateStoreOperatingTimes(context, payload) {
-      console.log("here")
       return db.collection("Stores")
         .doc(payload.storeId)
         .update({
           operatingTimes: payload.operatingTimes
         })
+    },
+    async updateStoreImage({ dispatch }, payload){
+      // delete old images
+      var storageRef = storage.ref();
+      var storePic = storageRef.child("/storePics/"+payload.id+".jpg")
+      await storePic.delete();
+      // upload new image
+      return dispatch('uploadStorePic', {
+        image: payload.newImage,
+        storeId: payload.id
+      })
     }
   },
   getters: {
