@@ -32,14 +32,36 @@ const sendHawkerGroupMessage = async (orderData, bot) => {
 
 /**
  * Updates the message sent to the admins with the earnings earned by the rider for this job.
- * @param {*} message admin message that was previously sent
- * @param {*} distance between hawker market and customer's location
+ * @param {*} orderData order data
  * @param {*} bot instance of tele bot
  */
-const sendLogisticsGroupMessage = async (message, distance, bot) => {
-  var newMessage = message + DOUBLE_SPACED
-  + `Earnings: $${getRiderEarnings(distance)}`
-  return bot.telegram.sendMessage(LOGISTICS_CONTACT, newMessage);
+const sendLogisticsGroupMessage = async (orderData, bot) => {
+  var message = createLogisticsGroupMessage(orderData); 
+  return bot.telegram.sendMessage(LOGISTICS_CONTACT, message);
+}
+
+const createLogisticsGroupMessage = (orderData) => {
+  const { 
+    created_at,
+    deliveryAddress,
+    deliveryUnitNumber,
+    orderNumber,
+    deliverySlot, // 24 HR format
+    marketId,
+    deliveryCost
+  } = orderData;
+  var formattedDate = dateTimeHelpers.formatCreateDate(created_at);
+  var message = `Delivery Price: $${getRiderEarnings(deliveryCost)}` + SINGLE_SPACED
+    + `Order Number: ${orderNumber}` + SINGLE_SPACED
+    + `Date: ${formattedDate}` + DOUBLE_SPACED
+    + "--PICKUP DETAILS--" + DOUBLE_SPACED
+    + `Pick up location: ${HAWKER_ADDRESS[marketId]}` + DOUBLE_SPACED
+    + `Pick up at: ${PICKUP_TIMINGS[deliverySlot]}` + DOUBLE_SPACED // 12 hr format
+    + "--DELIVERY DETAILS--" + DOUBLE_SPACED
+    + `Customer Address: ${deliveryAddress}` + SINGLE_SPACED
+    + `Unit No.: ${deliveryUnitNumber}` + SINGLE_SPACED
+    + "PM me for details"
+  return message;
 }
 
 const createAdminMessage = async (orderData, storeOrders) => {
@@ -109,16 +131,14 @@ const processCart = async (cart, cartStoreMappings) => {
  * @param {*} orderId 
  * @param {*} cartStoreMappings used to calculate daily expenses
  * @param {*} hawkerGroupMessageData used to send the hawker group message
- * @param {*} adminMessage used to send the logistics partner message
  */
-const updateOrderOnCreated = (orderId, cartStoreMappings, hawkerGroupMessageData, adminMessage) => {
+const updateOrderOnCreated = (orderId, cartStoreMappings, hawkerGroupMessageData) => {
   return admin.firestore()
     .collection("Orders")
     .doc(orderId)
     .update({
       cartStoreMappings,
       hawkerGroupMessageData,
-      adminMessage
     });
 };
 
