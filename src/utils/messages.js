@@ -5,9 +5,6 @@ const STORE_USER = [
   {
     message: "There is a small order fee for food value below $30."
   },
-  {
-    message: "Last order 5pm."
-  }
 ];
 
 const SMALL_ORDER_FEE = [

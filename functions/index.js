@@ -25,7 +25,7 @@ exports.onOrderCreated = functions.firestore
       salesData // needed for calculating daily expenses
     ] = await botHelpers.processCart(cart, cartStoreMappings);
     var message = await botHelpers.createAdminMessage(snap.data(), storeOrderMapping);
-    await botHelpers.updateOrderOnCreated(snap.id, salesData, storeOrderMapping, message);
+    await botHelpers.updateOrderOnCreated(snap.id, salesData, storeOrderMapping);
     return bot.telegram.sendMessage(TELEGRAM.ADMIN_CONTACT, message, {
       reply_markup:
         Markup.inlineKeyboard([
@@ -48,7 +48,7 @@ exports.onOrderConfirmed = functions.firestore
     if (oldStatus == "pending" && newStatus == "paid") {
       return Promise.all([
         botHelpers.sendHawkerGroupMessage(change.after.data(), bot),
-        botHelpers.sendLogisticsGroupMessage(change.after.data().adminMessage, change.after.data().distance, bot)
+        botHelpers.sendLogisticsGroupMessage(change.after.data(), bot)
       ]);
     }
   });
@@ -64,7 +64,7 @@ exports.resetOrderStatisticsWeekly = functions.pubsub.schedule("every sunday 23:
       .delete() // client side will re-create the stats doc if not found, thereby resetting the counter
   })
 
-exports.calculateDailyExpenses = functions.pubsub.schedule("every day 18:00")
+exports.calculateDailyExpenses = functions.pubsub.schedule("every day 21:45")
   .timeZone("Asia/Singapore")
   .onRun(((data, context) => {
     return botHelpers.getDailyExpense();

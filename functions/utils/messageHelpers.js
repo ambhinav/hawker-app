@@ -21,15 +21,18 @@ const PICKUP_TIMINGS = {
   "K": "8:15 PM",
 };
 
-const getRiderEarnings = distance => {
-  if (distance <= 3) {
-    return 8;
-  } else if (distance <= 6) {
-    return 9;
-  } else if (distance <= 13) {
-    return 12;
-  } else {
-    return 15;
+/**
+ * Calculates rider earnings based on the delivery cost.
+ * @param {*} deliveryCost
+ */
+const getRiderEarnings = deliveryCost => {
+  switch (deliveryCost) {
+    case 6:
+      return 10;
+    case 9:
+      return 13;
+    case 12:
+      return 15;
   }
 };
 
