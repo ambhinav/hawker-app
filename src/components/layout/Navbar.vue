@@ -13,7 +13,7 @@
         max-height="500"
         max-width="280"
         contain
-        @click="goHome()"
+        @click="!isMobile ? goHome() : null"
         >
       </v-img>
       <!-- <v-toolbar-title>
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import { mixinDetectingMobile } from '@/components/layout/MobileMixin';
 export default {
   name: "Navbar",
   data() {
@@ -75,6 +76,7 @@ export default {
       ]
     };
   },
+  mixins: [mixinDetectingMobile],
   methods: {
     changeRoute(link) {
       this.$router.push(link);
