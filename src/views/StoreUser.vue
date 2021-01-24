@@ -78,7 +78,7 @@
                 <v-list-item 
                 v-for="(item, i) in getCart"
                 :key="i"
-                class="justify-md-space-between justify-sm-space-between"
+                class="justify-md-space-between justify-sm-space-around"
                 >
                   <v-list-item-content class="hidden-sm-and-down">
                       <v-avatar size="36px" style="margin-left: 5px;">    
@@ -109,20 +109,32 @@
                       <v-btn depressed @click="removeItemFromCart(item)"><v-icon>mdi-delete</v-icon></v-btn>
                   </v-list-item-content>
                   <v-list-item-content class="hidden-md-and-up">
-                    <v-row justify="center">
+                    <v-row >
                       <v-col cols="4">
                         {{item.name}}
                       </v-col>
                       <v-col cols="3">
                         ${{item.price}}
                       </v-col>
-                      <v-col cols="3">
-                        <v-icon class="pr-2" v-if="item.qty > 1" color="primary" @click="decrementQty(item)" x-small dark>mdi-minus</v-icon>
-                        <span>{{ item.qty }}</span>
-                        <v-icon class="pl-2" color="primary" @click="incrementQty(item)" x-small dark>mdi-plus</v-icon>
+                      <v-col cols="1">
+                        <v-row justify="center">
+                          <v-icon v-if="item.qty > 1" color="primary" @click="decrementQty(item)" small dark>mdi-minus</v-icon>
+                        </v-row>
                       </v-col>
                       <v-col cols="2">
-                        <v-icon small @click="removeItemFromCart(item)">mdi-delete</v-icon>
+                        <v-row justify="center">
+                          {{ item.qty }}
+                        </v-row>
+                      </v-col>
+                      <v-col cols="1">
+                        <v-row justify="center">
+                          <v-icon color="primary" @click="incrementQty(item)" small dark>mdi-plus</v-icon>
+                        </v-row>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-row justify="center">
+                          <v-icon small @click="removeItemFromCart(item)">mdi-delete</v-icon>
+                        </v-row>
                       </v-col>
                     </v-row>
                   </v-list-item-content>
