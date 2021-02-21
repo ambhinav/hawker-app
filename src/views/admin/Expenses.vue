@@ -15,6 +15,16 @@
 							</v-flex>
 						</v-col>
             <v-spacer></v-spacer>
+						<v-col cols="2">
+							<v-flex xs12>
+								<v-card>
+									<v-card-title  class="d-flex justify-center">
+										<v-btn @click="generateExpenses" style="font-weight: 300">Generate</v-btn>
+									</v-card-title>
+								</v-card>
+							</v-flex>
+						</v-col>
+            <v-spacer></v-spacer>
 					</v-row>
 				</v-layout>
         <v-layout row wrap class="mt-5">
@@ -87,7 +97,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { functions } from '@/firebase/init';
+import { mapActions, mapGetters } from 'vuex';
 import { formatDateShort } from '@/utils/dateTimeUtil';
 export default {
   name: "Expenses",
@@ -122,6 +133,7 @@ export default {
     ...mapGetters(["getExpenses", "getStores"])
   },
   methods: {
+    ...mapActions(['successToast','errorToast']),
     viewExpenditure(expenditure) {
       this.targetExpenditure = expenditure;
       this.showExpenditure = true;
@@ -135,6 +147,19 @@ export default {
     handleViewDetailsClose() {
       this.targetExpenditure = null;
       this.showExpenditure = null;
+    },
+    generateExpenses() {
+      var func = functions.httpsCallable("calculateDailyExpenses");
+      const callFunc = async () => {
+        try {
+          await func();
+          this.successToast("Generated expenses!");
+        } catch (err) {
+          console.log(err);
+          this.errorToast("Error generating expense, please contact Developer");
+        }
+      }
+      callFunc();
     }
   }
 }
