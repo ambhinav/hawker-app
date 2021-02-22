@@ -1,4 +1,5 @@
 import { getTimeStamp } from '@/utils/dateTimeUtil';
+import firebase from 'firebase';
 import { db } from '@/firebase/init';
 var statsRef = db.collection("Orders").doc("--stats--");
 import { v4 as uuidv4 } from "uuid";
@@ -117,6 +118,16 @@ export default {
         .update({
           orderStatus: newStatus
         });
+    },
+    removeItemFromOrder(context, { order, item }) {
+      var itemToRemoveCost = item.qty * item.price;
+      var newTotalCost = order.totalCost - itemToRemoveCost;
+      return db.collection("Orders")
+        .doc(order.id)
+        .update({
+          cart: firebase.firestore.FieldValue.arrayRemove(item),
+          totalCost: newTotalCost
+        })
     }
   }
 };
