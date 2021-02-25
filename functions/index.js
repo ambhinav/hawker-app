@@ -69,6 +69,13 @@ exports.calculateDailyExpenses = functions.https.onCall(async () => {
   return botHelpers.getDailyExpense();
 });
 
+/** Auto generates daily expense */
+exports.autoCalculateDailyExpenses = functions.pubsub.schedule("every day 23:59")
+  .timeZone("Asia/Singapore")
+  .onRun(((data, context) => {
+    return botHelpers.getDailyExpense();
+}))
+
 exports.updateStoreAndMenuDeliverySlots = functions.https.onCall(async (data, context) => {
   await admin.firestore().collection("Stores").get().then(querySnapshot => {
     querySnapshot.forEach(doc => {

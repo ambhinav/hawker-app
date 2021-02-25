@@ -131,6 +131,7 @@
                       <th class="text-left">Name</th>
                       <th class="text-left">Quantity</th>
                       <th class="text-left">Cost</th>
+                      <th class="text-left">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -138,6 +139,14 @@
                       <td>{{ item.name }}</td>
                       <td>{{ item.name == "Delivery Cost" || item.name == "Total Cost" ? "" : item.qty }}</td>
                       <td>{{ item.price }}</td>
+                      <td>
+                        <v-icon
+                          small
+                          @click="deleteItem(item)"
+                        >
+                          mdi-delete
+                        </v-icon>
+                      </td>
                     </tr>
                   </tbody>
                 </template>
@@ -156,6 +165,17 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" text @click="onMenuItemDialogClose">close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="dialogDelete" max-width="500px">
+      <v-card>
+        <v-card-title class="headline">Are you sure you want to delete this item?</v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+          <v-btn :loading="loading" color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+          <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -184,7 +204,6 @@
 </template>
 
 <script>
-// import rules from '@/utils/validation';
 import { mapGetters, mapActions } from 'vuex';
 import rules from '@/utils/validation';
 import { formatTimeAndDate } from '@/utils/dateTimeUtil';
@@ -246,6 +265,8 @@ export default {
       menuItemDialog: false,
       customerDialog: false,
 			loading: false,
+      itemToDelete: null,
+      dialogDelete: false
     }
 	},
 	computed: {
@@ -274,11 +295,12 @@ export default {
     
 	},
 	methods: {
-		...mapActions({
-      toggleOrderStatus: "toggleOrderStatus",
-      successToast: "successToast",
-      errorToast: "errorToast" 
-    }),
+		...mapActions([
+      "toggleOrderStatus",
+      "successToast",
+      "errorToast",
+      "removeItemFromOrder"
+    ]),
     formatTimeStamp(timestamp) {
       return formatTimeAndDate(timestamp);
     },
@@ -324,6 +346,35 @@ export default {
     handleShowCustomerDetails(order) {
       this.targetOrder = order;
       this.customerDialog = true;
+    },
+    deleteItem(item) {
+      this.itemToDelete = item;
+      this.dialogDelete = true;
+    },
+    closeDelete() {
+      this.itemToDelete = null;
+      this.dialogDelete = false;
+    },
+    deleteItemConfirm() {
+      this.loading = true;
+      const callDeleteItem = async () => {
+        console.log("delete", this.itemToDelete.id, "from order:", this.targetOrder.id);
+        try {
+          await this.removeItemFromOrder({
+            order: this.targetOrder,
+            item: this.itemToDelete
+          });
+          this.successToast("Item removed from Order!");
+        } catch (err) {
+          console.log(err);
+          this.errorToast("Error removing item from Order!");
+        } finally {
+          this.itemToDelete = null;
+          this.dialogDelete = false;
+          this.loading = false;
+        }
+      }
+      callDeleteItem();
     }
 	}
 }
