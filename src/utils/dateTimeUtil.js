@@ -44,8 +44,18 @@ const getCurrentDateAndMonth = () => moment().format(DATE_MONTH);
  */
 const isWithinTheWeek = v => moment(v).isBetween(moment().startOf("week"), moment().endOf("week"))
 
+/**
+ * Checks if the given timestamp falls within the current month
+ * @param {*} v  unix timestamp in ms
+ * @returns true if v falls within the month
+ */
 const isWithinTheMonth = v => moment(v).isBetween(moment().startOf("month"), moment().endOf("month"))
 
+/**
+ * Checks if the given timestamp falls within the current day
+ * @param {*} v  unix timestamp in ms
+ * @returns true if v falls within the day
+ */
 const isSameDay = v => { 
   var day = v.find(day => day === moment().format(DAY));
   return !!day;
@@ -69,12 +79,15 @@ const getValidTimings = timing => {
 const isEqual = (v1, v2) => moment(v1).isSame(v2);
 
 /**
- * Checks if current time is at least 65 mins before the delivery slot
+ * Checks if current time is at least 70 mins before the delivery slot.
+ * Helps prevent delayed orders if customers decide to stay on the checkout page
+ * for too long.
  * @param {String} timing delivery slot in hh A format (e.g. 10 AM)
+ * @return {Boolean}  
  */
 const isBefore = timing => {
   return moment()
-    .add(65, "minutes")
+    .add(70, "minutes")
     .isBefore(moment(timing, "hh A"));
 };
 
