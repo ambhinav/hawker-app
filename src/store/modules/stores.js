@@ -133,7 +133,11 @@ export default {
         })
     },
     async removeStoreAndMenuItems(context, { store, marketId }) {
-      await Promise.all(store.menu.map(menuItemId => db.collection("Menu").doc(menuItemId).delete()));
+      // delete menu items attached to store only if they exist in the database
+      if (store.menu) {
+        await Promise.all(store.menu.map(menuItemId => db.collection("Menu").doc(menuItemId).delete()));
+      }
+      // delete the store itself
       await db.collection("Markets")
         .doc(marketId)
         .update({
