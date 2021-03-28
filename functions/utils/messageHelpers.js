@@ -4,7 +4,8 @@ const HAWKER_ADDRESS = {
   "GS": "1 Geylang Serai, Singapore 402001",
   "AD": "2 Adam Rd, Singapore 289877",
   "UB": "17 Upper Boon Keng Rd, Singapore 380017",
-  "AR": "Blk 503, West Coast Drive. Ayer Rajah Food Centre, Singapore 120503"
+  "AR": "Blk 503, West Coast Drive. Ayer Rajah Food Centre, Singapore 120503",
+  "ME": "11 Kaki Bukit Rd 4, Singapore 417806"
 };
 
 const PICKUP_TIMINGS = {
