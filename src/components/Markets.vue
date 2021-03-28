@@ -219,8 +219,8 @@ export default {
       return distance <= 8 ? 6 : 9;
     },
     getSortedMarkets() {
-      // remove disabled markets
-      var filteredMarkets = this.getMarkets.filter(market => market.enabled == true);
+      // remove disabled markets and those without stores
+      var filteredMarkets = this.getMarkets.filter(market => market.enabled == true && !!market.stores);
       // sort by number of available shops
       filteredMarkets.sort((m1, m2) => {
         return m2.stores.length - m1.stores.length;
