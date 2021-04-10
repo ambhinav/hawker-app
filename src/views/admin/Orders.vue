@@ -116,7 +116,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="menuItemDialog" persistent max-width="400">
+    <v-dialog v-model="menuItemDialog" persistent max-width="600">
       <v-card v-if="targetOrder">
         <v-card-title>
           Cart details
@@ -137,7 +137,17 @@
                   <tbody>
                     <tr v-for="(item, i) in targetOrder.cart" :key="i">
                       <td>{{ item.name }}</td>
-                      <td>{{ item.name == "Delivery Cost" || item.name == "Total Cost" ? "" : item.qty }}</td>
+                      <td>
+                          <v-btn v-if="item.qty > 1" x-small fab color="primary" @click="updateQty(item, -1)">
+                            <v-icon dark>mdi-minus</v-icon>
+                          </v-btn> 
+                          <v-btn text>
+                            <span>{{ item.qty }}</span>
+                          </v-btn>
+                          <v-btn x-small fab color="primary" @click="updateQty(item, 1)">
+                            <v-icon dark>mdi-plus</v-icon>
+                          </v-btn>
+                      </td>
                       <td>{{ item.price }}</td>
                       <td>
                         <v-icon
@@ -299,7 +309,8 @@ export default {
       "toggleOrderStatus",
       "successToast",
       "errorToast",
-      "removeItemFromOrder"
+      "removeItemFromOrder",
+      "updateItemQtyInOrder"
     ]),
     formatTimeStamp(timestamp) {
       return formatTimeAndDate(timestamp);
@@ -358,7 +369,6 @@ export default {
     deleteItemConfirm() {
       this.loading = true;
       const callDeleteItem = async () => {
-        console.log("delete", this.itemToDelete.id, "from order:", this.targetOrder.id);
         try {
           await this.removeItemFromOrder({
             order: this.targetOrder,
@@ -369,12 +379,35 @@ export default {
           console.log(err);
           this.errorToast("Error removing item from Order!");
         } finally {
-          this.itemToDelete = null;
-          this.dialogDelete = false;
+          this.closeDelete();
           this.loading = false;
+          this.menuItemDialog = false;
         }
       }
       callDeleteItem();
+    },
+    updateQty(item, value) {
+      const oldQty = item.qty;
+      const newItem = {
+        ...item,
+        qty: oldQty + value
+      }
+      const callUpdateItemQty = async () => {
+        try {
+          await this.updateItemQtyInOrder({
+            order: this.targetOrder,
+            item: newItem,
+            oldQty
+          })
+          this.successToast("Item quantity updated!");
+        } catch (err) {
+          console.log(err);
+          this.errorToast("Error updating item in Order!");
+        } finally {
+          this.onMenuItemDialogClose();
+        }
+      }
+      callUpdateItemQty();
     }
 	}
 }
