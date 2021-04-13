@@ -114,8 +114,8 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import rules from '@/utils/validation';
-import { isBefore, isClosed } from '@/utils/dateTimeUtil';
-import { deliveryTimingsData, deliveryTimingsMapping } from '@/utils/deliveryData';
+import { isBefore, isClosed, isFastingPeriod } from '@/utils/dateTimeUtil';
+import { deliveryTimingsData, deliveryTimingsMapping, getFastingPeriodDeliveryTimingsMapping } from '@/utils/deliveryData';
 export default {
   name: "Markets",
   created () {
@@ -174,9 +174,17 @@ export default {
     */
     getDeliveryTimings() {
       if(!isClosed()) {
-        return Object.entries(deliveryTimingsMapping).filter(data => isBefore(data[1]));
+        if (!isFastingPeriod()) {
+          return Object.entries(deliveryTimingsMapping).filter(data => isBefore(data[1]));
+        }
+        return getFastingPeriodDeliveryTimingsMapping().filter(data => isBefore(data[1])) ;
+      } else {
+        if (!isFastingPeriod()) {
+          return Object.entries(deliveryTimingsMapping);
+        } else {
+          return getFastingPeriodDeliveryTimingsMapping(); 
+        }
       }
-      return Object.entries(deliveryTimingsMapping);
     }
   },
   methods: {

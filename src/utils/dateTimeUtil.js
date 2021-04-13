@@ -16,6 +16,8 @@ const DATE_MONTH_YEAR = "DD-MMMM-YYYY"
 const DATE_MONTH_YEAR_ALT = "DD-MM-YY"
 const DATE_PICKER_FORMAT = 'MMMM Do YYYY'
 const DATE_PICKER_DEFAULT = "YYYY-MM-DD"
+const FASTING_START_DATE = "1204"
+const FASTING_END_DATE = "1205"
 
 // formatting
 const formatDate = v => moment(v).format(DATE_MONTH_YEAR)
@@ -93,6 +95,11 @@ const isBefore = timing => {
 
 const isClosed = () => moment(new Date()).isAfter(moment("19:45", "HH:mm"));
 
+const isFastingPeriod = () => moment(new Date()).isBetween(
+  moment(FASTING_START_DATE, DATE_MONTH),
+  moment(FASTING_END_DATE, DATE_MONTH)
+);
+
 export {
   formatDate,
   formatDateShort,
@@ -109,5 +116,6 @@ export {
   getValidTimings,
   getCurrentDateAndMonth,
   isClosed,
-  isBefore
+  isBefore,
+  isFastingPeriod
 }
