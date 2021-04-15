@@ -65,6 +65,16 @@ export var deliveryTimingsMapping = {
   "K": "9 PM",
 }
 
+export function getFastingPeriodDeliveryTimingsMapping() {
+  return Object.entries(deliveryTimingsMapping).filter(data => {
+    const k = data[0];
+    if (k == "E" || k == "F" || k == "G") {
+      return true;
+    }
+    return false;
+  })
+}
+
 export function isEmpty(obj) {
     for(var key in obj) {
         if(Object.prototype.hasOwnProperty.call(obj, key))

@@ -27,7 +27,7 @@ export default {
         return order.id != payload.order.id;
       });
       if (!state.orders.find(order => order.id == payload.order.id)) {
-        state.orders.push(payload.order);
+        state.orders.unshift(payload.order);
       }
     },
   },
@@ -128,6 +128,33 @@ export default {
           cart: firebase.firestore.FieldValue.arrayRemove(item),
           totalCost: newTotalCost
         })
+    },
+    async updateItemQtyInOrder(context, { order, item, oldQty }) {
+      var updatedItemCost = (item.qty - oldQty) * item.price;
+      var newTotalCost = order.totalCost + updatedItemCost;
+      let oldOrder = await db.collection("Orders")
+        .doc(order.id)
+        .get()
+        .then(doc => {
+          if (doc.exists) {
+            return doc.data();
+          } else {
+            throw new Error("Doc does not exist");
+          }
+        });
+      let newCart = oldOrder.cart.filter(currItem => currItem.id != item.id);
+      newCart.push(item);
+      const newOrder = {
+        ...oldOrder,
+        totalCost: newTotalCost,
+        cart: newCart
+      }
+      await context.commit("replaceOrder", {
+        order: newOrder
+      })
+      return db.collection("Orders")
+        .doc(order.id)
+        .set(newOrder);
     }
   }
 };

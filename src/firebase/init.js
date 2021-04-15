@@ -1,4 +1,4 @@
-// import * as Firebase from 'firebase/app';
+//import * as Firebase from 'firebase/app';
 import firebase from "firebase";
 import { firebaseConfig } from "../../secrets/firebase";
 var {
