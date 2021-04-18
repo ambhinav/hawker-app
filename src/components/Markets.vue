@@ -47,9 +47,6 @@
               max-height="300"
             >
             </v-img>
-            <v-card-text v-if="market.stores">
-              {{ market.stores.length }} shops available to choose from!
-            </v-card-text>
             <v-card-actions>
               <v-btn v-if="market.distance && !isNaN(market.distance)" text>
                 Delivery cost - ${{ getDeliveryCost(market.distance) }}
@@ -228,12 +225,26 @@ export default {
     },
     getSortedMarkets() {
       // remove disabled markets and those without stores
-      var filteredMarkets = this.getMarkets.filter(market => market.enabled == true && !!market.stores);
-      // sort by number of available shops
-      filteredMarkets.sort((m1, m2) => {
-        return m2.stores.length - m1.stores.length;
-      });
-      return filteredMarkets;
+       var filteredMarkets = this.getMarkets.filter(market => market.enabled == true && !!market.stores);
+
+      return this.shuffle(filteredMarkets);
+    },
+    shuffle(array) {
+      var currentIndex = array.length, temporaryValue, randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
     }
   }
 };
