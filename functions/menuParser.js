@@ -1,7 +1,7 @@
 const parse = require("csv-parse");
 const admin = require("firebase-admin");
 const dataPath = "./data.csv";
-const storeId = "HSR01-04";
+// const storeId = "ME01-01";
 const fs = require("fs");
 const { PICKUP_TIMINGS } = require("./utils/messageHelpers");
 const { firebaseConfig } = require("../secrets/firebase");
@@ -31,8 +31,8 @@ var parser = parse({ delimiter: "," }, async (err, data) => {
       slots = data[i][1].split(",");
     }
     const item = {
-      name: data[i][0],
-      slots,
+      name: data[i][0].trim(),
+      deliverySlots: slots,
       nm: parseFloat(data[i][2].replace(/\$/g, "")),
       price: parseFloat(data[i][3].replace(/\$/g, "")),
     };
@@ -57,7 +57,7 @@ var parser = parse({ delimiter: "," }, async (err, data) => {
       });
   }
 
-  // for testing purposes
+  /* for testing purposes */
   // fs.writeFile("./data.json", JSON.stringify(menuItems), (err) => {
   // 	if (err) {
   // 		console.log("Error writing file", err);
@@ -68,3 +68,13 @@ var parser = parse({ delimiter: "," }, async (err, data) => {
 });
 
 fs.createReadStream(dataPath).pipe(parser);
+
+/* Method to remove all items inside a store */
+/*
+async function doing() {
+  var data = await admin.firestore().collection("Stores").doc(storeId).get();
+  data.data().menu.map(item => admin.firestore().collection("Menu").doc(item).delete());
+}
+
+doing();
+*/
