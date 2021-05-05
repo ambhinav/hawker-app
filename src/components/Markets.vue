@@ -77,7 +77,8 @@
                 <v-col cols="12">
                   <span class="subtitle red--text">Please note stall are available according to their operating hours. Some slots may not have all stalls operating.</span>
                   <br>
-                  <span class="subtitle">If you would like your food to be delivered at a certain time, please choose the relevant slot and place your order by that time</span> 
+                  <span v-if="showRamadanSlotsMsg()" class="subtitle">Ramadan update: We have streamlined our delivery process to cater for this festive month of Ramadan! Now we have only 3 order slots, till then 12th of may to better cater to breaking fast. Delivery times are 3pm,4pm,5pm. Thank you for your continued support and we wish you a blessed Ramadan Mubarak! Thank you!</span> 
+                  <span v-else class="subtitle">If you would like your food to be delivered at a certain time, please choose the relevant slot and place your order by that time.</span> 
                   <v-radio-group v-model="deliveryTime" :rules="[v => !!v || 'Item is required']" required>
                     <template v-slot:label>
                       <div>Available slots</div>
@@ -192,6 +193,9 @@ export default {
     showDeliveryDialog(marketId) {
       this.targetMarket = marketId;
       this.deliveryDialog = true;
+    },
+    showRamadanSlotsMsg() {
+      return isFastingPeriod();
     },
     onSubmit() {
       if (this.$refs.deliveryDetailsForm.validate()) {
