@@ -16,6 +16,7 @@ const DATE_MONTH_YEAR = "DD-MMMM-YYYY"
 const DATE_MONTH_YEAR_ALT = "DD-MM-YY"
 const DATE_PICKER_FORMAT = 'MMMM Do YYYY'
 const DATE_PICKER_DEFAULT = "YYYY-MM-DD"
+const HOUR_PERIOD = "hh A"
 const FASTING_START_DATE = "1204"
 const FASTING_END_DATE = "1205"
 
@@ -38,6 +39,8 @@ const getTimeStamp = () => moment().valueOf()
 const convertTimeStampToISO = v => moment(v).toISOString().substr(0, 10)
 
 const getCurrentDateAndMonth = () => moment().format(DATE_MONTH);
+
+const getMilkRunScheduleTime = v => moment(v, HOUR_PERIOD).subtract(45, 'minutes').toISOString();
 
 /**
  * Checks if the given timestamp falls within the current week
@@ -90,7 +93,7 @@ const isEqual = (v1, v2) => moment(v1).isSame(v2);
 const isBefore = timing => {
   return moment()
     .add(70, "minutes")
-    .isBefore(moment(timing, "hh A"));
+    .isBefore(moment(timing, HOUR_PERIOD));
 };
 
 const isClosed = () => moment(new Date()).isAfter(moment("19:45", "HH:mm"));
@@ -117,5 +120,6 @@ export {
   getCurrentDateAndMonth,
   isClosed,
   isBefore,
-  isFastingPeriod
+  isFastingPeriod,
+  getMilkRunScheduleTime
 }

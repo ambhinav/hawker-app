@@ -1,9 +1,12 @@
-import { getTimeStamp } from '@/utils/dateTimeUtil';
 import firebase from 'firebase';
+import { getTimeStamp } from '@/utils/dateTimeUtil';
 import { db } from '@/firebase/init';
-var statsRef = db.collection("Orders").doc("--stats--");
 import { v4 as uuidv4 } from "uuid";
-
+import { postData } from '@/utils/api';
+import { deliveryTimingsMapping } from '../../utils/deliveryData';
+import { DEV_API_KEY } from '../../../secrets/milkrun';
+var statsRef = db.collection("Orders").doc("--stats--");
+const MILK_RUN_API = "https://milkrun.tk/api/integration/merchants";
 // used to pad the order numbers with leading 0s
 const leftFillNum = (num, targetLength) => {
   return num.toString().padStart(targetLength, 0);
@@ -74,14 +77,16 @@ export default {
         deliveryCost,
         totalCost: getters.getTotalCost,
         deliveryAddress: deliveryLocation["ADDRESS"],
+        deliveryLat: deliveryLocation["LATITUDE"],
+        deliveryLong: deliveryLocation["LONGITUDE"],
         deliveryUnitNumber: unitNumber,
         distance: deliveryDistance,
         cart: getters.getCart,
         created_at: getTimeStamp(),
-        orderStatus: "pending", // three main statuses: pending, cancelled, paid
+        orderStatus: "pending", // three main statuses: PENDING, CANCELLED, PAID
         cartStoreMappings: getters.getCartStoreMappings,
-        deliverySlot: deliveryTime
-      }; 
+        deliverySlot: deliveryTime // A, B, C, ... etc
+      };
       var orderNumber = await db.runTransaction(trx => {
         return trx.get(statsRef).then(statsDoc => {
           var orderToAddRef = db.collection("Orders").doc(uuidv4());
@@ -89,7 +94,7 @@ export default {
           if (!statsDoc.exists) { // first ever order
             var count = 1;
             formattedNum = `${marketId}#${leftFillNum(count, 3)}`;
-            trx.set(statsRef, { [marketId]: count  });
+            trx.set(statsRef, { [marketId]: count });
             trx.set(orderToAddRef, { ...orderDetails, orderNumber: formattedNum });
             return formattedNum;
           }
@@ -98,7 +103,7 @@ export default {
           // TODO: reset the count in --stats-- if it passes 999
           if (!statsDoc.data()[marketId]) { // first order for this market
             newCount = 1;
-          } else { 
+          } else {
             newCount = statsDoc.data()[marketId] + 1;
           }
           formattedNum = `${marketId}#${leftFillNum(newCount, 3)}`;
@@ -110,7 +115,7 @@ export default {
       if (Object.keys(getters.getRedeemedPromo).length > 0) { // redeem promo code if used
         await dispatch("onPromoCodeRedeemed", getters.getRedeemedPromo.id)
       }
-      return commit("setCustomerDetails", { ...customerDetails, orderNumber }); 
+      return commit("setCustomerDetails", { ...customerDetails, orderNumber });
     },
     toggleOrderStatus(context, { newStatus, orderId }) {
       return db.collection("Orders")
@@ -155,6 +160,51 @@ export default {
       return db.collection("Orders")
         .doc(order.id)
         .set(newOrder);
+    },
+    async createMilkRunDeliveryJob({ getters }, { order, isScheduled }) {
+      const {
+        id,
+        deliveryAddress,
+        deliveryLat,
+        deliveryLong,
+        deliveryUnitNumber,
+        marketId,
+        customerNumber,
+        cartStoreMappings,
+        deliverySlot,
+      };
+      const order_destinations = [
+        {
+          customer_phone_number: customerNumber,
+          delivery_address: deliveryAddress,
+          delivery_lat: deliveryLat,
+          delivery_lng: deliveryLong,
+          delivery_address_details: deliveryUnitNumber
+        }
+      ];
+      const pick_up_address_details = Object.keys(cartStoreMappings).join();
+      const marketData = getters.getMarkets().find(id == marketId);
+      const milkRunOrder = {
+        uuid: order.id,
+        pick_up_address: marketData.address,
+        pick_up_lat: marketData.location.lattitude,
+        pick_up_long: marketData.location.longitude,
+        pick_up_address_details,
+        order_destinations
+      };
+      try {
+        // create order
+        await postData(`${MILK_RUN_API}/orders`, milkRunOrder, DEV_API_KEY);
+        // submit order
+        if (isScheduled) {
+          const scheduled_time = getMilkRunScheduleTime(deliveryTimingsMapping[deliverySlot]);
+          return postData(`${MILK_RUN_API}/orders/${order.id}/submit`, { scheduled_time }, DEV_API_KEY);
+        } else {
+          return postData(`${MILK_RUN_API}/orders/${order.id}/submit`, {}, DEV_API_KEY);
+        }
+      } catch (error) {
+        throw new Error("Could not create Milk Run Job!");
+      }
     }
   }
 };
