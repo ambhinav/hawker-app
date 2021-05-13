@@ -1,10 +1,10 @@
 import firebase from 'firebase';
-import { getTimeStamp } from '@/utils/dateTimeUtil';
+import { getTimeStamp, getMilkRunScheduleTime } from '@/utils/dateTimeUtil';
 import { db } from '@/firebase/init';
 import { v4 as uuidv4 } from "uuid";
-import { postData } from '@/utils/api';
 import { deliveryTimingsMapping } from '../../utils/deliveryData';
 import { DEV_API_KEY } from '../../../secrets/milkrun';
+import { deleteData, postData } from '../../utils/api';
 var statsRef = db.collection("Orders").doc("--stats--");
 const MILK_RUN_API = "https://milkrun.tk/api/integration/merchants";
 // used to pad the order numbers with leading 0s
@@ -85,7 +85,8 @@ export default {
         created_at: getTimeStamp(),
         orderStatus: "pending", // three main statuses: PENDING, CANCELLED, PAID
         cartStoreMappings: getters.getCartStoreMappings,
-        deliverySlot: deliveryTime // A, B, C, ... etc
+        deliverySlot: deliveryTime, // A, B, C, ... etc,
+        isMilkRunJob: false
       };
       var orderNumber = await db.runTransaction(trx => {
         return trx.get(statsRef).then(statsDoc => {
@@ -172,7 +173,7 @@ export default {
         customerNumber,
         cartStoreMappings,
         deliverySlot,
-      };
+      } = order;
       const order_destinations = [
         {
           customer_phone_number: customerNumber,
@@ -205,6 +206,13 @@ export default {
       } catch (error) {
         throw new Error("Could not create Milk Run Job!");
       }
+    }
+  },
+  cancelMilkRunDeliveryJob(context, deliveryId) {
+    try {
+      return deleteData(`${MILK_RUN_API}/orders/${deliveryId}`);
+    } catch (error) {
+      throw new Error("Could not delete Milk Run Job!");
     }
   }
 };
