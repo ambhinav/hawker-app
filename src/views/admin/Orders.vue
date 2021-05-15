@@ -223,10 +223,10 @@
         <v-card-text>
           <v-list>
             <v-list-item>
-              <v-btn>submit now</v-btn>
+              <v-btn @click="submitMROrderNow">submit now</v-btn>
             </v-list-item>
             <v-list-item>
-              <v-btn>schedule delivery</v-btn>
+              <v-btn @click="scheduleMROrder">schedule delivery</v-btn>
             </v-list-item>
           </v-list>  
         </v-card-text>
@@ -255,6 +255,11 @@ export default {
 					text: 'Number', 
 					align: 'left', 
 					value: 'orderNumber' 
+        },
+				{ 
+					text: 'ID (Use with MR Dashboard)', 
+					align: 'left', 
+					value: 'id' 
         },
         { 
 					text: 'Date/Time Placed', 
@@ -416,7 +421,6 @@ export default {
           });
           this.successToast("Item removed from Order!");
         } catch (err) {
-          console.log(err);
           this.errorToast("Error removing item from Order!");
         } finally {
           this.closeDelete();
@@ -441,7 +445,6 @@ export default {
           })
           this.successToast("Item quantity updated!");
         } catch (err) {
-          console.log(err);
           this.errorToast("Error updating item in Order!");
         } finally {
           this.onMenuItemDialogClose();
@@ -460,9 +463,15 @@ export default {
       this.showMilkRunJobCreateDialog = true;
       this.targetOrder = order;
     },
+    submitMROrderNow() {
+      return this.createMilkRunJob(this.targetOrder, false);
+    },
+    scheduleMROrder() {
+      return this.createMilkRunJob(this.targetOrder, true);
+    },
     createMilkRunJob(order, isScheduled) {
       // validate that it is not already a milkrun job and order is paid
-      if (!this.isMilkRunJob(order) && order.status == "paid") {
+      if (!this.isMilkRunJob(order) && order.orderStatus == "paid") {
         const callCreateMilkRunJob = async () => {
           try {
             await this.createMilkRunDeliveryJob({
@@ -485,9 +494,23 @@ export default {
       this.showMilkRunJobCreateDialog = false;
       this.targetOrder = null;
     },
-    // cancelMilkRunJob(order) {
-    //   // TODO
-    // }
+    cancelMilkRunJob(order) {
+      if (this.isMilkRunJob(order)) {
+        const callCancelMilkRunJob = async () => {
+          try {
+            await this.cancelMilkRunDeliveryJob({
+              deliveryId: order.id
+            });
+            this.successToast("Milk Run Job Cancelled!");
+          } catch (error) {
+            this.errorToast(error);
+          }
+        }
+        callCancelMilkRunJob();
+      } else {
+        this.errorToast("Error cancelling, not a Milk Run Job!");
+      }
+    }
 	}
 }
 </script>

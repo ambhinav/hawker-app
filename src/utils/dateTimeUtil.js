@@ -40,7 +40,7 @@ const convertTimeStampToISO = v => moment(v).toISOString().substr(0, 10)
 
 const getCurrentDateAndMonth = () => moment().format(DATE_MONTH);
 
-const getMilkRunScheduleTime = v => moment(v, HOUR_PERIOD).subtract(45, 'minutes').toISOString();
+const getMilkRunScheduleTime = v => moment(v, HOUR_PERIOD).subtract(45, 'minutes').toISOString(true);
 
 /**
  * Checks if the given timestamp falls within the current week

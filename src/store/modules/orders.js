@@ -3,10 +3,12 @@ import { getTimeStamp, getMilkRunScheduleTime } from '@/utils/dateTimeUtil';
 import { db } from '@/firebase/init';
 import { v4 as uuidv4 } from "uuid";
 import { deliveryTimingsMapping } from '../../utils/deliveryData';
-import { DEV_API_KEY } from '../../../secrets/milkrun';
+import { getAPIKey } from '../../../secrets/milkrun';
 import { deleteData, postData } from '../../utils/api';
 var statsRef = db.collection("Orders").doc("--stats--");
-const MILK_RUN_API = "https://milkrun.tk/api/integration/merchants";
+const MILK_RUN_API = location.hostname === "localhost" 
+  ? "https://cors-anywhere.herokuapp.com/" + "https://milkrun.tk/api/integration/merchants" 
+  : "https://milkrun.ml/api/integration/merchants";
 // used to pad the order numbers with leading 0s
 const leftFillNum = (num, targetLength) => {
   return num.toString().padStart(targetLength, 0);
@@ -176,43 +178,58 @@ export default {
       } = order;
       const order_destinations = [
         {
-          customer_phone_number: customerNumber,
+          customer_phone_number: `+65${customerNumber}`,
           delivery_address: deliveryAddress,
           delivery_lat: deliveryLat,
           delivery_lng: deliveryLong,
           delivery_address_details: deliveryUnitNumber
         }
       ];
-      const pick_up_address_details = Object.keys(cartStoreMappings).join();
-      const marketData = getters.getMarkets().find(id == marketId);
+      const pick_up_address_details = Object.keys(cartStoreMappings)
+        .map(storeId => storeId.replace(marketId, "#"))
+        .join();
+      const marketData = getters.getMarkets.find(market => market.id == marketId);
       const milkRunOrder = {
         uuid: order.id,
         pick_up_address: marketData.address,
-        pick_up_lat: marketData.location.lattitude,
-        pick_up_long: marketData.location.longitude,
+        pick_up_lat: marketData.location.latitude,
+        pick_up_lng: marketData.location.longitude,
         pick_up_address_details,
         order_destinations
       };
       try {
         // create order
-        await postData(`${MILK_RUN_API}/orders`, milkRunOrder, DEV_API_KEY);
+        await postData(`${MILK_RUN_API}/orders`, milkRunOrder, getAPIKey());
         // submit order
         if (isScheduled) {
           const scheduled_time = getMilkRunScheduleTime(deliveryTimingsMapping[deliverySlot]);
-          return postData(`${MILK_RUN_API}/orders/${order.id}/submit`, { scheduled_time }, DEV_API_KEY);
+          var res = await postData(`${MILK_RUN_API}/orders/${order.id}/submit`, { scheduled_time }, getAPIKey());
+          if (Object.prototype.hasOwnProperty.call(res, "error")) {
+            throw new Error(`Error code ${res.code}: ${res.error}`);
+          }
         } else {
-          return postData(`${MILK_RUN_API}/orders/${order.id}/submit`, {}, DEV_API_KEY);
+          await postData(`${MILK_RUN_API}/orders/${order.id}/submit`, {}, getAPIKey());
         }
+        return db.collection("Orders")
+          .doc(id)
+          .update({
+            isMilkRunJob: true
+          });
       } catch (error) {
+        await db.collection("Orders")
+          .doc(id)
+          .update({
+            isMilkRunJob: false
+          });
         throw new Error("Could not create Milk Run Job!");
       }
-    }
-  },
-  cancelMilkRunDeliveryJob(context, deliveryId) {
-    try {
-      return deleteData(`${MILK_RUN_API}/orders/${deliveryId}`);
-    } catch (error) {
-      throw new Error("Could not delete Milk Run Job!");
+    },
+    cancelMilkRunDeliveryJob(context, { deliveryId }) {
+      try {
+        return deleteData(`${MILK_RUN_API}/orders/${deliveryId}`, getAPIKey());
+      } catch (error) {
+        throw new Error("Could not delete Milk Run Job!");
+      }
     }
   }
 };
