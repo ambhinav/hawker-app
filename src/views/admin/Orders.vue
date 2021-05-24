@@ -73,11 +73,16 @@
                   <template v-slot:item.menu="{ item }">
                     <v-btn depressed @click="handleShowMenuDetails(item)">show</v-btn>
                   </template>
+                  <template v-slot:item.milkRunJobCreateBtn="{ item }">
+                    <v-btn depressed @click="openMilkRunCreateJobDialog(item)" color="success">create</v-btn>
+                  </template>
+                  <template v-slot:item.milkRunJobCancelBtn="{ item }">
+                    <v-btn depressed @click="cancelMilkRunJob(item)" color="error">cancel</v-btn>
+                  </template>
                   <template v-slot:item.status="{ item }">
                     <v-btn depressed width="50" color="green" v-if="item.orderStatus == 'paid'" @click="handleChangeOrderStatus(item)">paid</v-btn>
                     <v-btn depressed color="yellow" v-if="item.orderStatus == 'pending'" @click="handleChangeOrderStatus(item)">pending</v-btn>
                     <v-btn depressed color="error" v-if="item.orderStatus == 'cancelled'" @click="handleChangeOrderStatus(item)">cancelled</v-btn>
-                    
                   </template>
                   <template v-slot:item.customerDetails="{ item }">
                     <v-btn depressed @click="handleShowCustomerDetails(item)">show</v-btn>
@@ -210,6 +215,23 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="showMilkRunJobCreateDialog" max-width="300">
+      <v-card v-if="targetOrder">
+        <v-card-title>
+          Create Milk Run Delivery Job
+        </v-card-title>
+        <v-card-text>
+          <v-list>
+            <v-list-item>
+              <v-btn @click="submitMROrderNow">submit now</v-btn>
+            </v-list-item>
+            <v-list-item>
+              <v-btn @click="scheduleMROrder">schedule delivery</v-btn>
+            </v-list-item>
+          </v-list>  
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -233,6 +255,11 @@ export default {
 					text: 'Number', 
 					align: 'left', 
 					value: 'orderNumber' 
+        },
+				{ 
+					text: 'ID (Use with MR Dashboard)', 
+					align: 'left', 
+					value: 'id' 
         },
         { 
 					text: 'Date/Time Placed', 
@@ -259,6 +286,20 @@ export default {
           filterable: false
         },
         {
+          text: "Submit MR Job",
+          align: "left",
+          value: "milkRunJobCreateBtn",
+          sortable: false,
+          filterable: false,
+        },
+        {
+          text: "Cancel MR Job",
+          align: "left",
+          value: "milkRunJobCancelBtn",
+          sortable: false,
+          filterable: false,
+        },
+        {
 					text: 'Status',
 					align: 'left',
           value: 'status',
@@ -276,7 +317,9 @@ export default {
       customerDialog: false,
 			loading: false,
       itemToDelete: null,
-      dialogDelete: false
+      dialogDelete: false,
+      targetOrder: null,
+      showMilkRunJobCreateDialog: false
     }
 	},
 	computed: {
@@ -310,7 +353,9 @@ export default {
       "successToast",
       "errorToast",
       "removeItemFromOrder",
-      "updateItemQtyInOrder"
+      "updateItemQtyInOrder",
+      "createMilkRunDeliveryJob",
+      "cancelMilkRunDeliveryJob"
     ]),
     formatTimeStamp(timestamp) {
       return formatTimeAndDate(timestamp);
@@ -376,7 +421,6 @@ export default {
           });
           this.successToast("Item removed from Order!");
         } catch (err) {
-          console.log(err);
           this.errorToast("Error removing item from Order!");
         } finally {
           this.closeDelete();
@@ -401,13 +445,71 @@ export default {
           })
           this.successToast("Item quantity updated!");
         } catch (err) {
-          console.log(err);
           this.errorToast("Error updating item in Order!");
         } finally {
           this.onMenuItemDialogClose();
         }
       }
       callUpdateItemQty();
+    },
+    isMilkRunJob(order) {
+      if (Object.prototype.hasOwnProperty.call(order, "isMilkRunJob")) {
+        return order.isMilkRunJob;
+      } else {
+        return false;
+      }
+    },
+    openMilkRunCreateJobDialog(order) {
+      this.showMilkRunJobCreateDialog = true;
+      this.targetOrder = order;
+    },
+    submitMROrderNow() {
+      return this.createMilkRunJob(this.targetOrder, false);
+    },
+    scheduleMROrder() {
+      return this.createMilkRunJob(this.targetOrder, true);
+    },
+    createMilkRunJob(order, isScheduled) {
+      // validate that it is not already a milkrun job and order is paid
+      if (!this.isMilkRunJob(order) && order.orderStatus == "paid") {
+        const callCreateMilkRunJob = async () => {
+          try {
+            await this.createMilkRunDeliveryJob({
+              order,
+              isScheduled
+            });
+            this.successToast("Milk Run Job Created!");
+          } catch (error) {
+            this.errorToast(error);
+          } finally {
+            this.handleCreateMilkRunJobDialogClose();
+          }
+        }
+        callCreateMilkRunJob();
+      } else {
+        this.errorToast("Order has already been dispatched to Milk Run Server OR has not been paid!");
+      }
+    },
+    handleCreateMilkRunJobDialogClose() {
+      this.showMilkRunJobCreateDialog = false;
+      this.targetOrder = null;
+    },
+    cancelMilkRunJob(order) {
+      if (this.isMilkRunJob(order)) {
+        const callCancelMilkRunJob = async () => {
+          try {
+            await this.cancelMilkRunDeliveryJob({
+              deliveryId: order.id
+            });
+            this.successToast("Milk Run Job Cancelled!");
+          } catch (error) {
+            this.errorToast(error);
+          }
+        }
+        callCancelMilkRunJob();
+      } else {
+        this.errorToast("Error cancelling, not a Milk Run Job!");
+      }
     }
 	}
 }

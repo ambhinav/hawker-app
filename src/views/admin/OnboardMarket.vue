@@ -103,11 +103,11 @@ export default {
         const callCreateMarket = async () => {
           try {
             await this.createMarket({
-              id: this.marketId.toUpperCase(),
+              id: this.marketId.trim().toUpperCase(),
               image: this.file,
               postalCode: this.postalCode,
               address: this.address.toUpperCase(),
-              name: this.name
+              name: this.name.trim()
             })
             this.successToast("Created Market Successfully!")
           } catch(error) {
